@@ -1,69 +1,66 @@
-# React + TypeScript + Vite
+# 🎭 Teatro Dislocador
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A static website for **Teatro Dislocador**, an independent theater based in **Comodoro Rivadavia, Argentina**.  
+Built with **React + TypeScript + Vite**, styled using **TailwindCSS**, and featuring a fully responsive design.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🌐 **Multi-section layout**: Home, About Us, Artistic Direction, Current Shows, History, Classes, Gallery, and Contact.
+- 🎟️ **Current program** with updated shows, dates, and details.
+- 🎓 **Theater classes** for children, youth, and adults.
+- 🖼️ **Image gallery carousel** showcasing performances and events.
+- 📍 **Embedded Google Maps** with the theater’s exact location.
+- 📱 **Responsive navigation** with mobile menu and desktop layout.
+- 🔗 **Social media integration**: Facebook, Instagram, Twitter/X, and TikTok.
+- ⚡ Powered by **Vite** for fast builds and development.
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- [React 19](https://react.dev/) + [React DOM](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/) components
+- [Lucide Icons](https://lucide.dev/) & [React Icons](https://react-icons.github.io/react-icons/)
+- [Embla Carousel](https://www.embla-carousel.com/) for the image gallery
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📦 Installation & Setup
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+Clone the repository and install dependencies:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/jonorl/teatro-dislocador.git
+cd teatro-dislocador
+npm install
+```
+## Development
+
+```bash
+npm run dev
+```
+The site will be available at http://localhost:5173
+
+## Production Build
+
+```bash
+npm run build
+```
+Preview the production build:
+```bash
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📂 Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+teatro-dislocador/
+├── src/
+│   ├── App.tsx        # Main application with all sections
+│   ├── components/    # Reusable UI components
+│   └── assets/        # Static assets (icons, images, etc.)
+├── package.json
+└── README.md
 ```
+
+👨‍💻 Author
+Developed by Jonathan Orlowski – All rights reserved.
