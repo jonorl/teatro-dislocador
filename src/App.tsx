@@ -229,11 +229,11 @@ const TeateDislocadorWebsite = () => {
               </p>
               <div className="flex gap-8">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-rose-700">50+</div>
+                  <div className="text-3xl font-bold text-rose-700">+50</div>
                   <div className="text-neutral-600">Obras Representadas</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-yellow-600">200+</div>
+                  <div className="text-3xl font-bold text-yellow-600">+200</div>
                   <div className="text-neutral-600">Alumnos Formados</div>
                 </div>
                 <div className="text-center">
