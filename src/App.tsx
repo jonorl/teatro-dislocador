@@ -179,7 +179,7 @@ const TeateDislocadorWebsite = () => {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage:
-              "url('https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756708576/background_s1hazs.png')",
+              "url('https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756716602/background2_rpakpq.png')",
           }}
         />
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
@@ -366,7 +366,7 @@ const TeateDislocadorWebsite = () => {
             <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-rose-700 to-yellow-600" />
             <div className="space-y-12">
               <div className="flex items-start">
-                <div className="bg-rose-700 w-8 h-8 rounded-full flex items-center justify-center mr-6 relative z-10">
+                <div className="bg-rose-700 rounded-full flex items-center justify-center mr-6 relative z-10 px-3 py-1">
                   <span className="text-white font-bold">1</span>
                 </div>
                 <div>
@@ -380,7 +380,7 @@ const TeateDislocadorWebsite = () => {
                 </div>
               </div>
               <div className="flex items-start">
-                <div className="bg-yellow-600 w-8 h-8 rounded-full flex items-center justify-center mr-6 relative z-10">
+                <div className="bg-yellow-600 rounded-full flex items-center justify-center mr-6 relative z-10 px-3 py-1">
                   <span className="text-white font-bold">2</span>
                 </div>
                 <div>
@@ -395,7 +395,7 @@ const TeateDislocadorWebsite = () => {
                 </div>
               </div>
               <div className="flex items-start">
-                <div className="bg-neutral-600 w-8 h-8 rounded-full flex items-center justify-center mr-6 relative z-10">
+                <div className="bg-neutral-600 rounded-full flex items-center justify-center mr-6 relative z-10 px-3 py-1">
                   <span className="text-white font-bold">3</span>
                 </div>
                 <div>
@@ -494,7 +494,6 @@ const TeateDislocadorWebsite = () => {
         </div>
       </section>
 
-      {/* Contacto */}
       <section
         id="contacto"
         className="py-20 bg-gradient-to-r from-neutral-900/70 to-stone-900/70"
@@ -504,7 +503,9 @@ const TeateDislocadorWebsite = () => {
             <h2 className="text-4xl font-bold text-white mb-4">Contacto</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-rose-700 to-yellow-600 mx-auto" />
           </div>
+          {/* Grid container with two columns on medium screens and up */}
           <div className="grid md:grid-cols-2 gap-12">
+            {/* Left Column for Contact Information */}
             <div>
               <h3 className="text-2xl font-bold text-white mb-6">
                 Información de Contacto
@@ -542,6 +543,18 @@ const TeateDislocadorWebsite = () => {
                   <p>Domingos: 16:00 - 22:00hs</p>
                 </div>
               </div>
+            </div>
+            {/* Right Column for the Map */}
+            <div className="w-full h-[300px] rounded-lg overflow-hidden shadow-lg">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2778.5292300427823!2d-67.48493870917041!3d-45.86072039652363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xbde45451b09626ad%3A0x1b5e759d0455f2b7!2sTeatro%20Dislocador!5e0!3m2!1sen!2sug!4v1756716030555!5m2!1sen!2sug"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
         </div>
