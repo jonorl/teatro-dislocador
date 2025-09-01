@@ -1,15 +1,12 @@
 import { useState } from "react";
+import { MapPin, Phone, Mail, Calendar, BookOpen, Clock } from "lucide-react";
 import {
-  Menu,
-  X,
-  MapPin,
-  Phone,
-  Mail,
-  Calendar,
-  BookOpen,
-  Clock,
-} from "lucide-react";
-import { FaFacebook, FaInstagram, FaYoutube, FaTiktok } from 'react-icons/fa';
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaTiktok,
+  FaGithub,
+} from "react-icons/fa";
 
 import {
   Carousel,
@@ -24,16 +21,19 @@ const TeateDislocadorWebsite = () => {
   const [activeSection, setActiveSection] = useState("inicio");
 
   const galleryImages = [
-    "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756708400/Obra1_ww27cl.png",
-    "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756708399/Obra2_rgk0ni.png",
-    "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756708403/Obra3_fwavdw.png",
-    "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756708399/Obra4_w0zwan.png",
-    "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756708400/Obra5_bobmvr.png",
+    "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756712995/Galeria1_orjppo.png",
+    "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756712996/galeria2_zoissm.png",
+    "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756712995/galeria3_j9ubo4.png",
+    "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756712995/galeria4_sodro6.png",
+    "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756712994/Galeria5_wm1yim.png",
+    "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756712994/galeria6_agtqk7.png",
+    "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756712995/galeria7_v7j7ce.png",
+    "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756712997/galeria8_vxnsuv.png",
   ];
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleMenu = () => setIsMenuOpen((v) => !v);
 
-  const scrollToSection = (sectionId:string) => {
+  const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
     setIsMenuOpen(false);
     const element = document.getElementById(sectionId);
@@ -61,7 +61,7 @@ const TeateDislocadorWebsite = () => {
       dates: "Viernes y Sábados 21:00hs",
       duration: "90 min",
       image:
-        "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756709387/Rullansky_peeyay.png",
+        "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756713493/Rullansky_nktdd1.png",
     },
     {
       title: "Esperando a Francisco",
@@ -95,29 +95,54 @@ const TeateDislocadorWebsite = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-red-50 to-orange-100">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-stone-100 to-rose-50 overflow-x-hidden">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-red-900/95 backdrop-blur-sm z-50 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="fixed top-0 w-full bg-neutral-900/95 backdrop-blur-sm z-50 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-red-600 to-amber-600 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-xl">T</span>
-              </div>
-              <h1 className="text-white text-xl font-bold">
-                Teatro Dislocador
-              </h1>
+              {/* The button with toggleMenu will be visible on small and medium screens */}
+              <button
+                onClick={toggleMenu}
+                className="flex gap-5 justify-center align-middle md:hidden"
+              >
+                <img
+                  className="rounded-xl"
+                  height="40"
+                  width="40"
+                  src="./tiktokicon.jpeg"
+                  alt="Abrir menú"
+                />
+                <h1 className="text-white text-lg md:text-xl font-bold">
+                  Teatro Dislocador
+                </h1>
+              </button>
+              <a
+                href="#inicio"
+                className="hidden md:flex items-center space-x-2"
+              >
+                <img
+                  className="rounded-xl"
+                  height="48"
+                  width="48"
+                  src="./tiktokicon.jpeg"
+                  alt="Teatro Dislocador"
+                />
+                <h1 className="text-white text-lg md:text-xl font-bold">
+                  Teatro Dislocador
+                </h1>
+              </a>
             </div>
 
             {/* Desktop Menu */}
-            <div className="hidden md:flex space-x-8">
+            <div className="hidden md:flex space-x-6">
               {menuItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`text-white hover:text-amber-300 transition-colors duration-300 ${
+                  className={`text-white hover:text-yellow-400 transition-colors duration-300 ${
                     activeSection === item.id
-                      ? "text-amber-300 border-b-2 border-amber-300"
+                      ? "text-yellow-400 border-b-2 border-yellow-400"
                       : ""
                   }`}
                 >
@@ -125,21 +150,16 @@ const TeateDislocadorWebsite = () => {
                 </button>
               ))}
             </div>
-
-            {/* Mobile Menu Button */}
-            <button onClick={toggleMenu} className="md:hidden text-white p-2">
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
           </div>
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="md:hidden bg-red-800/95 rounded-lg mt-2 p-4 space-y-3">
+            <div className="md:hidden bg-neutral-800 rounded-lg mt-2 p-4 space-y-3">
               {menuItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className="block w-full text-left text-white hover:text-amber-300 py-2"
+                  className="block w-full text-left text-white hover:text-yellow-400 py-2"
                 >
                   {item.label}
                 </button>
@@ -152,33 +172,33 @@ const TeateDislocadorWebsite = () => {
       {/* Hero Section */}
       <section
         id="inicio"
-        className="pt-20 min-h-screen flex items-center justify-center relative overflow-hidden"
+        className="pt-24 min-h-screen flex items-center justify-center relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-red-900/80 to-amber-900/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-neutral-900/80 to-rose-900/80" />
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage:
               "url('https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756708576/background_s1hazs.png')",
           }}
-        ></div>
+        />
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-lg drop-shadow-2xl">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 drop-shadow-2xl">
             Teatro Dislocador
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-amber-100 font-medium">
+          <p className="text-xl md:text-2xl mb-8 text-yellow-100 font-medium">
             Donde las historias cobran vida en el corazón de Comodoro Rivadavia
           </p>
           <div className="space-y-4 md:space-y-0 md:space-x-4 md:flex md:justify-center">
             <button
               onClick={() => scrollToSection("cartelera")}
-              className="bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-700 hover:to-amber-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl"
+              className="bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl"
             >
               Ver Cartelera
             </button>
             <button
               onClick={() => scrollToSection("clases")}
-              className="border-2 border-white text-white hover:bg-white hover:text-red-900 px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="border-2 border-white text-white hover:bg-white hover:text-neutral-900 px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               Clases de Teatro
             </button>
@@ -190,36 +210,38 @@ const TeateDislocadorWebsite = () => {
       <section id="quienes-somos" className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">
+            <h2 className="text-4xl font-bold text-neutral-800 mb-4">
               Quienes Somos
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-red-600 to-amber-600 mx-auto"></div>
+            <div className="w-24 h-1 bg-gradient-to-r from-rose-700 to-yellow-600 mx-auto" />
           </div>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-gray-700 text-lg mb-6 leading-relaxed">
-                Teatro Dislocador nace en 2018 como un espacio de creación
+              <p className="text-neutral-700 text-lg mb-6 leading-relaxed">
+                Teatro Dislocador nace en 2016 como un espacio de creación
                 artística y encuentro cultural en Comodoro Rivadavia. Somos un
                 colectivo de artistas comprometidos con el desarrollo del teatro
                 patagónico y la formación de nuevas generaciones de actores.
               </p>
-              <p className="text-gray-700 text-lg mb-6 leading-relaxed">
+              <p className="text-neutral-700 text-lg mb-6 leading-relaxed">
                 Nuestro objetivo es dislocar las estructuras tradicionales del
                 teatro, creando experiencias únicas que conecten con la realidad
                 y los sueños de nuestra comunidad.
               </p>
-              <div className="flex space-x-8">
+              <div className="flex gap-8">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-red-600">50+</div>
-                  <div className="text-gray-600">Obras Representadas</div>
+                  <div className="text-3xl font-bold text-rose-700">50+</div>
+                  <div className="text-neutral-600">Obras Representadas</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-amber-600">200+</div>
-                  <div className="text-gray-600">Alumnos Formados</div>
+                  <div className="text-3xl font-bold text-yellow-600">200+</div>
+                  <div className="text-neutral-600">Alumnos Formados</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-orange-600">{new Date().getFullYear()-2016}</div>
-                  <div className="text-gray-600">Años de Trayectoria</div>
+                  <div className="text-3xl font-bold text-neutral-700">
+                    {new Date().getFullYear() - 2016}
+                  </div>
+                  <div className="text-neutral-600">Años de Trayectoria</div>
                 </div>
               </div>
             </div>
@@ -229,20 +251,20 @@ const TeateDislocadorWebsite = () => {
                 alt="Teatro Dislocador"
                 className="rounded-lg shadow-2xl"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-red-600/20 to-amber-600/20 rounded-lg"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-rose-700/20 to-yellow-600/20 rounded-lg" />
             </div>
           </div>
         </div>
       </section>
 
       {/* Dirección */}
-      <section id="direccion" className="py-20 bg-black/30">
+      <section id="direccion" className="py-20 bg-neutral-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-white mb-4">
               Dirección Artística
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto"></div>
+            <div className="w-24 h-1 bg-gradient-to-r from-rose-700 to-yellow-600 mx-auto" />
           </div>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="relative">
@@ -251,21 +273,21 @@ const TeateDislocadorWebsite = () => {
                 alt="Director Artístico"
                 className="rounded-lg shadow-2xl"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-pink-600/30 rounded-lg"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-rose-700/30 to-yellow-600/30 rounded-lg" />
             </div>
             <div>
               <h3 className="text-2xl font-bold text-white mb-4">
                 Ramiro Aibar
               </h3>
-              <h4 className="text-purple-300 text-lg mb-6">
+              <h4 className="text-yellow-300 text-lg mb-6">
                 Director Artístico y Fundador
               </h4>
               <p className="text-gray-200 text-lg mb-6 leading-relaxed">
-                Ramiro se mudo a Buenos Aires para estudiar psicologia, pero termino
-                haciendo teatro. Conocio a Fran, al Sodita y al Dino y despues se mudo
-                a Nueva York para  estudiar en The Lee Strasberg Theater & Film institute
-                con El Mäx. Años despues volveria a Comodor para fundar el primer teatro
-                de la Patagonia.
+                Ramiro se mudó a Buenos Aires para estudiar psicología, pero
+                terminó haciendo teatro. Conoció a Fran, al Sodita y al Dino y
+                después se mudó a Nueva York para estudiar en The Lee Strasberg
+                Theater & Film Institute con El Mäx. Años después volvería a
+                Comodoro para fundar el primer teatro de la Patagonia.
               </p>
               <p className="text-gray-200 text-lg leading-relaxed">
                 Su visión artística se centra en la exploración de temáticas
@@ -281,18 +303,19 @@ const TeateDislocadorWebsite = () => {
       {/* En Cartelera */}
       <section
         id="cartelera"
-        className="py-20 bg-gradient-to-r from-purple-900/50 to-indigo-900/50"
+        className="py-20 bg-gradient-to-r from-neutral-900/70 to-rose-900/70"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-white mb-4">En Cartelera</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto"></div>
+            <div className="w-24 h-1 bg-gradient-to-r from-rose-700 to-yellow-600 mx-auto" />
           </div>
           <div className="grid md:grid-cols-2 gap-8">
             {currentShows.map((show, index) => (
               <div
                 key={index}
-                className="bg-black/50 backdrop-blur-sm rounded-lg overflow-hidden shadow-2xl hover:transform hover:scale-105 transition-all duration-300"
+                className="bg-black/50 max-w-sm shrink backdrop-blur-sm rounded-lg overflow-hidden shadow-2xl hover:transform hover:scale-105 transition-all duration-300"
+                // className="basis-full sm:basis-1/2 lg:basis-1/3 flex justify-center"
               >
                 <img
                   src={show.image}
@@ -303,21 +326,24 @@ const TeateDislocadorWebsite = () => {
                   <h3 className="text-2xl font-bold text-white mb-2">
                     {show.title}
                   </h3>
-                  <p className="text-purple-300 mb-2">de {show.author}</p>
+                  <p className="text-yellow-300 mb-2">de {show.author}</p>
                   <p className="text-gray-300 mb-4">
                     Dirección: {show.director}
                   </p>
                   <div className="space-y-2 mb-4">
                     <div className="flex items-center text-gray-200">
-                      <Calendar size={16} className="mr-2 text-purple-400" />
+                      <Calendar size={16} className="mr-2 text-yellow-400" />
                       {show.dates}
                     </div>
                     <div className="flex items-center text-gray-200">
-                      <Clock size={16} className="mr-2 text-purple-400" />
+                      <Clock size={16} className="mr-2 text-yellow-400" />
                       {show.duration}
                     </div>
                   </div>
-                  <button className="bg-gradient-to-r bg-neutral-900 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-2 rounded-full transition-all duration-300">
+                  <button
+                    onClick={() => scrollToSection("contacto")}
+                    className="bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
+                  >
                     Reservar Entradas
                   </button>
                 </div>
@@ -328,19 +354,19 @@ const TeateDislocadorWebsite = () => {
       </section>
 
       {/* Historia */}
-      <section id="historia" className="py-20 bg-black/30">
+      <section id="historia" className="py-20 bg-neutral-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-white mb-4">
               Nuestra Historia
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto"></div>
+            <div className="w-24 h-1 bg-gradient-to-r from-rose-700 to-yellow-600 mx-auto" />
           </div>
           <div className="relative">
-            <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-purple-500 to-pink-500"></div>
+            <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-rose-700 to-yellow-600" />
             <div className="space-y-12">
               <div className="flex items-start">
-                <div className="bg-purple-600 w-8 h-8 rounded-full flex items-center justify-center mr-6 relative z-10">
+                <div className="bg-rose-700 w-8 h-8 rounded-full flex items-center justify-center mr-6 relative z-10">
                   <span className="text-white font-bold">1</span>
                 </div>
                 <div>
@@ -348,13 +374,13 @@ const TeateDislocadorWebsite = () => {
                     2016 - Los Inicios
                   </h3>
                   <p className="text-gray-200">
-                    Fundación del Teatro Dislocador que marcó el inicio de nuestro
-                    compromiso con el teatro patagónico.
+                    Fundación del Teatro Dislocador que marcó el inicio de
+                    nuestro compromiso con el teatro patagónico.
                   </p>
                 </div>
               </div>
               <div className="flex items-start">
-                <div className="bg-pink-600 w-8 h-8 rounded-full flex items-center justify-center mr-6 relative z-10">
+                <div className="bg-yellow-600 w-8 h-8 rounded-full flex items-center justify-center mr-6 relative z-10">
                   <span className="text-white font-bold">2</span>
                 </div>
                 <div>
@@ -369,7 +395,7 @@ const TeateDislocadorWebsite = () => {
                 </div>
               </div>
               <div className="flex items-start">
-                <div className="bg-red-600 w-8 h-8 rounded-full flex items-center justify-center mr-6 relative z-10">
+                <div className="bg-neutral-600 w-8 h-8 rounded-full flex items-center justify-center mr-6 relative z-10">
                   <span className="text-white font-bold">3</span>
                 </div>
                 <div>
@@ -390,14 +416,14 @@ const TeateDislocadorWebsite = () => {
       {/* Clases */}
       <section
         id="clases"
-        className="py-20 bg-gradient-to-r from-indigo-900/50 to-purple-900/50"
+        className="py-20 bg-gradient-to-r from-neutral-900/70 to-rose-900/70"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-white mb-4">
               Clases de Teatro
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto"></div>
+            <div className="w-24 h-1 bg-gradient-to-r from-rose-700 to-yellow-600 mx-auto" />
             <p className="text-gray-200 text-lg mt-4 max-w-3xl mx-auto">
               Descubrí tu potencial artístico con nuestros talleres de formación
               teatral para todas las edades y niveles de experiencia.
@@ -412,7 +438,7 @@ const TeateDislocadorWebsite = () => {
                 <div className="text-center mb-4">
                   <BookOpen
                     size={48}
-                    className="mx-auto text-purple-400 mb-4"
+                    className="mx-auto text-yellow-400 mb-4"
                   />
                   <h3 className="text-xl font-bold text-white mb-2">
                     {clase.title}
@@ -423,12 +449,14 @@ const TeateDislocadorWebsite = () => {
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center justify-center text-gray-200">
-                    <Clock size={16} className="mr-2 text-purple-400" />
+                    <Clock size={16} className="mr-2 text-yellow-400" />
                     {clase.schedule}
                   </div>
-
                 </div>
-                <button className="w-full bg-gradient-to-r bg-neutral-900 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-2 rounded-full transition-all duration-300">
+                <button
+                  onClick={() => scrollToSection("contacto")}
+                  className="w-full bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
+                >
                   Más Información
                 </button>
               </div>
@@ -442,17 +470,20 @@ const TeateDislocadorWebsite = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-white mb-4">Galería</h2>
-            <div className="w-24 h-1 bg-yellow-600 mx-auto"></div>
+            <div className="w-24 h-1 bg-yellow-600 mx-auto" />
           </div>
 
           <Carousel className="w-full max-w-4xl mx-auto">
             <CarouselContent>
               {galleryImages.map((image, index) => (
-                <CarouselItem key={index} className="flex justify-center">
+                <CarouselItem
+                  key={index}
+                  className="basis-full sm:basis-1/2 lg:basis-1/3 flex justify-center"
+                >
                   <img
                     src={image}
                     alt={`Galería ${index + 1}`}
-                    className="rounded-lg shadow-lg w-full object-cover max-h-[500px]"
+                    className="rounded-lg shadow-lg w-full object-cover max-h-[400px]"
                   />
                 </CarouselItem>
               ))}
@@ -466,12 +497,12 @@ const TeateDislocadorWebsite = () => {
       {/* Contacto */}
       <section
         id="contacto"
-        className="py-20 bg-gradient-to-r from-purple-900/50 to-indigo-900/50"
+        className="py-20 bg-gradient-to-r from-neutral-900/70 to-stone-900/70"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-white mb-4">Contacto</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto"></div>
+            <div className="w-24 h-1 bg-gradient-to-r from-rose-700 to-yellow-600 mx-auto" />
           </div>
           <div className="grid md:grid-cols-2 gap-12">
             <div>
@@ -480,24 +511,24 @@ const TeateDislocadorWebsite = () => {
               </h3>
               <div className="space-y-4">
                 <div className="flex items-center text-gray-200">
-                  <MapPin size={24} className="mr-4 text-purple-400" />
+                  <MapPin size={24} className="mr-4 text-yellow-400" />
                   <div>
                     <p className="font-semibold">Dirección</p>
                     <p>Pellegrini 928, Comodoro Rivadavia, Chubut</p>
                   </div>
                 </div>
                 <div className="flex items-center text-gray-200">
-                  <Phone size={24} className="mr-4 text-purple-400" />
+                  <Phone size={24} className="mr-4 text-yellow-400" />
                   <div>
-                    <p className="font-semibold">Teléfono</p>
+                    <p className="font-semibold">Teléfono / Whatsapp</p>
                     <p>+54 297 446-5840</p>
                   </div>
                 </div>
                 <div className="flex items-center text-gray-200">
-                  <Mail size={24} className="mr-4 text-purple-400" />
+                  <Mail size={24} className="mr-4 text-yellow-400" />
                   <div>
                     <p className="font-semibold">Email</p>
-                    <p>ramiro@teatrodislocador.com.ar</p>
+                    <p>cramiroa@gmail.com</p>
                   </div>
                 </div>
               </div>
@@ -512,20 +543,31 @@ const TeateDislocadorWebsite = () => {
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-black py-12">
+      <footer className="bg-neutral-950 py-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">T</span>
-                </div>
+              <div className="flex items-center gap-3 mb-4">
+                <a
+                  href="#inicio"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection("inicio");
+                  }}
+                >
+                  <img
+                    height={48}
+                    width={48}
+                    className="rounded-xl block"
+                    src="./tiktokicon.jpeg"
+                    alt="Teatro Dislocador"
+                  />
+                </a>
                 <h3 className="text-white text-xl font-bold">
                   Teatro Dislocador
                 </h3>
@@ -537,28 +579,28 @@ const TeateDislocadorWebsite = () => {
             </div>
             <div>
               <h4 className="text-white font-semibold mb-4">Seguinos</h4>
-              <div className="flex space-x-4">
+              <div className="flex gap-4">
                 <a
-                  href="#"
-                  className="text-gray-400 hover:text-purple-400 transition-colors"
+                  href="https://www.facebook.com/teatrodislocador/"
+                  className="text-gray-400 hover:text-yellow-400 transition-colors"
                 >
                   <FaFacebook size={24} />
                 </a>
                 <a
                   href="https://www.instagram.com/teatro.dislocador/"
-                  className="text-gray-400 hover:text-purple-400 transition-colors"
+                  className="text-gray-400 hover:text-yellow-400 transition-colors"
                 >
                   <FaInstagram size={24} />
                 </a>
                 <a
-                  href="#"
-                  className="text-gray-400 hover:text-purple-400 transition-colors"
+                  href="https://x.com/dislocador"
+                  className="text-gray-400 hover:text-yellow-400 transition-colors"
                 >
-                  <FaYoutube size={24} />
+                  <FaTwitter size={24} />
                 </a>
-                                <a
-                  href="#"
-                  className="text-gray-400 hover:text-purple-400 transition-colors"
+                <a
+                  href="https://www.tiktok.com/@dislocador"
+                  className="text-gray-400 hover:text-yellow-400 transition-colors"
                 >
                   <FaTiktok size={24} />
                 </a>
@@ -568,11 +610,24 @@ const TeateDislocadorWebsite = () => {
               <h4 className="text-white font-semibold mb-4">
                 Desarrollado por
               </h4>
-              <p className="text-gray-400">
-                Sitio web creado por El Dino
+              <p className="text-gray-400 flex items-center gap-2">
+                Sitio web creado por El Dino{" "}
+                <FaGithub
+                  className="h-4 w-4 opacity-60 group-hover:opacity-100 cursor-pointer hover:opacity-80"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.open(
+                      "https://github.com/jonorl/teatro-dislocador",
+                      "_blank",
+                      "noreferrer"
+                    );
+                  }}
+                />
               </p>
               <p className="text-gray-400 text-sm mt-2">
-                © {new Date().getFullYear()} Teatro Dislocador. Todos los derechos reservados.
+                © {new Date().getFullYear()} Teatro Dislocador. Todos los
+                derechos reservados.
               </p>
             </div>
           </div>
