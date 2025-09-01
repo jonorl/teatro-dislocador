@@ -7,7 +7,6 @@ import {
   FaTiktok,
   FaGithub,
 } from "react-icons/fa";
-
 import {
   Carousel,
   CarouselContent,
@@ -522,14 +521,18 @@ const TeateDislocadorWebsite = () => {
                   <Phone size={24} className="mr-4 text-yellow-400" />
                   <div>
                     <p className="font-semibold">Teléfono / Whatsapp</p>
-                    <p>+54 297 446-5840</p>
+                    <p>
+                      <a href="tel:+542974465840">+54 297 446-5840</a>
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center text-gray-200">
                   <Mail size={24} className="mr-4 text-yellow-400" />
                   <div>
                     <p className="font-semibold">Email</p>
-                    <p>cramiroa@gmail.com</p>
+                    <p>
+                      <a href="mailto:cramiroa@gmail.com">cramiroa@gmail.com</a>
+                    </p>
                   </div>
                 </div>
               </div>
