@@ -1,0 +1,10 @@
+[
+  { "id": "inicio", "label": "Inicio" },
+  { "id": "quienes-somos", "label": "Quienes Somos" },
+  { "id": "direccion", "label": "Dirección" },
+  { "id": "cartelera", "label": "En Cartelera" },
+  { "id": "historia", "label": "Historia" },
+  { "id": "clases", "label": "Clases" },
+  { "id": "galeria", "label": "Galería" },
+  { "id": "contacto", "label": "Contacto" }
+]
