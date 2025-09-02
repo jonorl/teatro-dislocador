@@ -1,0 +1,31 @@
+name: Generate JSON from Google Sheets
+
+on:
+  repository_dispatch:
+    types: [sheet-updated]
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run script to generate JSON
+        run: node scripts/generate-shows-json.js
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64 }}
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+      
+      - name: Commit and Push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "feat: update shows json from spreadsheet"

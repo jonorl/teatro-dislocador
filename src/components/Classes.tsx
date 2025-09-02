@@ -1,7 +1,8 @@
 import { BookOpen, Clock } from "lucide-react";
 import classes from "../JSON/classes.json" with {type:"json"};
+import type { ScrollToSectionFunction } from "../types/interfaces.ts";
 
-const Classes = ({scrollToSection}) => {
+const Classes = ({scrollToSection}: { scrollToSection: ScrollToSectionFunction }) => {
   return (
     <section
       id="clases"
