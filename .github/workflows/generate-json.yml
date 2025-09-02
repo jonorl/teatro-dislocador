@@ -25,8 +25,8 @@ jobs:
       - name: Run script to generate JSON
         run: node scripts/generate-shows-json.js
         env:
-          GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{ process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64 }}
-          SPREADSHEET_ID: ${{ process.env.SPREADSHEET_ID }}
+          GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{ secret.GOOGLE_APPLICATION_CREDENTIALS_BASE64 }}
+          SPREADSHEET_ID: ${{ secret.SPREADSHEET_ID }}
 
       - name: Commit and Push changes
         uses: stefanzweifel/git-auto-commit-action@v5
