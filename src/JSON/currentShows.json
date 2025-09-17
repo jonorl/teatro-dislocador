@@ -5,6 +5,7 @@
     "director": "Rullansky",
     "dates": "Viernes y Sábados 21:00hs",
     "duration": "90 min",
+    "description": "El rulo",
     "image": "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756713493/Rullansky_nktdd1.png"
   },
   {
@@ -13,6 +14,7 @@
     "director": "Ramiro Aibar",
     "dates": "Domingos 19:00hs",
     "duration": "110 min",
+    "description": "Rami y Juli esperan a Francis",
     "image": "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756709255/Fran1_zajdfk.jpg"
   },
   {
@@ -21,6 +23,7 @@
     "director": "Ramiro Aibar",
     "dates": "Lunes 5:00am",
     "duration": "10 min",
+    "description": "El chelo y su guitarra",
     "image": "https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756802815/Chelo_q9lgqc.jpg"
   }
 ]
