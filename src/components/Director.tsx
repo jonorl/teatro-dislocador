@@ -23,17 +23,16 @@ const Director = () => {
               Director Artístico y Fundador
             </h4>
             <p className="text-gray-200 text-lg mb-6 leading-relaxed">
-              Ramiro se mudó a Buenos Aires para estudiar psicología, pero
-              terminó haciendo teatro. Conoció a Fran, al Sodita y al Dino y
-              después se mudó a Nueva York para estudiar en The Lee Strasberg
-              Theater & Film Institute con El Mäx. Años después volvería a
-              Comodoro para fundar el primer teatro de la Patagonia.
+              Ramiro Aibar nació en Comodoro Rivadavia. Es actor, dramaturgo,
+              director y docente de teatro. Se formó en la Escuela de Teatro de
+              Buenos Aires y en la New York Film Academy
             </p>
             <p className="text-gray-200 text-lg leading-relaxed">
-              Su visión artística se centra en la exploración de temáticas
-              universales a través de la lente patagónica, creando un teatro que
-              dialoga con nuestra identidad regional y proyecta hacia lo
-              universal.
+              Desde 2016 dirige el Teatro Dislocador, un espacio cultural
+              independiente que combina escuela, sala y laboratorio creativo. Su
+              pedagogía está basada en el Método T.I.A. (Trabajo de
+              Investigación del Actor), creado por Débora Astrosky, que impulsa
+              la singularidad y la investigación del intérprete.
             </p>
           </div>
         </div>

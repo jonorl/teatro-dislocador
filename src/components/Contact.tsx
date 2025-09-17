@@ -40,7 +40,9 @@ const Contact = () => {
                 <div>
                   <p className="font-semibold">Email</p>
                   <p>
-                    <a href="mailto:cramiroa@gmail.com">cramiroa@gmail.com</a>
+                    <a href="mailto:cramiroa@gmail.com">
+                      teatrodislocador@gmail.com
+                    </a>
                   </p>
                 </div>
               </div>
@@ -50,9 +52,8 @@ const Contact = () => {
                 Horarios de Atención
               </h4>
               <div className="text-gray-200 space-y-1">
-                <p>Lunes a Viernes: 16:00 - 22:00hs</p>
-                <p>Sábados: 10:00 - 22:00hs</p>
-                <p>Domingos: 16:00 - 22:00hs</p>
+                <p>Lunes a Viernes: 18:30 - 22:30hs</p>
+                <p>Sábados y Domingos: Cerrado</p>
               </div>
             </div>
           </div>

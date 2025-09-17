@@ -1,6 +1,10 @@
 import type { ScrollToSectionFunction } from "../types/interfaces.ts";
 
-const Hero = ({scrollToSection}: { scrollToSection: ScrollToSectionFunction }) => {
+const Hero = ({
+  scrollToSection,
+}: {
+  scrollToSection: ScrollToSectionFunction;
+}) => {
   return (
     <section
       id="inicio"
@@ -16,10 +20,12 @@ const Hero = ({scrollToSection}: { scrollToSection: ScrollToSectionFunction }) =
       />
       <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
         <h1 className="text-5xl md:text-7xl font-bold mb-6 drop-shadow-2xl">
-          Teatro Dislocador
+          Teatro Escuela Dislocador
         </h1>
         <p className="text-xl md:text-2xl mb-8 text-yellow-100 font-medium">
-          Donde las historias cobran vida en el corazón de Comodoro Rivadavia
+          Un espacio de creación, formación y encuentro en Comodoro Rivadavia,
+          dirigido por el actor, director y dramaturgo{" "}
+          <strong>Ramiro Aibar</strong>
         </p>
         <div className="space-y-4 md:space-y-0 md:space-x-4 md:flex md:justify-center">
           <button
@@ -40,4 +46,4 @@ const Hero = ({scrollToSection}: { scrollToSection: ScrollToSectionFunction }) =
   );
 };
 
-export default Hero
+export default Hero;

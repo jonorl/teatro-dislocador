@@ -27,7 +27,7 @@ const Header = ({
                 alt="Abrir menú"
               />
               <h1 className="text-white text-lg md:text-xl font-bold">
-                Teatro Dislocador
+                Teatro Escuela Dislocador
               </h1>
             </button>
             <a href="#inicio" className="hidden md:flex items-center space-x-2">
@@ -39,7 +39,7 @@ const Header = ({
                 alt="Teatro Dislocador"
               />
               <h1 className="text-white text-lg md:text-xl font-bold">
-                Teatro Dislocador
+                Teatro Escuela Dislocador
               </h1>
             </a>
           </div>

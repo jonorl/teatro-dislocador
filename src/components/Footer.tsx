@@ -18,7 +18,7 @@ const Footer = ({
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-8">
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-top gap-3 mb-4">
               <a
                 href="#inicio"
                 onClick={(e) => {
@@ -35,12 +35,12 @@ const Footer = ({
                 />
               </a>
               <h3 className="text-white text-xl font-bold">
-                Teatro Dislocador
+                Teatro Escuela Dislocador
               </h3>
             </div>
             <p className="text-gray-400">
-              Creando experiencias teatrales únicas en el corazón de la
-              Patagonia.
+              Un espacio de creación, formación y encuentro en Comodoro
+              Rivadavia.
             </p>
           </div>
           <div>

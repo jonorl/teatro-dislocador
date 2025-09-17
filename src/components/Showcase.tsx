@@ -14,7 +14,7 @@ const Showcase = ({
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-white mb-4">En Cartelera</h2>
+          <h2 className="text-4xl font-bold text-white mb-4">Obras y Producciones</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-rose-700 to-yellow-600 mx-auto" />
         </div>
         <div className="grid md:grid-cols-2 gap-8">
