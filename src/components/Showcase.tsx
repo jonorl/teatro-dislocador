@@ -1,4 +1,4 @@
-import { Calendar, Clock } from "lucide-react";
+import { Calendar, Clock, NotebookPen } from "lucide-react";
 import currentShows from "../JSON/currentShows.json" with {type:"json"};
 import type { ScrollToSectionFunction } from "../types/interfaces.ts";
 
@@ -42,6 +42,10 @@ const Showcase = ({
                   <div className="flex items-center text-gray-200">
                     <Clock size={16} className="mr-2 text-yellow-400" />
                     {show.duration}
+                  </div>
+                  <div className="flex items-center text-gray-200">
+                    <NotebookPen size={16} className="mr-2 text-yellow-400" />
+                    {show.description}
                   </div>
                 </div>
                 <button
