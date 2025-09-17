@@ -43,10 +43,10 @@ const Showcase = ({
                     <Clock size={16} className="mr-2 text-yellow-400" />
                     {show.duration}
                   </div>
-                  <div className="flex items-center text-gray-200">
-                    <NotebookPen size={16} className="mr-2 text-yellow-400" />
-                    {show.description}
-                  </div>
+                    <div className="grid grid-cols-[auto_1fr] max-w-auto text-gray-200">
+                      <NotebookPen size={16} className="flex mr-2 text-yellow-400" />
+                      <p className="flex items-center">{show.description}</p>
+                    </div>
                 </div>
                 <button
                   onClick={() => scrollToSection("contacto")}
