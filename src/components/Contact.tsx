@@ -1,20 +1,53 @@
 import { MapPin, Phone, Mail } from "lucide-react";
+import { motion, type Variants } from "framer-motion";
 
 const Contact = () => {
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" } 
+    },
+  };
+
   return (
     <section
       id="contacto"
       className="py-20 bg-gradient-to-r from-neutral-900/70 to-stone-900/70"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        {/* Animated Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
           <h2 className="text-4xl font-bold text-white mb-4">Contacto</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-rose-700 to-yellow-600 mx-auto" />
-        </div>
-        {/* Grid container with two columns on medium screens and up */}
-        <div className="grid md:grid-cols-2 gap-12">
+        </motion.div>
+
+        <motion.div 
+          className="grid md:grid-cols-2 gap-12"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {/* Left Column for Contact Information */}
-          <div>
+          <motion.div variants={itemVariants}>
             <h3 className="text-2xl font-bold text-white mb-6">
               Información de Contacto
             </h3>
@@ -56,9 +89,13 @@ const Contact = () => {
                 <p>Sábados y Domingos: Cerrado</p>
               </div>
             </div>
-          </div>
-          {/* Right Column for the Map */}
-          <div className="w-full h-[300px] rounded-lg overflow-hidden shadow-lg">
+          </motion.div>
+
+          {/* Right Column for the Map - Popping from below */}
+          <motion.div 
+            variants={itemVariants}
+            className="w-full h-[300px] rounded-lg overflow-hidden shadow-lg"
+          >
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2778.5292300427823!2d-67.48493870917041!3d-45.86072039652363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xbde45451b09626ad%3A0x1b5e759d0455f2b7!2sTeatro%20Dislocador!5e0!3m2!1sen!2sug!4v1756716030555!5m2!1sen!2sug"
               width="100%"
@@ -68,8 +105,8 @@ const Contact = () => {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

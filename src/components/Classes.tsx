@@ -4,7 +4,6 @@ import type { ScrollToSectionFunction } from "../types/interfaces.ts";
 import { motion, type Variants } from "framer-motion";
 
 const Classes = ({ scrollToSection }: { scrollToSection: ScrollToSectionFunction }) => {
-  // Variants for the grid container to stagger the cards
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -15,13 +14,12 @@ const Classes = ({ scrollToSection }: { scrollToSection: ScrollToSectionFunction
     },
   };
 
-  // Variants for individual cards
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
+      transition: { duration: 0.5, ease: "easeOut" },
     },
   };
 
@@ -31,7 +29,6 @@ const Classes = ({ scrollToSection }: { scrollToSection: ScrollToSectionFunction
       className="py-20 bg-gradient-to-r from-neutral-900/70 to-rose-900/70"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Animated Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -49,42 +46,46 @@ const Classes = ({ scrollToSection }: { scrollToSection: ScrollToSectionFunction
           </p>
         </motion.div>
 
-        {/* Animated Grid */}
         <motion.div
           className="grid md:grid-cols-3 gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: 0 }}
         >
           {classes.map((clase, index) => (
             <motion.div
               key={index}
               variants={cardVariants}
-              whileHover={{ scale: 1.05 }} // Keeps your original hover effect
-              className="bg-black/50 backdrop-blur-sm rounded-lg p-6 shadow-2xl transition-all duration-300"
+              className="bg-black/50 backdrop-blur-sm rounded-lg shadow-2xl"
             >
-              <div className="text-center mb-4">
-                <BookOpen size={48} className="mx-auto text-yellow-400 mb-4" />
-                <h3 className="text-xl font-bold text-white mb-2">
-                  {clase.title}
-                </h3>
-              </div>
-              <p className="text-gray-200 mb-4 text-center">
-                {clase.description}
-              </p>
-              <div className="space-y-2 mb-6">
-                <div className="flex items-center justify-center text-gray-200">
-                  <Clock size={16} className="mr-2 text-yellow-400" />
-                  {clase.schedule}
-                </div>
-              </div>
-              <button
-                onClick={() => scrollToSection("contacto")}
-                className="w-full bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+                className="p-6 rounded-lg"
               >
-                Más Información
-              </button>
+                <div className="text-center mb-4">
+                  <BookOpen size={48} className="mx-auto text-yellow-400 mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    {clase.title}
+                  </h3>
+                </div>
+                <p className="text-gray-200 mb-4 text-center">
+                  {clase.description}
+                </p>
+                <div className="space-y-2 mb-6">
+                  <div className="flex items-center justify-center text-gray-200">
+                    <Clock size={16} className="mr-2 text-yellow-400" />
+                    {clase.schedule}
+                  </div>
+                </div>
+                <button
+                  onClick={() => scrollToSection("contacto")}
+                  className="w-full bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
+                >
+                  Más Información
+                </button>
+              </motion.div>
             </motion.div>
           ))}
         </motion.div>
