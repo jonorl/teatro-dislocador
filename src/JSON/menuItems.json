@@ -2,7 +2,6 @@
   { "id": "inicio", "label": "Inicio" },
   { "id": "quienes-somos", "label": "La Escuela" },
   { "id": "direccion", "label": "Dirección" },
-  { "id": "cartelera", "label": "Obras" },
   { "id": "historia", "label": "Historia" },
   { "id": "clases", "label": "Clases" },
   { "id": "galeria", "label": "Galería" },

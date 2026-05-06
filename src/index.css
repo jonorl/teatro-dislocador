@@ -3,6 +3,14 @@
 @plugin "tailwindcss-animate";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: 'MyCustomFont';
+  src: url('./assets/LINESeedJP-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -113,6 +121,9 @@
 }
 
 @layer base {
+  body {
+    font-family: 'MyCustomFont', sans-serif;
+  }
   * {
     @apply border-border outline-ring/50;
   }
