@@ -16,12 +16,12 @@ const Classes = ({ scrollToSection }: { scrollToSection: ScrollToSectionFunction
   };
 
   // Variants for individual cards
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: "easeOut" } // Duration set to 0.5s
+      transition: { duration: 0.5, ease: "easeOut" }
     },
   };
 
