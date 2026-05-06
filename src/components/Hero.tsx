@@ -41,12 +41,12 @@ const Hero = ({
         </p>
 
         <div className="space-y-4 md:space-y-0 md:space-x-4 md:flex md:justify-center">
-          <button
+          {/* <button
             onClick={() => scrollToSection("cartelera")}
             className="bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl"
           >
             Ver Cartelera
-          </button>
+          </button> */}
           <button
             onClick={() => scrollToSection("clases")}
             className="border-2 border-white text-white hover:bg-white hover:text-neutral-900 px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
