@@ -1,15 +1,44 @@
 import { BookOpen, Clock } from "lucide-react";
-import classes from "../JSON/classes.json" with {type:"json"};
+import classes from "../JSON/classes.json" with {type: "json"};
 import type { ScrollToSectionFunction } from "../types/interfaces.ts";
+import { motion, type Variants } from "framer-motion";
 
-const Classes = ({scrollToSection}: { scrollToSection: ScrollToSectionFunction }) => {
+const Classes = ({ scrollToSection }: { scrollToSection: ScrollToSectionFunction }) => {
+  // Variants for the grid container to stagger the cards
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  // Variants for individual cards
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" } // Duration set to 0.5s
+    },
+  };
+
   return (
     <section
       id="clases"
       className="py-20 bg-gradient-to-r from-neutral-900/70 to-rose-900/70"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        {/* Animated Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
           <h2 className="text-4xl font-bold text-white mb-4">
             Clases de Teatro
           </h2>
@@ -18,12 +47,22 @@ const Classes = ({scrollToSection}: { scrollToSection: ScrollToSectionFunction }
             Descubrí tu potencial artístico con nuestros talleres de formación
             teatral para todas las edades y niveles de experiencia.
           </p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-8">
+        </motion.div>
+
+        {/* Animated Grid */}
+        <motion.div
+          className="grid md:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
           {classes.map((clase, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-black/50 backdrop-blur-sm rounded-lg p-6 shadow-2xl hover:transform hover:scale-105 transition-all duration-300"
+              variants={cardVariants}
+              whileHover={{ scale: 1.05 }} // Keeps your original hover effect
+              className="bg-black/50 backdrop-blur-sm rounded-lg p-6 shadow-2xl transition-all duration-300"
             >
               <div className="text-center mb-4">
                 <BookOpen size={48} className="mx-auto text-yellow-400 mb-4" />
@@ -46,9 +85,9 @@ const Classes = ({scrollToSection}: { scrollToSection: ScrollToSectionFunction }
               >
                 Más Información
               </button>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

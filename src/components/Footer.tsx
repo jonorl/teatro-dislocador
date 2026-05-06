@@ -4,6 +4,7 @@ import {
   FaTwitter,
   FaTiktok,
   FaGithub,
+  FaGlobe,
 } from "react-icons/fa";
 
 import type { ScrollToSectionFunction } from "../types/interfaces.ts";
@@ -75,7 +76,7 @@ const Footer = ({
           <div>
             <h4 className="text-white font-semibold mb-4">Desarrollado por</h4>
             <p className="text-gray-400 flex items-center gap-2">
-              Sitio web creado por El Dino
+              Jonorl
               <FaGithub
                 className="h-4 w-4 opacity-60 group-hover:opacity-100 cursor-pointer hover:opacity-80"
                 onClick={(e) => {
@@ -83,6 +84,18 @@ const Footer = ({
                   e.stopPropagation();
                   window.open(
                     "https://github.com/jonorl/teatro-dislocador",
+                    "_blank",
+                    "noreferrer"
+                  );
+                }}
+              />
+                            <FaGlobe
+                className="h-4 w-4 opacity-60 group-hover:opacity-100 cursor-pointer hover:opacity-80"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(
+                    "https://jonathan-orlowski.dev/",
                     "_blank",
                     "noreferrer"
                   );

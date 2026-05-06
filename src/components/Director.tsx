@@ -1,23 +1,44 @@
+import { motion } from "framer-motion";
+
 const Director = () => {
   return (
     <section id="direccion" className="py-20 bg-neutral-900">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
           <h2 className="text-4xl font-bold text-white mb-4">
             Dirección Artística
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-rose-700 to-yellow-600 mx-auto" />
-        </div>
+        </motion.div>
+
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="relative">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="relative"
+          >
             <img
               src="https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756708400/Rami_nlnfy1.png"
               alt="Director Artístico"
               className="rounded-lg shadow-2xl"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-rose-700/30 to-yellow-600/30 rounded-lg" />
-          </div>
-          <div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             <h3 className="text-2xl font-bold text-white mb-4">Ramiro Aibar</h3>
             <h4 className="text-yellow-300 text-lg mb-6">
               Director Artístico y Fundador
@@ -34,7 +55,7 @@ const Director = () => {
               Investigación del Actor), creado por Débora Astrosky, que impulsa
               la singularidad y la investigación del intérprete.
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
