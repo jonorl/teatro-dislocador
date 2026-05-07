@@ -1,4 +1,5 @@
 import { MapPin, Phone, Mail } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import { motion, type Variants } from "framer-motion";
 
 const Contact = () => {
@@ -62,9 +63,18 @@ const Contact = () => {
               <div className="flex items-center text-gray-200">
                 <Phone size={24} className="mr-4 text-yellow-400" />
                 <div>
-                  <p className="font-semibold">Teléfono / Whatsapp</p>
+                  <p className="font-semibold">Teléfono</p>
                   <p>
                     <a href="tel:+542974465840">+54 297 446-5840</a>
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center text-gray-200">
+                <FaWhatsapp size={24} className="mr-4 text-yellow-400" />
+                <div>
+                  <p className="font-semibold">WhatsApp</p>
+                  <p>
+                    <a href="https://wa.me/5492975076445">WhatsApp</a>
                   </p>
                 </div>
               </div>
@@ -73,7 +83,7 @@ const Contact = () => {
                 <div>
                   <p className="font-semibold">Email</p>
                   <p>
-                    <a href="mailto:cramiroa@gmail.com">
+                    <a href="mailto:teatrodislocador@gmail.com">
                       teatrodislocador@gmail.com
                     </a>
                   </p>
@@ -85,8 +95,8 @@ const Contact = () => {
                 Horarios de Atención
               </h4>
               <div className="text-gray-200 space-y-1">
-                <p>Lunes a Viernes: 18:30 - 22:30hs</p>
-                <p>Sábados y Domingos: Cerrado</p>
+                <p>Lunes a Sabado: 11:00 - 23:30hs</p>
+                <p>Domingo: Cerrado</p>
               </div>
             </div>
           </motion.div>

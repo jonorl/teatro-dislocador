@@ -89,7 +89,7 @@ const Footer = ({
                   );
                 }}
               />
-                            <FaGlobe
+              <FaGlobe
                 className="h-4 w-4 opacity-60 group-hover:opacity-100 cursor-pointer hover:opacity-80"
                 onClick={(e) => {
                   e.preventDefault();

@@ -4,7 +4,7 @@ import Header from "./components/Header.tsx";
 import Hero from "./components/Hero.tsx";
 import WhoAreWe from "./components/WhoAreWe.tsx";
 import Director from "./components/Director.tsx";
-// import Showcase from "./components/Showcase.tsx";
+import Showcase from "./components/Showcase.tsx";
 import Story from "./components/Story.tsx";
 import Classes from "./components/Classes.tsx";
 import Gallery from "./components/Gallery.tsx";
@@ -37,7 +37,7 @@ const TeatroDislocadorApp = () => {
       <Hero scrollToSection={scrollToSection} />
       <WhoAreWe />
       <Director />
-      {/* <Showcase scrollToSection={scrollToSection} /> */}
+      <Showcase scrollToSection={scrollToSection} />
       <Story />
       <Classes scrollToSection={scrollToSection} />
       <Gallery />

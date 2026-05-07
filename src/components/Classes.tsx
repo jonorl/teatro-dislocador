@@ -1,9 +1,28 @@
-import { BookOpen, Clock } from "lucide-react";
-import classes from "../JSON/classes.json" with {type: "json"};
-import type { ScrollToSectionFunction } from "../types/interfaces.ts";
+import { BookOpen, Clock, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { motion, type Variants } from "framer-motion";
+import fetchDataFromGoogleSheets from "@/utils/googleSpreashsheetFetch.ts";
+import type { ScrollToSectionFunction } from "../types/interfaces.ts";
 
 const Classes = ({ scrollToSection }: { scrollToSection: ScrollToSectionFunction }) => {
+  const [classes, setClasses] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setIsLoading(true);
+        const { classes } = await fetchDataFromGoogleSheets();
+        setClasses(classes);
+      } catch (error) {
+        console.error("Error loading classes:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadData();
+  }, []);
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -46,49 +65,56 @@ const Classes = ({ scrollToSection }: { scrollToSection: ScrollToSectionFunction
           </p>
         </motion.div>
 
-        <motion.div
-          className="grid md:grid-cols-3 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0 }}
-        >
-          {classes.map((clase, index) => (
-            <motion.div
-              key={index}
-              variants={cardVariants}
-              className="bg-black/50 backdrop-blur-sm rounded-lg shadow-2xl"
-            >
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-20">
+            <Loader2 className="w-12 h-12 text-yellow-400 animate-spin mb-4" />
+            <p className="text-gray-300 animate-pulse">Cargando talleres...</p>
+          </div>
+        ) : (
+          <motion.div
+            className="grid md:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0 }}
+          >
+            {classes.map((clase, index) => (
               <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2 }}
-                className="p-6 rounded-lg"
+                key={index}
+                variants={cardVariants}
+                className="bg-black/50 backdrop-blur-sm rounded-lg shadow-2xl"
               >
-                <div className="text-center mb-4">
-                  <BookOpen size={48} className="mx-auto text-yellow-400 mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {clase.title}
-                  </h3>
-                </div>
-                <p className="text-gray-200 mb-4 text-center">
-                  {clase.description}
-                </p>
-                <div className="space-y-2 mb-6">
-                  <div className="flex items-center justify-center text-gray-200">
-                    <Clock size={16} className="mr-2 text-yellow-400" />
-                    {clase.schedule}
-                  </div>
-                </div>
-                <button
-                  onClick={() => scrollToSection("contacto")}
-                  className="w-full bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.2 }}
+                  className="p-6 rounded-lg"
                 >
-                  Más Información
-                </button>
+                  <div className="text-center mb-4">
+                    <BookOpen size={48} className="mx-auto text-yellow-400 mb-4" />
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {clase.title}
+                    </h3>
+                  </div>
+                  <p className="text-gray-200 mb-4 text-center">
+                    {clase.description}
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    <div className="flex items-center justify-center text-gray-200">
+                      <Clock size={16} className="mr-2 text-yellow-400" />
+                      {clase.schedule}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => scrollToSection("contacto")}
+                    className="w-full bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
+                  >
+                    Más Información
+                  </button>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          ))}
-        </motion.div>
+            ))}
+          </motion.div>
+        )}
       </div>
     </section>
   );

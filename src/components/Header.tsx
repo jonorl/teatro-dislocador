@@ -1,4 +1,3 @@
-import menuItems from "../JSON/menuItems.json" with {type:"json"};
 import type { HeaderProps } from "../types/interfaces.ts";
 
 const Header = ({
@@ -7,6 +6,18 @@ const Header = ({
   activeSection,
   isMenuOpen,
 }: HeaderProps) => {
+  
+  const menuItems = [
+    { "id": "inicio", "label": "Inicio" },
+    { "id": "quienes-somos", "label": "La Escuela" },
+    { "id": "direccion", "label": "Dirección" },
+    { "id": "cartelera", "label": "Cartelera" },
+    { "id": "historia", "label": "Historia" },
+    { "id": "clases", "label": "Clases" },
+    { "id": "galeria", "label": "Galería" },
+    { "id": "contacto", "label": "Contacto" }
+  ]
+
   const toggleMenu = () => setIsMenuOpen((v) => !v);
 
   return (
@@ -50,11 +61,10 @@ const Header = ({
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`text-white hover:text-yellow-400 transition-colors duration-300 ${
-                  activeSection === item.id
+                className={`text-white hover:text-yellow-400 transition-colors duration-300 ${activeSection === item.id
                     ? "text-yellow-400 border-b-2 border-yellow-400"
                     : ""
-                }`}
+                  }`}
               >
                 {item.label}
               </button>
