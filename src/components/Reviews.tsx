@@ -2,6 +2,15 @@ import { motion } from "framer-motion";
 import { Star, MessageCircleHeart } from "lucide-react";
 
 const Reviews = () => {
+  const handleReviewClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // URL corta oficial de Google Business que redirige al formulario de reseña
+    const reviewUrl = "https://g.page/r/CbfyVQSddV4bEBM/review";
+
+    window.open(reviewUrl, "_blank", "noreferrer");
+  };
+
   return (
     <section id="resenas" className="py-20 bg-neutral-950">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,26 +35,20 @@ const Reviews = () => {
             </div>
 
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              ¿Pasaste por el teatro?
+              ¿Te gustó la experiencia?
             </h2>
             
             <p className="text-gray-300 text-lg mb-10 leading-relaxed max-w-2xl mx-auto">
-              Tu opinión nos ayuda a seguir creciendo como comunidad cultural. 
-              Si disfrutaste de una obra o de nuestras clases, nos encantaría que nos dejes una reseña en Google.
+              Si disfrutaste de una obra o de nuestras clases, nos ayudaría muchísimo que nos dejes 
+              tu opinión. ¡Tu reseña nos permite seguir impulsando la cultura en la ciudad!
             </p>
 
             <button
-              onClick={(e) => {
-                e.preventDefault();
-                window.open(
-                  "https://www.google.com/search?q=teatro+dislocador#lrd=0xbde45451b09626ad:0x1b5e759d0455f2b7,1,,,,",
-                  "_blank"
-                );
-              }}
-              className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-300 bg-neutral-800 rounded-full hover:bg-neutral-700 border-2 border-yellow-600/50 hover:border-yellow-600 shadow-[0_0_15px_rgba(202,138,4,0.2)] hover:shadow-[0_0_25px_rgba(202,138,4,0.4)]"
+              onClick={handleReviewClick}
+              className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-300 bg-neutral-800 rounded-full hover:bg-neutral-700 border-2 border-yellow-600/50 hover:border-yellow-600 shadow-[0_0_15px_rgba(202,138,4,0.1)] hover:shadow-[0_0_25px_rgba(202,138,4,0.3)]"
             >
               <MessageCircleHeart className="mr-3 text-yellow-500 group-hover:scale-110 transition-transform" />
-              Dejar mi reseña en Google
+              Escribir una reseña
             </button>
           </motion.div>
         </motion.div>
