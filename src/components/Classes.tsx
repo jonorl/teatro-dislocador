@@ -2,10 +2,11 @@ import { BookOpen, Clock, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import fetchDataFromGoogleSheets from "@/utils/googleSpreashsheetFetch.ts";
-import type { ScrollToSectionFunction } from "../types/interfaces.ts";
+import type { ClassData } from "../types/interfaces.ts";
 
-const Classes = ({ scrollToSection }: { scrollToSection: ScrollToSectionFunction }) => {
-  const [classes, setClasses] = useState<any[]>([]);
+
+const Classes = () => {
+  const [classes, setClasses] = useState<ClassData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -105,10 +106,16 @@ const Classes = ({ scrollToSection }: { scrollToSection: ScrollToSectionFunction
                     </div>
                   </div>
                   <button
-                    onClick={() => scrollToSection("contacto")}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.open(
+                          "https://docs.google.com/forms/d/e/1FAIpQLSdOJIeLsVPnRaX7eSP_muV6AnorZmKEP8fOGqr8oJ-Fe0LDnQ/viewform",
+                        );
+                      }}
                     className="w-full bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
                   >
-                    Más Información
+                    Registrate
                   </button>
                 </motion.div>
               </motion.div>

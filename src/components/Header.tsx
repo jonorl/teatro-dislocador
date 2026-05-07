@@ -15,6 +15,7 @@ const Header = ({
     { "id": "historia", "label": "Historia" },
     { "id": "clases", "label": "Clases" },
     { "id": "galeria", "label": "Galería" },
+    { "id": "eventos", "label": "Eventos" },
     { "id": "contacto", "label": "Contacto" }
   ]
 

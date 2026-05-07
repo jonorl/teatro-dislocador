@@ -8,6 +8,8 @@ import Showcase from "./components/Showcase.tsx";
 import Story from "./components/Story.tsx";
 import Classes from "./components/Classes.tsx";
 import Gallery from "./components/Gallery.tsx";
+import Events from "./components/Events.tsx";
+import Reviews from "./components/Reviews.tsx";
 import Contact from "./components/Contact.tsx";
 import Footer from "./components/Footer.tsx";
 
@@ -37,10 +39,12 @@ const TeatroDislocadorApp = () => {
       <Hero scrollToSection={scrollToSection} />
       <WhoAreWe />
       <Director />
-      <Showcase scrollToSection={scrollToSection} />
+      <Showcase />
       <Story />
-      <Classes scrollToSection={scrollToSection} />
+      <Classes />
       <Gallery />
+      <Events />
+      <Reviews />
       <Contact />
       <Footer scrollToSection={scrollToSection} />
     </div>

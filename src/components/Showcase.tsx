@@ -1,14 +1,10 @@
 import { Calendar, Clock, NotebookPen, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import fetchDataFromGoogleSheets from "@/utils/googleSpreashsheetFetch.ts";
-import type { ScrollToSectionFunction, Cartelera } from "../types/interfaces.ts";
+import type { Cartelera } from "../types/interfaces.ts";
 import { motion, type Variants } from "framer-motion";
 
-const Showcase = ({
-  scrollToSection,
-}: {
-  scrollToSection: ScrollToSectionFunction;
-}) => {
+const Showcase = () => {
   const [showcaseData, setShowcaseData] = useState<Cartelera[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -103,7 +99,7 @@ const Showcase = ({
                     </h3>
                     <p className="text-yellow-300 mb-2">de {show.author}</p>
                     <p className="text-gray-300 mb-4">Dirección: {show.director}</p>
-                    
+
                     <div className="space-y-2 mb-6">
                       <div className="flex items-center text-gray-200">
                         <Calendar size={16} className="mr-2 text-yellow-400 shrink-0" />
@@ -121,7 +117,13 @@ const Showcase = ({
 
                     {/* Button pushed to the bottom */}
                     <button
-                      onClick={() => scrollToSection("contacto")}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.open(
+                          "https://wa.me/5492975076445",
+                        );
+                      }}
                       className="mt-auto w-full bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
                     >
                       Reservar Entradas
