@@ -1,32 +1,37 @@
-import Fastify from "fastify";
-import cors from "@fastify/cors";
+import "dotenv/config";
+import express from "express";
+import cors from "cors";
 import pg from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
-
-const fastify = Fastify({ logger: true });
 import { PrismaClient } from "../prisma/generated/client";
+import { clerkMiddleware } from "@clerk/express";
+import classesRouter from "./routes/classes";
 
-// Setup the raw Postgres connection pool
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+const app = express();
+
+const pool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL_DISLOCADOR,
+  max: 20,                       // Increased max connections slightly
+  idleTimeoutMillis: 30000,      // Increase to 30 seconds so it doesn't drop prematurely
+  connectionTimeoutMillis: 10000,
+});
 const adapter = new PrismaPg(pool);
-
-// Pass the adapter directly into the Prisma Client constructor
 export const prisma = new PrismaClient({ adapter });
 
-// Register Modules
-fastify.register(cors, { origin: "*" }); // Adjust to your frontend domain in production
-fastify.register(import("./routes/classes"), { prefix: "/api/classes" });
-fastify.register(import("./routes/showcase"), { prefix: "/api/showcase" });
-fastify.register(import("./routes/gallery"), { prefix: "/api/gallery" });
+app.use(cors({ origin: "*" }));
+app.use(express.json());
 
-const start = async () => {
-  try {
-    // Standard port mapping matching your Caddyfile setup
-    await fastify.listen({ port: 3000, host: "0.0.0.0" });
-  } catch (err) {
-    fastify.log.error(err);
-    process.exit(1);
-  }
-};
+app.use(
+  clerkMiddleware({
+    publishableKey: "pk_test_ZnVubnktY2FpbWFuLTkyLmNsZXJrLmFjY291bnRzLmRldiQ",
+    secretKey: "sk_test_pT6eHgTdHDjmkf21iNSFRLqOAJVjBTg7zZ0QgLO8bi",
+  })
+);
 
-start();
+// Route registration
+app.use("/api/classes", classesRouter);
+
+const PORT: number = Number(process.env.PORT_DISLOCADOR) || 3000;
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server listening at http://localhost:${PORT}`);
+});

@@ -11,4 +11,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+  proxy: {
+    '/classes': 'http://localhost:3000',   // your backend port
+    '/showcase': 'http://localhost:3000',
+    '/gallery': 'http://localhost:3000'
+  }
+}
 })
+

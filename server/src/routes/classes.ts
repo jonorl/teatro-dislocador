@@ -1,37 +1,30 @@
-import { FastifyInstance } from "fastify";
+import express from "express";
 import { prisma } from "../app";
+import { authenticateAdmin } from "../middleware/auth";
 
-export default async function classRoutes(fastify: FastifyInstance) {
-  // Public GET for the user-facing landing page
-  fastify.get("/", async (request, reply) => {
-    const classes = await prisma.class.findMany({
-      orderBy: { createdAt: "desc" },
-    });
-    return { classes };
-  });
+const router = express.Router();
 
-  // CMS Endpoints
-  fastify.post("/", async (request, reply) => {
-    const { title, description, schedule } = request.body as any;
+router.get("/", async (req, res) => {
+  try {
+    const classes = await prisma.class.findMany({ orderBy: { createdAt: "desc" } });
+    return res.json({ classes });
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to fetch classes" });
+  }
+});
+
+// src/routes/classes.ts
+router.post("/", authenticateAdmin, async (req, res) => {
+  try {
+    const { title, description, schedule } = req.body;
     const newClass = await prisma.class.create({
       data: { title, description, schedule },
     });
-    return reply.status(201).send(newClass);
-  });
+    return res.status(201).json(newClass);
+  } catch (error) {
+    console.error("❌ Prisma Database Error:", error); // <-- ADD THIS LINE
+    return res.status(500).json({ error: "Failed to create class" });
+  }
+});
 
-  fastify.put("/:id", async (request, reply) => {
-    const { id } = request.params as { id: string };
-    const { title, description, schedule } = request.body as any;
-    const updated = await prisma.class.update({
-      where: { id: Number(id) },
-      data: { title, description, schedule },
-    });
-    return updated;
-  });
-
-  fastify.delete("/:id", async (request, reply) => {
-    const { id } = request.params as { id: string };
-    await prisma.class.delete({ where: { id: Number(id) } });
-    return reply.status(204).send();
-  });
-}
+export default router;
