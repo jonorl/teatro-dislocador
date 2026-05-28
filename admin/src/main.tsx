@@ -14,13 +14,19 @@ if (!clerkPublishableKey) {
   throw new Error("Missing Clerk Publishable Key");
 }
 
+// In production, force the engine to load directly from your verified subdomain
+const providerProps = {
+  publishableKey: clerkPublishableKey,
+  signInFallbackRedirectUrl: "/admin",
+  signUpFallbackRedirectUrl: "/admin",
+  ...(isProd ? {
+    clerkJSUrl: "https://accounts.teatrodislocador.ar/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
+  } : {})
+};
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ClerkProvider
-      publishableKey={clerkPublishableKey}
-      signInFallbackRedirectUrl="/admin"
-      signUpFallbackRedirectUrl="/admin"
-    >
+    <ClerkProvider {...providerProps}>
       <App />
     </ClerkProvider>
   </React.StrictMode>,
