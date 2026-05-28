@@ -20,7 +20,7 @@ const providerProps = {
   signUpFallbackRedirectUrl: "/admin",
   ...(isProd ? {
     // Force the frontend to fetch the auth engine from your verified auth subdomain
-    clerkJSUrl: "https://clerk.teatrodislocador.ar/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
+    clerkJSUrl: "https://accounts.teatrodislocador.ar/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
   } : {})
 };
 
