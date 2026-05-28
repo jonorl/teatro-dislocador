@@ -27,4 +27,18 @@ router.post("/", authenticateAdmin, async (req, res) => {
   }
 });
 
+router.put("/:id", authenticateAdmin, async (req, res) => {
+  const { title, description, schedule } = req.body;
+  const updated = await prisma.class.update({
+    where: { id: req.params.id as string },
+    data: { title, description, schedule },
+  });
+  return res.json(updated);
+});
+
+router.delete("/:id", authenticateAdmin, async (req, res) => {
+  await prisma.class.delete({ where: { id: req.params.id  as string } });
+  return res.status(204).send();
+});
+
 export default router;

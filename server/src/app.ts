@@ -1,19 +1,19 @@
-import "dotenv/config";
+import "dotenv/config"; 
 import express from "express";
 import cors from "cors";
 import pg from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../prisma/generated/client";
+import { PrismaClient } from "@prisma/client";
 import { clerkMiddleware } from "@clerk/express";
 import classesRouter from "./routes/classes";
+import galleryRouter from "./routes/gallery";
+import showcaseRouter from "./routes/showcase"
 
 const app = express();
 
 const pool = new pg.Pool({
   connectionString: process.env.DATABASE_URL_DISLOCADOR,
   max: 20,                       // Increased max connections slightly
-  idleTimeoutMillis: 30000,      // Increase to 30 seconds so it doesn't drop prematurely
-  connectionTimeoutMillis: 10000,
 });
 const adapter = new PrismaPg(pool);
 export const prisma = new PrismaClient({ adapter });
@@ -30,6 +30,8 @@ app.use(
 
 // Route registration
 app.use("/api/classes", classesRouter);
+app.use("/api/gallery", galleryRouter);
+app.use("/api/showcase", showcaseRouter);
 
 const PORT: number = Number(process.env.PORT_DISLOCADOR) || 3000;
 app.listen(PORT, "0.0.0.0", () => {

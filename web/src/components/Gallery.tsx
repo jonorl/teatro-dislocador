@@ -8,7 +8,7 @@ import {
 import { motion, type Variants } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
-import fetchDataFromGoogleSheets from "@/utils/googleSpreashsheetFetch.ts";
+import fetchDataFromGoogleSheets from "@/utils/googleSpreashsheetFetch";
 import type { Galeria } from "../types/interfaces.ts";
 
 const Gallery = () => {

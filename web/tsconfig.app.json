@@ -3,7 +3,7 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2022",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["web/src/*"]
     },
     "useDefineForClassFields": true,
     "allowSyntheticDefaultImports": true,
@@ -27,5 +27,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["web/src", "admin/AdminDashboard.tsx"]
 }

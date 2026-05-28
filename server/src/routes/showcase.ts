@@ -43,7 +43,7 @@ router.put("/:id", authenticateAdmin, async (req, res) => {
     const { title, author, director, dates, duration, description, image } = req.body;
     
     const updated = await prisma.showcase.update({
-      where: { id: Number(id) },
+      where: { id: String(id) },
       data: { title, author, director, dates, duration, description, image },
     });
     return res.json(updated);
@@ -57,7 +57,7 @@ router.put("/:id", authenticateAdmin, async (req, res) => {
 router.delete("/:id", authenticateAdmin, async (req, res) => {
   try {
     const { id } = req.params;
-    await prisma.showcase.delete({ where: { id: Number(id) } });
+    await prisma.showcase.delete({ where: { id: String(id) } });
     return res.status(204).send();
   } catch (error) {
     return res.status(500).json({ error: "Failed to delete show" });

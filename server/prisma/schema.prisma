@@ -3,11 +3,11 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
 }
 
 model Class {
-  id          Int      @id @default(autoincrement())
+  id          String      @id @default(uuid())
   title       String
   description String
   schedule    String
@@ -16,7 +16,7 @@ model Class {
 }
 
 model Showcase {
-  id          Int      @id @default(autoincrement())
+  id          String      @id @default(uuid())
   title       String
   author      String
   director    String
@@ -29,7 +29,7 @@ model Showcase {
 }
 
 model Gallery {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   url       String
   createdAt DateTime @default(now())
 }

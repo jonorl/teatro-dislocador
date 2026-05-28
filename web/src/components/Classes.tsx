@@ -1,7 +1,7 @@
 import { BookOpen, Clock, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, type Variants } from "framer-motion";
-import fetchDataFromGoogleSheets from "@/utils/googleSpreashsheetFetch.ts";
+import fetchDataFromGoogleSheets from "@/utils/googleSpreashsheetFetch";
 import type { ClassData } from "../types/interfaces.ts";
 
 

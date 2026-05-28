@@ -1,17 +1,17 @@
 import { useState } from "react";
 
-import Header from "./components/Header.tsx";
-import Hero from "./components/Hero.tsx";
-import WhoAreWe from "./components/WhoAreWe.tsx";
-import Director from "./components/Director.tsx";
-import Showcase from "./components/Showcase.tsx";
-import Story from "./components/Story.tsx";
-import Classes from "./components/Classes.tsx";
-import Gallery from "./components/Gallery.tsx";
-import Events from "./components/Events.tsx";
-import Reviews from "./components/Reviews.tsx";
-import Contact from "./components/Contact.tsx";
-import Footer from "./components/Footer.tsx";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+import WhoAreWe from "./components/WhoAreWe";
+import Director from "./components/Director";
+import Showcase from "./components/Showcase";
+import Story from "./components/Story";
+import Classes from "./components/Classes";
+import Gallery from "./components/Gallery";
+import Events from "./components/Events";
+import Reviews from "./components/Reviews";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
 
 import type { ScrollToSectionFunction } from "./types/interfaces.ts";
 

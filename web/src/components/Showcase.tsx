@@ -1,6 +1,6 @@
 import { Calendar, Clock, NotebookPen, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import fetchDataFromGoogleSheets from "@/utils/googleSpreashsheetFetch.ts";
+import fetchDataFromGoogleSheets from "@/utils/googleSpreashsheetFetch";
 import type { Cartelera } from "../types/interfaces.ts";
 import { motion, type Variants } from "framer-motion";
 

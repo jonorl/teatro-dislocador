@@ -12,9 +12,7 @@ router.get("/", async (req, res) => {
     });
     
     // Formats payload structure to map cleanly onto your frontend's item.URL layout
-    const galeria = galleryItems.map(item => ({
-      URL: item.url
-    }));
+    const galeria = galleryItems.map(item => ({ id: item.id, url: item.url }));
     
     return res.json({ galeria });
   } catch (error) {
@@ -43,7 +41,7 @@ router.post("/", authenticateAdmin, async (req, res) => {
 router.delete("/:id", authenticateAdmin, async (req, res) => {
   try {
     const { id } = req.params;
-    await prisma.gallery.delete({ where: { id: Number(id) } });
+    await prisma.gallery.delete({ where: { id: String(id) } });
     return res.status(204).send();
   } catch (error) {
     return res.status(500).json({ error: "Failed to delete image" });
