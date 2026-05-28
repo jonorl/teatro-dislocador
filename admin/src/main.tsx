@@ -20,7 +20,7 @@ const providerProps = {
   signInFallbackRedirectUrl: "/admin",
   signUpFallbackRedirectUrl: "/admin",
   ...(isProd ? {
-    clerkJSUrl: "https://accounts.teatrodislocador.ar/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
+    clerkJSUrl: "https://frontend-api.clerk.services/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
   } : {})
 };
 
