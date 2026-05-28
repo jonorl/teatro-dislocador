@@ -9,7 +9,7 @@ import ToastRegion from "./ToastItem";
 
 type Tab = "classes" | "showcase" | "gallery";
 
-const isProd = import.meta.env.PROD; 
+const isProd = import.meta.env.MODE; 
 
 const API = isProd
   ? import.meta.env.VITE_DISLOCADOR_PROD_BACKEND
