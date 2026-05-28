@@ -1,34 +1,25 @@
 import express from "express";
-import { prisma } from "../app";
 import { authenticateAdmin } from "../middleware/auth";
+import { showcaseQueries } from "../db/queries";
 
 const router = express.Router();
 
-// Public GET for the frontend component
 router.get("/", async (req, res) => {
   try {
-    const cartelera = await prisma.showcase.findMany({
-      orderBy: { createdAt: "desc" },
-    });
+    const cartelera = await showcaseQueries.getAll();
     return res.json({ cartelera });
   } catch (error) {
     return res.status(500).json({ error: "Failed to fetch showcase items" });
   }
 });
 
-// CMS: Create new show
 router.post("/", authenticateAdmin, async (req, res) => {
   try {
     const { title, author, director, dates, duration, description, image } = req.body;
-    
-    // Quick safety check against mandatory fields to keep Prisma happy
     if (!title) {
       return res.status(400).json({ error: "Argument 'title' is missing." });
     }
-
-    const show = await prisma.showcase.create({
-      data: { title, author, director, dates, duration, description, image },
-    });
+    const show = await showcaseQueries.create({ title, author, director, dates, duration, description, image });
     return res.status(201).json(show);
   } catch (error) {
     console.error("❌ Showcase Create Error:", error);
@@ -36,16 +27,11 @@ router.post("/", authenticateAdmin, async (req, res) => {
   }
 });
 
-// CMS: Update show
 router.put("/:id", authenticateAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { title, author, director, dates, duration, description, image } = req.body;
-    
-    const updated = await prisma.showcase.update({
-      where: { id: String(id) },
-      data: { title, author, director, dates, duration, description, image },
-    });
+    const updated = await showcaseQueries.update(id as string, { title, author, director, dates, duration, description, image });
     return res.json(updated);
   } catch (error) {
     console.error("❌ Showcase Update Error:", error);
@@ -53,11 +39,9 @@ router.put("/:id", authenticateAdmin, async (req, res) => {
   }
 });
 
-// CMS: Delete show
 router.delete("/:id", authenticateAdmin, async (req, res) => {
   try {
-    const { id } = req.params;
-    await prisma.showcase.delete({ where: { id: String(id) } });
+    await showcaseQueries.delete(req.params.id as string);
     return res.status(204).send();
   } catch (error) {
     return res.status(500).json({ error: "Failed to delete show" });

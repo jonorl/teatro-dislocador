@@ -14,7 +14,6 @@ const isProd = import.meta.env.PROD;
 const API = isProd
   ? import.meta.env.VITE_DISLOCADOR_PROD_BACKEND
   : import.meta.env.VITE_DISLOCADOR_DEV_BACKEND;
-console.log(API)
 
 export default function AdminDashboard() {
   const [tab, setTab] = useState<Tab>("classes");

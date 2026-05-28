@@ -1,6 +1,5 @@
-export default function authHeaders(token: string) {
-  return {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  };
+export default function authHeaders(token: string, multipart = false) {
+  const headers: Record<string, string> = { Authorization: `Bearer ${token}` };
+  if (!multipart) headers["Content-Type"] = "application/json";
+  return headers;
 }

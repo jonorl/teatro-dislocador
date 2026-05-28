@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Showcase" ALTER COLUMN "author" DROP NOT NULL,
+ALTER COLUMN "director" DROP NOT NULL,
+ALTER COLUMN "duration" DROP NOT NULL;
