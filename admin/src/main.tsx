@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import { ClerkProvider } from '@clerk/clerk-react'
+import './index.css'
 
 const isProd = import.meta.env.MODE === "PROD" || import.meta.env.PROD;
 
