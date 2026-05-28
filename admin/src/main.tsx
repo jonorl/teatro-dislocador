@@ -16,8 +16,9 @@ if (!clerkPublishableKey) {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ClerkProvider 
+    <ClerkProvider
       publishableKey={clerkPublishableKey}
+      proxyUrl="https://api.teatrodislocador.ar/clerk"
       signInFallbackRedirectUrl="/admin"
       signUpFallbackRedirectUrl="/admin"
     >

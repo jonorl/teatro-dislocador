@@ -10,6 +10,7 @@ import galleryRouter from "./routes/gallery";
 import showcaseRouter from "./routes/showcase";
 import uploadRouter from "./routes/upload";
 import { fileURLToPath } from "url"; 
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,6 +27,14 @@ app.use(
       const ct = req.headers["content-type"] ?? "";
       return !ct.startsWith("multipart/");
     },
+  })
+);
+app.use(
+  '/clerk',
+  createProxyMiddleware({
+    target: 'https://frontend-api.clerk.services',
+    changeOrigin: true,
+    pathRewrite: { '^/clerk': '' },
   })
 );
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));  
