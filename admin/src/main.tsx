@@ -5,7 +5,7 @@ import { ClerkProvider } from '@clerk/clerk-react'
 import App from './App'
 import './index.css'
 
-const isProd = import.meta.env.MODE === "production";
+const isProd = import.meta.env.MODE === "PROD";
 
 const CLERK_PUBLISHABLE_KEY = isProd
   ? import.meta.env.VITE_DISLOCADOR_PUBLIC_CLERK_PUBLISHABLE_KEY
