@@ -30,10 +30,16 @@ app.use(
 );
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));  
 
+const isProd = process.env.MODE === "PROD";
+
 app.use(
   clerkMiddleware({
-    publishableKey: process.env.DISLOCADOR_PUBLISHABLEKEY,
-    secretKey: process.env.DISLOCADOR_SECRETKEY,
+    publishableKey: isProd 
+      ? process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY 
+      : process.env.DISLOCADOR_PUBLISHABLEKEY,
+    secretKey: isProd 
+      ? process.env.CLERK_SECRET_KEY 
+      : process.env.DISLOCADOR_SECRETKEY,
   })
 );
 
