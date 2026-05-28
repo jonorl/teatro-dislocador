@@ -14,19 +14,13 @@ if (!clerkPublishableKey) {
   throw new Error("Missing Clerk Publishable Key");
 }
 
-const providerProps = {
-  publishableKey: clerkPublishableKey,
-  signInFallbackRedirectUrl: "/admin",
-  signUpFallbackRedirectUrl: "/admin",
-  ...(isProd ? {
-    // Force the frontend to fetch the auth engine from your verified auth subdomain
-    clerkJSUrl: "https://accounts.teatrodislocador.ar/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
-  } : {})
-};
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ClerkProvider {...providerProps} >
+    <ClerkProvider
+      publishableKey={clerkPublishableKey}
+      signInFallbackRedirectUrl="/admin"
+      signUpFallbackRedirectUrl="/admin"
+    >
       <App />
     </ClerkProvider>
   </React.StrictMode>,
