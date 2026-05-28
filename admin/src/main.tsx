@@ -18,7 +18,11 @@ if (!clerkPublishableKey) {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={clerkPublishableKey} afterSignOutUrl="/admin">
+    <ClerkProvider
+      publishableKey={clerkPublishableKey}
+      signInFallbackRedirectUrl="/admin"
+      signUpFallbackRedirectUrl="/admin"
+    >
       <App />
     </ClerkProvider>
   </React.StrictMode>,
