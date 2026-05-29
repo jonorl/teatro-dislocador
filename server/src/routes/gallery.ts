@@ -5,7 +5,7 @@ import { authenticateAdmin } from "../middleware/auth";
 import { upload } from "../middleware/upload";
 import { galleryQueries } from "../db/queries";
 
-const isProd = process.env.MODE === "production";
+const isProd = process.env.MODE === "PROD";
 
 const SERVER_URL = isProd
   ? process.env.DISLOCADOR_PROD_SERVER_URL
