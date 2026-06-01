@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import { authenticateAdmin } from "../middleware/auth";
-import { upload } from "../middleware/upload";
+import { uploadMultiple } from "../middleware/upload";
 import { galleryQueries } from "../db/queries";
 
 const __filename = fileURLToPath(import.meta.url);  
@@ -44,7 +44,7 @@ router.post("/", authenticateAdmin, async (req, res) => {
 });
 
 // POST /api/gallery/upload — upload a file from your PC
-router.post("/upload", authenticateAdmin, upload.single("image"), async (req, res) => {
+router.post("/upload", authenticateAdmin, uploadMultiple, async (req, res) => {
 
   try {
     if (!req.file) {
