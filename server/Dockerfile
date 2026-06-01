@@ -1,4 +1,3 @@
-# Dockerfile
 FROM node:22-alpine
 
 WORKDIR /app
@@ -10,8 +9,11 @@ RUN npm install
 # Copy the rest of your server files
 COPY . .
 
+# Set the environment variable globally for the build process
+ENV DATABASE_URL_DISLOCADOR="postgresql://dummy:dummy@localhost:5432/dummy"
+
 # Generate the Prisma client before execution
-RUN DATABASE_URL_DISLOCADOR="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
+RUN npx prisma generate
 
 EXPOSE 3000
 
