@@ -47,6 +47,12 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          script: | # UPDATE
-            docker compose -f ~/server/backend/docker-compose.yml pull teatro-dislocador
-            docker compose -f ~/server/backend/docker-compose.yml up -d teatro-dislocador
+          script: | #update
+            # 1. Force a pull of the latest image directly via Docker
+            docker pull ghcr.io/jonorl/teatro-dislocador:latest
+            
+            # 2. Re-create the container using the newly pulled image
+            docker compose -f ~/server/backend/docker-compose.yml up -d --force-recreate teatro-dislocador
+            
+            # 3. Optional: Clean up old dangling images to save disk space
+            docker image prune -f
