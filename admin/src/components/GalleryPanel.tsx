@@ -17,8 +17,8 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState<"url" | "file">("url");
   const [url, setUrl] = useState("");
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string>("");
+  const [files, setFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const [zoomed, setZoomed] = useState<string | null>(null);
@@ -43,15 +43,18 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
   useEffect(() => { load(); }, [load]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0] ?? null;
-    setFile(f);
-    setPreview(f ? URL.createObjectURL(f) : "");
+    const selected = Array.from(e.target.files ?? []);
+    setFiles(selected);
+    // Revoke old object URLs to avoid memory leaks
+    previews.forEach((p) => URL.revokeObjectURL(p));
+    setPreviews(selected.map((f) => URL.createObjectURL(f)));
   };
 
   const resetForm = () => {
     setUrl("");
-    setFile(null);
-    setPreview("");
+    previews.forEach((p) => URL.revokeObjectURL(p));
+    setFiles([]);
+    setPreviews([]);
     if (fileRef.current) fileRef.current.value = "";
   };
 
@@ -69,10 +72,10 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
         });
         if (!r.ok) throw new Error((await r.json()).error ?? "Error");
       } else {
-        if (!file) throw new Error("Seleccioná un archivo.");
+        if (files.length === 0) throw new Error("Seleccioná al menos un archivo.");
         const fd = new FormData();
-        fd.append("image", file);
-        const r = await fetch(`${API}/gallery/upload`, {
+        files.forEach((f) => fd.append("images", f));
+        const r = await fetch(`${API}/gallery/upload/multiple`, {
           method: "POST",
           headers: authHeaders(token!, true),
           body: fd,
@@ -80,7 +83,10 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
         if (!r.ok) throw new Error((await r.json()).error ?? "Error");
       }
 
-      notify("Imagen añadida a la galería");
+      notify(mode === "file" && files.length > 1
+        ? `${files.length} imágenes añadidas a la galería`
+        : "Imagen añadida a la galería"
+      );
       resetForm();
       load();
     } catch (err: any) {
@@ -154,22 +160,38 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
                   <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                   </svg>
-                  <span className="truncate">{file ? file.name : "Elegir imagen…"}</span>
+                  <span className="truncate">
+                    {files.length === 0
+                      ? "Elegir imágenes…"
+                      : files.length === 1
+                      ? files[0].name
+                      : `${files.length} imágenes seleccionadas`}
+                  </span>
                   <input
                     ref={fileRef}
                     type="file"
                     accept="image/jpeg,image/png,image/webp,image/gif"
                     className="sr-only"
                     onChange={handleFileChange}
+                    multiple
                     required
                   />
                 </label>
                 <SubmitBtn saving={saving} />
               </div>
 
-              {preview && (
-                <div className="h-32 rounded-xl overflow-hidden border border-slate-700/40 bg-slate-950">
-                  <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+              {previews.length > 0 && (
+                <div className={`grid gap-2 mt-1 ${previews.length === 1 ? "" : "grid-cols-3 sm:grid-cols-4"}`}>
+                  {previews.map((src, i) => (
+                    <div
+                      key={i}
+                      className={`rounded-xl overflow-hidden border border-slate-700/40 bg-slate-950 ${
+                        previews.length === 1 ? "h-32" : "aspect-square"
+                      }`}
+                    >
+                      <img src={src} alt={`Preview ${i + 1}`} className="w-full h-full object-cover" />
+                    </div>
+                  ))}
                 </div>
               )}
             </>
