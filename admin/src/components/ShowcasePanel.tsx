@@ -50,8 +50,6 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
   const [form, setForm] = useState<ShowcaseForm>(EMPTY_SHOW);
   const [saving, setSaving] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
-
-  // Inside ShowcasePanel, add alongside other state:
   const [imageMode, setImageMode] = useState<"url" | "file">("url");
   const [imageUploading, setImageUploading] = useState(false);
   const imageFileRef = useRef<HTMLInputElement>(null);
@@ -71,7 +69,7 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
       });
       if (!r.ok) throw new Error((await r.json()).error ?? "Error al subir");
       const { url } = await r.json();
-      f("image", url); // drops straight into the existing form.image field
+      f("image", url);
     } catch (err: any) {
       notify(err.message, "err");
     } finally {
@@ -96,6 +94,7 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
   const openCreate = () => {
     setEditTarget(null);
     setForm(EMPTY_SHOW);
+    setImageMode("url");
     setDrawerOpen(true);
   };
 
@@ -103,6 +102,7 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
     setEditTarget(item);
     const { id, ...rest } = item;
     setForm(rest);
+    setImageMode("url");
     setDrawerOpen(true);
   };
 
@@ -187,7 +187,9 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
                       <> · <span className="text-slate-500">Dir. {item.director}</span></>
                     )}
                   </p>
-                  <p className="text-xs text-rose-400/80 mt-0.5">{item.dates} · {item.duration}</p>
+                  <p className="text-xs text-rose-400/80 mt-0.5">
+                    {item.dates}{item.duration && ` · ${item.duration}`}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-1 shrink-0 pt-1">
@@ -224,7 +226,7 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
       >
         <form onSubmit={handleSave} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <Field label="Título">
+            <Field label="Título *">
               <input
                 className={inputCls}
                 value={form.title}
@@ -238,7 +240,6 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
                 value={form.duration}
                 onChange={(e) => f("duration", e.target.value)}
                 placeholder="Ej: 90 min"
-                required
               />
             </Field>
             <Field label="Autor">
@@ -246,7 +247,6 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
                 className={inputCls}
                 value={form.author}
                 onChange={(e) => f("author", e.target.value)}
-                required
               />
             </Field>
             <Field label="Director">
@@ -254,11 +254,10 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
                 className={inputCls}
                 value={form.director}
                 onChange={(e) => f("director", e.target.value)}
-                required
               />
             </Field>
           </div>
-          <Field label="Fechas / Funciones">
+          <Field label="Fechas / Funciones *">
             <input
               className={inputCls}
               value={form.dates}
@@ -267,8 +266,7 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
               required
             />
           </Field>
-          <Field label="Imagen de portada">
-            {/* Mode toggle */}
+          <Field label="Imagen de portada *">
             <div className="flex gap-1 p-1 mb-2 rounded-xl bg-slate-900 w-fit">
               {(["url", "file"] as const).map((m) => (
                 <button
@@ -279,10 +277,11 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
                     f("image", "");
                     if (imageFileRef.current) imageFileRef.current.value = "";
                   }}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${imageMode === m
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
+                    imageMode === m
                       ? "bg-rose-600 text-white"
                       : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                    }`}
+                  }`}
                 >
                   {m === "url" ? "URL" : "Desde PC"}
                 </button>
@@ -296,6 +295,7 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
                 value={form.image}
                 onChange={(e) => f("image", e.target.value)}
                 placeholder="https://..."
+                required
               />
             ) : (
               <label className="flex items-center gap-2 cursor-pointer border border-slate-700 rounded-xl px-3 py-2.5 bg-slate-900 hover:border-slate-500 transition text-sm text-slate-400">
@@ -334,7 +334,6 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
               className={`${inputCls} h-28 resize-none`}
               value={form.description}
               onChange={(e) => f("description", e.target.value)}
-              required
             />
           </Field>
           <SaveBtn

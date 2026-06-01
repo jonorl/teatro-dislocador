@@ -83,46 +83,53 @@ const Showcase = () => {
                   transition={{ duration: 0.2 }}
                   className="flex flex-col h-full overflow-hidden"
                 >
-                  {/* Aspect Ratio Container for the Image */}
-                  <div className="relative w-full aspect-[4/5] overflow-hidden">
-                    <img
-                      src={show.image}
-                      alt={show.title}
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                  </div>
+                  {/* Image */}
+                  {show.image && (
+                    <div className="relative w-full aspect-[4/5] overflow-hidden">
+                      <img
+                        src={show.image}
+                        alt={show.title}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
 
-                  {/* Content Container */}
+                  {/* Content */}
                   <div className="p-6 flex flex-col flex-grow">
                     <h3 className="text-2xl font-bold text-white mb-2">
                       {show.title}
                     </h3>
-                    <p className="text-yellow-300 mb-2">de {show.author}</p>
-                    <p className="text-gray-300 mb-4">Dirección: {show.director}</p>
+                    {show.author && (
+                      <p className="text-yellow-300 mb-2">de {show.author}</p>
+                    )}
+                    {show.director && (
+                      <p className="text-gray-300 mb-4">Dirección: {show.director}</p>
+                    )}
 
                     <div className="space-y-2 mb-6">
                       <div className="flex items-center text-gray-200">
                         <Calendar size={16} className="mr-2 text-yellow-400 shrink-0" />
                         {show.dates}
                       </div>
-                      <div className="flex items-center text-gray-200">
-                        <Clock size={16} className="mr-2 text-yellow-400 shrink-0" />
-                        {show.duration}
-                      </div>
-                      <div className="grid grid-cols-[auto_1fr] text-gray-200">
-                        <NotebookPen size={16} className="mr-2 text-yellow-400 mt-1 shrink-0" />
-                        <p>{show.description}</p>
-                      </div>
+                      {show.duration && (
+                        <div className="flex items-center text-gray-200">
+                          <Clock size={16} className="mr-2 text-yellow-400 shrink-0" />
+                          {show.duration}
+                        </div>
+                      )}
+                      {show.description && (
+                        <div className="grid grid-cols-[auto_1fr] text-gray-200">
+                          <NotebookPen size={16} className="mr-2 text-yellow-400 mt-1 shrink-0" />
+                          <p>{show.description}</p>
+                        </div>
+                      )}
                     </div>
 
-                    {/* Button pushed to the bottom */}
                     <button
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        window.open(
-                          "https://wa.me/5492975076445",
-                        );
+                        window.open("https://wa.me/5492975076445");
                       }}
                       className="mt-auto w-full bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
                     >
