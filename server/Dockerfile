@@ -11,7 +11,7 @@ RUN npm install
 COPY . .
 
 # Generate the Prisma client before execution
-RUN npx prisma generate
+RUN DATABASE_URL_DISLOCADOR="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
 
 EXPOSE 3000
 
