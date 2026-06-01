@@ -163,9 +163,9 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
           {items.map((item) => (
             <div
               key={item.id}
-              className="flex items-start justify-between py-4 gap-4 hover:bg-slate-800/20 px-2 rounded-xl -mx-2 transition-colors"
+              className="flex items-start justify-between py-4 gap-3 hover:bg-slate-800/20 px-2 rounded-xl -mx-2 transition-colors"
             >
-              <div className="flex gap-3 min-w-0">
+              <div className="flex gap-3 min-w-0 flex-1">
                 {item.image ? (
                   <img
                     src={item.image}
@@ -179,15 +179,15 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
                     </svg>
                   </div>
                 )}
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <p className="font-semibold text-slate-100 text-sm truncate">{item.title}</p>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <p className="text-xs text-slate-400 mt-0.5 truncate">
                     {item.author}
                     {item.director && (
                       <> · <span className="text-slate-500">Dir. {item.director}</span></>
                     )}
                   </p>
-                  <p className="text-xs text-rose-400/80 mt-0.5">
+                  <p className="text-xs text-rose-400/80 mt-0.5 truncate">
                     {item.dates}{item.duration && ` · ${item.duration}`}
                   </p>
                 </div>
@@ -225,13 +225,15 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
         title={editTarget ? "Editar Obra" : "Nueva Obra"}
       >
         <form onSubmit={handleSave} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          {/* 2-col grid collapses to 1-col on mobile */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Field label="Título *">
               <input
                 className={inputCls}
                 value={form.title}
                 onChange={(e) => f("title", e.target.value)}
                 required
+                autoComplete="off"
               />
             </Field>
             <Field label="Duración">
@@ -240,6 +242,7 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
                 value={form.duration}
                 onChange={(e) => f("duration", e.target.value)}
                 placeholder="Ej: 90 min"
+                autoComplete="off"
               />
             </Field>
             <Field label="Autor">
@@ -247,6 +250,7 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
                 className={inputCls}
                 value={form.author}
                 onChange={(e) => f("author", e.target.value)}
+                autoComplete="off"
               />
             </Field>
             <Field label="Director">
@@ -254,9 +258,11 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
                 className={inputCls}
                 value={form.director}
                 onChange={(e) => f("director", e.target.value)}
+                autoComplete="off"
               />
             </Field>
           </div>
+
           <Field label="Fechas / Funciones *">
             <input
               className={inputCls}
@@ -264,8 +270,10 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
               onChange={(e) => f("dates", e.target.value)}
               placeholder="Ej: Del 14 al 20 de Octubre"
               required
+              autoComplete="off"
             />
           </Field>
+
           <Field label="Imagen de portada *">
             <div className="flex gap-1 p-1 mb-2 rounded-xl bg-slate-900 w-fit">
               {(["url", "file"] as const).map((m) => (
@@ -277,13 +285,13 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
                     f("image", "");
                     if (imageFileRef.current) imageFileRef.current.value = "";
                   }}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition touch-manipulation ${
                     imageMode === m
                       ? "bg-rose-600 text-white"
                       : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
                   }`}
                 >
-                  {m === "url" ? "URL" : "Desde PC"}
+                  {m === "url" ? "URL" : "Desde dispositivo"}
                 </button>
               ))}
             </div>
@@ -296,9 +304,11 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
                 onChange={(e) => f("image", e.target.value)}
                 placeholder="https://..."
                 required
+                inputMode="url"
+                autoCapitalize="none"
               />
             ) : (
-              <label className="flex items-center gap-2 cursor-pointer border border-slate-700 rounded-xl px-3 py-2.5 bg-slate-900 hover:border-slate-500 transition text-sm text-slate-400">
+              <label className="flex items-center gap-2 cursor-pointer border border-slate-700 rounded-xl px-3 py-3 bg-slate-900 hover:border-slate-500 active:bg-slate-800 transition text-sm text-slate-400 touch-manipulation">
                 {imageUploading ? (
                   <svg className="w-4 h-4 animate-spin shrink-0" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -323,12 +333,13 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
             )}
 
             {form.image && (
-              <div className="mt-2 h-28 rounded-xl overflow-hidden border border-slate-700/40 bg-slate-950">
+              <div className="mt-2 h-32 rounded-xl overflow-hidden border border-slate-700/40 bg-slate-950">
                 <img src={form.image} alt="Preview" className="w-full h-full object-cover"
                   onError={(e) => (e.currentTarget.style.display = "none")} />
               </div>
             )}
           </Field>
+
           <Field label="Sinopsis">
             <textarea
               className={`${inputCls} h-28 resize-none`}
@@ -336,6 +347,7 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
               onChange={(e) => f("description", e.target.value)}
             />
           </Field>
+
           <SaveBtn
             loading={saving}
             label={editTarget ? "Guardar cambios" : "Publicar en cartelera"}

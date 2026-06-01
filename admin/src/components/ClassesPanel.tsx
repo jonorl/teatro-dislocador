@@ -147,9 +147,9 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
           {items.map((item) => (
             <div
               key={item.id}
-              className="flex items-start justify-between py-4 gap-4 hover:bg-slate-800/20 px-2 rounded-xl -mx-2 transition-colors"
+              className="flex items-start justify-between py-4 gap-3 hover:bg-slate-800/20 px-2 rounded-xl -mx-2 transition-colors"
             >
-              <div className="flex gap-3 min-w-0">
+              <div className="flex gap-3 min-w-0 flex-1">
                 {item.image ? (
                   <img
                     src={item.image}
@@ -163,12 +163,14 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
                     </svg>
                   </div>
                 )}
-                <div className="min-w-0">
-                  <p className="font-semibold text-slate-100 text-sm">{item.title}</p>
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-slate-100 text-sm leading-snug">{item.title}</p>
                   <p className="text-xs text-rose-400/90 mt-0.5 font-medium">{item.schedule}</p>
-                  <p className="text-xs text-slate-500 mt-1 line-clamp-1">{item.description}</p>
+                  <p className="text-xs text-slate-500 mt-1 line-clamp-2 sm:line-clamp-1">{item.description}</p>
                 </div>
               </div>
+
+              {/* Actions — stacked on mobile, side-by-side on sm+ */}
               <div className="flex items-center gap-1 shrink-0 pt-0.5">
                 {confirmDelete === item.id ? (
                   <InlineDeleteConfirm
@@ -196,6 +198,7 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
         </div>
       )}
 
+      {/* Drawer — full screen on mobile, side panel on larger screens */}
       <Drawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
@@ -209,6 +212,7 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
               onChange={(e) => setForm({ ...form, title: e.target.value })}
               placeholder="Ej: Iniciación al Teatro"
               required
+              autoComplete="off"
             />
           </Field>
           <Field label="Horario">
@@ -218,6 +222,7 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
               onChange={(e) => setForm({ ...form, schedule: e.target.value })}
               placeholder="Ej: Lunes y Miércoles 19:00–21:00"
               required
+              autoComplete="off"
             />
           </Field>
           <Field label="Imagen">
@@ -231,13 +236,13 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
                     setForm((prev) => ({ ...prev, image: "" }));
                     if (imageFileRef.current) imageFileRef.current.value = "";
                   }}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition touch-manipulation ${
                     imageMode === m
                       ? "bg-rose-600 text-white"
                       : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
                   }`}
                 >
-                  {m === "url" ? "URL" : "Desde PC"}
+                  {m === "url" ? "URL" : "Desde dispositivo"}
                 </button>
               ))}
             </div>
@@ -249,9 +254,11 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
                 value={form.image}
                 onChange={(e) => setForm({ ...form, image: e.target.value })}
                 placeholder="https://..."
+                inputMode="url"
+                autoCapitalize="none"
               />
             ) : (
-              <label className="flex items-center gap-2 cursor-pointer border border-slate-700 rounded-xl px-3 py-2.5 bg-slate-900 hover:border-slate-500 transition text-sm text-slate-400">
+              <label className="flex items-center gap-2 cursor-pointer border border-slate-700 rounded-xl px-3 py-3 bg-slate-900 hover:border-slate-500 active:bg-slate-800 transition text-sm text-slate-400 touch-manipulation">
                 {imageUploading ? (
                   <svg className="w-4 h-4 animate-spin shrink-0" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -276,7 +283,7 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
             )}
 
             {form.image && (
-              <div className="mt-2 h-28 rounded-xl overflow-hidden border border-slate-700/40 bg-slate-950">
+              <div className="mt-2 h-32 rounded-xl overflow-hidden border border-slate-700/40 bg-slate-950">
                 <img
                   src={form.image}
                   alt="Preview"

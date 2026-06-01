@@ -108,7 +108,7 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
   };
 
   const tabCls = (active: boolean) =>
-    `px-3 py-1.5 rounded-lg text-xs font-semibold transition ${active
+    `px-3 py-1.5 rounded-lg text-xs font-semibold transition touch-manipulation ${active
       ? "bg-rose-600 text-white"
       : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
     }`;
@@ -117,10 +117,11 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
     <>
       <PanelHeader title="Galería" count={items.length} />
 
+      {/* Add image panel */}
       <div className="mb-6 p-4 rounded-2xl bg-slate-950/50 border border-slate-800/60">
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-3 gap-2">
           <p className={labelCls}>Añadir imagen</p>
-          <div className="flex gap-1 p-1 rounded-xl bg-slate-900">
+          <div className="flex gap-1 p-1 rounded-xl bg-slate-900 shrink-0">
             <button type="button" className={tabCls(mode === "url")} onClick={() => setMode("url")}>
               URL
             </button>
@@ -132,7 +133,8 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
 
         <form onSubmit={handleAdd} className="flex flex-col gap-2.5">
           {mode === "url" ? (
-            <div className="flex gap-2.5">
+            /* On mobile, stack input and button vertically */
+            <div className="flex flex-col sm:flex-row gap-2.5">
               <input
                 type="url"
                 className={`${inputCls} flex-1`}
@@ -140,13 +142,15 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 required
+                inputMode="url"
+                autoCapitalize="none"
               />
               <SubmitBtn saving={saving} />
             </div>
           ) : (
             <>
-              <div className="flex gap-2.5 items-center">
-                <label className="flex-1 flex items-center gap-2 cursor-pointer border border-slate-700 rounded-xl px-3 py-2.5 bg-slate-900 hover:border-slate-500 transition text-sm text-slate-400">
+              <div className="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center">
+                <label className="flex-1 flex items-center gap-2 cursor-pointer border border-slate-700 rounded-xl px-3 py-3 bg-slate-900 hover:border-slate-500 active:bg-slate-800 transition text-sm text-slate-400 touch-manipulation">
                   <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                   </svg>
@@ -164,7 +168,7 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
               </div>
 
               {preview && (
-                <div className="h-28 rounded-xl overflow-hidden border border-slate-700/40 bg-slate-950">
+                <div className="h-32 rounded-xl overflow-hidden border border-slate-700/40 bg-slate-950">
                   <img src={preview} alt="Preview" className="w-full h-full object-cover" />
                 </div>
               )}
@@ -173,8 +177,9 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
         </form>
       </div>
 
+      {/* Gallery grid */}
       {loading ? (
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="aspect-[4/3] rounded-xl bg-slate-800/40 animate-pulse" />
           ))}
@@ -184,8 +189,8 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {items.map((item) => (
-            <div 
-              key={item.id} 
+            <div
+              key={item.id}
               className="group relative rounded-xl overflow-hidden border border-slate-800/60 bg-slate-900 aspect-[4/3] cursor-zoom-in"
               onClick={() => {
                 if (confirmDelete !== item.id) setZoomed(item.url);
@@ -197,22 +202,22 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
-              <div 
+              <div
                 className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-200"
                 onClick={(e) => {
                   if (confirmDelete === item.id) e.stopPropagation();
                 }}
               >
                 {confirmDelete === item.id ? (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 p-3">
-                    <p className="text-xs text-slate-300 mb-2.5 font-medium">¿Eliminar esta imagen?</p>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/75 p-3">
+                    <p className="text-xs text-slate-300 mb-3 font-medium text-center leading-snug">¿Eliminar esta imagen?</p>
                     <div className="flex gap-2">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDelete(item.id);
                         }}
-                        className="text-xs px-3 py-1.5 bg-red-600 text-white rounded-lg hover:bg-red-500 transition font-semibold"
+                        className="text-xs px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 active:bg-red-700 transition font-semibold touch-manipulation"
                       >
                         Sí, eliminar
                       </button>
@@ -221,7 +226,7 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
                           e.stopPropagation();
                           setConfirmDelete(null);
                         }}
-                        className="text-xs px-3 py-1.5 bg-slate-700 text-slate-300 rounded-lg hover:bg-slate-600 transition"
+                        className="text-xs px-3 py-2 bg-slate-700 text-slate-300 rounded-lg hover:bg-slate-600 active:bg-slate-800 transition touch-manipulation"
                       >
                         Cancelar
                       </button>
@@ -233,7 +238,9 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
                       e.stopPropagation();
                       setConfirmDelete(item.id);
                     }}
-                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 hover:bg-red-600 text-white p-1.5 rounded-lg"
+                    /* Always visible on touch devices; hover-only on pointer devices */
+                    className="absolute top-2 right-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity bg-black/60 hover:bg-red-600 active:bg-red-700 text-white p-2 rounded-lg touch-manipulation"
+                    aria-label="Eliminar imagen"
                   >
                     <TrashIcon />
                   </button>
@@ -244,14 +251,16 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
         </div>
       )}
 
+      {/* Lightbox */}
       {zoomed && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 cursor-zoom-out"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 cursor-zoom-out"
           onClick={() => setZoomed(null)}
         >
           <button
             onClick={() => setZoomed(null)}
-            className="absolute top-4 right-4 text-white/70 hover:text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition"
+            className="absolute top-4 right-4 text-white/70 hover:text-white bg-black/40 hover:bg-black/60 rounded-full p-2.5 transition touch-manipulation"
+            aria-label="Cerrar"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -260,7 +269,7 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
           <img
             src={zoomed}
             alt=""
-            className="max-w-full max-h-full rounded-xl shadow-2xl object-contain"
+            className="max-w-full max-h-[90dvh] rounded-xl shadow-2xl object-contain"
             onClick={(e) => e.stopPropagation()}
           />
         </div>
@@ -274,7 +283,7 @@ function SubmitBtn({ saving }: { saving: boolean }) {
     <button
       type="submit"
       disabled={saving}
-      className="shrink-0 bg-rose-600 hover:bg-rose-500 text-white font-semibold px-4 py-2.5 rounded-xl transition text-sm disabled:opacity-50 flex items-center gap-1.5"
+      className="w-full sm:w-auto shrink-0 bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white font-semibold px-4 py-2.5 rounded-xl transition text-sm disabled:opacity-50 flex items-center justify-center gap-1.5 touch-manipulation"
     >
       <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />

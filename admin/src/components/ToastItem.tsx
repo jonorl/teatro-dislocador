@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-
 interface ToastItem {
   id: number;
   msg: string;
@@ -25,7 +24,15 @@ export default function ToastRegion() {
   }, []);
 
   return (
-    <div className="fixed bottom-6 right-6 z-[200] flex flex-col gap-2 pointer-events-none">
+    <div
+      className={`
+        fixed z-[200] flex flex-col gap-2 pointer-events-none
+        /* Mobile: full-width strip at bottom, above bottom nav */
+        bottom-[72px] left-3 right-3
+        /* Desktop: anchored to bottom-right corner */
+        sm:bottom-6 sm:left-auto sm:right-6 sm:w-auto sm:max-w-xs
+      `}
+    >
       {toasts.map((t) => (
         <div
           key={t.id}
@@ -40,8 +47,8 @@ export default function ToastRegion() {
           `}
           style={{ animation: "tdFadeUp 0.2s ease-out" }}
         >
-          <span>{t.type === "err" ? "✕" : "✓"}</span>
-          {t.msg}
+          <span className="shrink-0">{t.type === "err" ? "✕" : "✓"}</span>
+          <span className="flex-1">{t.msg}</span>
         </div>
       ))}
     </div>
