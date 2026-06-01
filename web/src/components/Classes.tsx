@@ -1,53 +1,41 @@
 import { BookOpen, Clock, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, type Variants } from "framer-motion";
-import fetchDataFromGoogleSheets from "@/utils/googleSpreashsheetFetch";
-import type { ClassData } from "../types/interfaces.ts";
 
+const API = "https://api.teatrodislocador.ar";
+
+interface ClassData {
+  id: string;
+  title: string;
+  description: string;
+  schedule: string;
+  image?: string;
+}
 
 const Classes = () => {
   const [classes, setClasses] = useState<ClassData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        setIsLoading(true);
-        const { classes } = await fetchDataFromGoogleSheets();
-        setClasses(classes);
-      } catch (error) {
-        console.error("Error loading classes:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    loadData();
+    fetch(`${API}/api/classes`)
+      .then((r) => r.json())
+      .then(({ classes }) => setClasses(classes))
+      .catch((e) => console.error("Error loading classes:", e))
+      .finally(() => setIsLoading(false));
   }, []);
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
   };
 
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
   };
 
   return (
-    <section
-      id="clases"
-      className="py-20 bg-gradient-to-r from-neutral-900/70 to-rose-900/70"
-    >
+    <section id="clases" className="py-20 bg-gradient-to-r from-neutral-900/70 to-rose-900/70">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -56,9 +44,7 @@ const Classes = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Clases de Teatro
-          </h2>
+          <h2 className="text-4xl font-bold text-white mb-4">Clases de Teatro</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-rose-700 to-yellow-600 mx-auto" />
           <p className="text-gray-200 text-lg mt-4 max-w-3xl mx-auto">
             Descubrí tu potencial artístico con nuestros talleres de formación
@@ -79,55 +65,62 @@ const Classes = () => {
             whileInView="visible"
             viewport={{ once: true, amount: 0 }}
           >
-            {classes.map((clase, index) => (
+            {classes.map((clase) => (
               <motion.div
-                key={index}
+                key={clase.id}
                 variants={cardVariants}
-                className="bg-black/50 backdrop-blur-sm rounded-lg shadow-2xl"
+                className="bg-black/50 backdrop-blur-sm rounded-lg shadow-2xl flex flex-col h-full overflow-hidden"
               >
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.2 }}
-                  className="p-6 rounded-lg"
+                  className="p-6 flex flex-col flex-grow h-full"
                 >
-                  <div className="text-center mb-4">
-                    <div className="text-center mb-4">
-                      {clase.image ? (
-                        <img
-                          src={clase.image}
-                          alt={clase.title}
-                          className="w-full h-40 object-cover rounded-lg mb-4"
-                        />
-                      ) : (
-                        <BookOpen size={48} className="mx-auto text-yellow-400 mb-4" />
-                      )}
-                      <h3 className="text-xl font-bold text-white mb-2">{clase.title}</h3>
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2">
-                      {clase.title}
-                    </h3>
+                  {/* Fixed aspect ratio wrapper for uniform images/placeholders */}
+                  {/* Changed to aspect-[4/5] to support full portrait posters */}
+                  <div className="w-full aspect-[4/5] flex items-center justify-center bg-neutral-900/40 rounded-lg mb-4 overflow-hidden shrink-0">
+                    {clase.image ? (
+                      <img
+                        src={clase.image}
+                        alt={clase.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <BookOpen size={48} className="text-yellow-400" />
+                    )}
                   </div>
-                  <p className="text-gray-200 mb-4 text-center">
-                    {clase.description}
-                  </p>
-                  <div className="space-y-2 mb-6">
+
+                  {/* Content Area */}
+                  <div className="text-center mb-4 flex-grow">
+                    <h3 className="text-xl font-bold text-white mb-2">{clase.title}</h3>
+
+                    {/* Render Rich Text securely & clean up inner margins */}
+                    <div
+                      className="text-gray-200 text-sm prose prose-invert max-w-none [&_p]:margin-0"
+                      dangerouslySetInnerHTML={{ __html: clase.description }}
+                    />
+                  </div>
+
+                  {/* Footer Details & Button pushed to the bottom */}
+                  <div className="mt-auto space-y-4">
                     <div className="flex items-center justify-center text-gray-200">
-                      <Clock size={16} className="mr-2 text-yellow-400" />
+                      <Clock size={16} className="mr-2 text-yellow-400 shrink-0" />
                       {clase.schedule}
                     </div>
+
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.open(
+                          "https://docs.google.com/forms/d/e/1FAIpQLSdOJIeLsVPnRaX7eSP_muV6AnorZmKEP8fOGqr8oJ-Fe0LDnQ/viewform"
+                        );
+                      }}
+                      className="w-full bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
+                    >
+                      Registrate
+                    </button>
                   </div>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      window.open(
-                        "https://docs.google.com/forms/d/e/1FAIpQLSdOJIeLsVPnRaX7eSP_muV6AnorZmKEP8fOGqr8oJ-Fe0LDnQ/viewform",
-                      );
-                    }}
-                    className="w-full bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
-                  >
-                    Registrate
-                  </button>
                 </motion.div>
               </motion.div>
             ))}

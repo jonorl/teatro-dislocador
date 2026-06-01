@@ -8,41 +8,35 @@ import {
 import { motion, type Variants } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
-import fetchDataFromGoogleSheets from "@/utils/googleSpreashsheetFetch";
-import type { Galeria } from "../types/interfaces.ts";
+
+const API = "https://api.teatrodislocador.ar";
+
+interface GalleryItem {
+  id: string;
+  url: string;
+}
 
 const Gallery = () => {
-  const [images, setImages] = useState<Galeria[]>([]);
+  const [images, setImages] = useState<GalleryItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadGallery = async () => {
-      try {
-        setIsLoading(true);
-        const { galeria } = await fetchDataFromGoogleSheets();
-        setImages(galeria);
-      } catch (error) {
-        console.error("Error loading gallery:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    loadGallery();
+    fetch(`${API}/api/gallery`)
+      .then((r) => r.json())
+      .then(({ galeria }) => setImages(galeria))
+      .catch((e) => console.error("Error loading gallery:", e))
+      .finally(() => setIsLoading(false));
   }, []);
 
   const carouselVariants: Variants = {
     hidden: { opacity: 0, scale: 0.95 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
-      transition: { duration: 0.5, ease: "easeOut" } 
-    }
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } },
   };
 
   return (
     <section id="galeria" className="py-20 bg-neutral-900">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -67,14 +61,14 @@ const Gallery = () => {
           >
             <Carousel className="w-full max-w-4xl mx-auto">
               <CarouselContent>
-                {images.map((item, index) => (
+                {images.map((item) => (
                   <CarouselItem
-                    key={index}
+                    key={item.id}
                     className="basis-full sm:basis-1/2 lg:basis-1/3 flex justify-center"
                   >
                     <img
-                      src={item.URL} 
-                      alt={`Galería ${index + 1}`}
+                      src={item.url}
+                      alt="Galería"
                       className="rounded-lg shadow-lg w-full object-cover aspect-square"
                     />
                   </CarouselItem>

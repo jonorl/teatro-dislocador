@@ -1,52 +1,44 @@
 import { Calendar, Clock, NotebookPen, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import fetchDataFromGoogleSheets from "@/utils/googleSpreashsheetFetch";
-import type { Cartelera } from "../types/interfaces.ts";
 import { motion, type Variants } from "framer-motion";
 
+const API = "https://api.teatrodislocador.ar";
+
+interface ShowData {
+  id: string;
+  title: string;
+  author?: string;
+  director?: string;
+  dates: string;
+  duration?: string;
+  description?: string;
+  image?: string;
+}
+
 const Showcase = () => {
-  const [showcaseData, setShowcaseData] = useState<Cartelera[]>([]);
+  const [showcaseData, setShowcaseData] = useState<ShowData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
   };
 
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
   };
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        setIsLoading(true);
-        const { cartelera } = await fetchDataFromGoogleSheets();
-        setShowcaseData(cartelera);
-      } catch (error) {
-        console.error("Error loading showcase:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    loadData();
+    fetch(`${API}/api/showcase`)
+      .then((r) => r.json())
+      .then(({ cartelera }) => setShowcaseData(cartelera))
+      .catch((e) => console.error("Error loading showcase:", e))
+      .finally(() => setIsLoading(false));
   }, []);
 
   return (
-    <section
-      id="cartelera"
-      className="py-20 bg-gradient-to-r from-neutral-900/70 to-rose-900/70"
-    >
+    <section id="cartelera" className="py-20 bg-gradient-to-r from-neutral-900/70 to-rose-900/70">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -72,9 +64,9 @@ const Showcase = () => {
             whileInView="visible"
             viewport={{ once: true, amount: 0 }}
           >
-            {showcaseData.map((show, index) => (
+            {showcaseData.map((show) => (
               <motion.div
-                key={index}
+                key={show.id}
                 variants={cardVariants}
                 className="bg-black/50 max-w-sm flex flex-col backdrop-blur-sm rounded-lg overflow-hidden shadow-2xl"
               >
@@ -83,7 +75,6 @@ const Showcase = () => {
                   transition={{ duration: 0.2 }}
                   className="flex flex-col h-full overflow-hidden"
                 >
-                  {/* Image */}
                   {show.image && (
                     <div className="relative w-full aspect-[4/5] overflow-hidden">
                       <img
@@ -93,19 +84,10 @@ const Showcase = () => {
                       />
                     </div>
                   )}
-
-                  {/* Content */}
                   <div className="p-6 flex flex-col flex-grow">
-                    <h3 className="text-2xl font-bold text-white mb-2">
-                      {show.title}
-                    </h3>
-                    {show.author && (
-                      <p className="text-yellow-300 mb-2">de {show.author}</p>
-                    )}
-                    {show.director && (
-                      <p className="text-gray-300 mb-4">Dirección: {show.director}</p>
-                    )}
-
+                    <h3 className="text-2xl font-bold text-white mb-2">{show.title}</h3>
+                    {show.author && <p className="text-yellow-300 mb-2">de {show.author}</p>}
+                    {show.director && <p className="text-gray-300 mb-4">Dirección: {show.director}</p>}
                     <div className="space-y-2 mb-6">
                       <div className="flex items-center text-gray-200">
                         <Calendar size={16} className="mr-2 text-yellow-400 shrink-0" />
@@ -120,11 +102,10 @@ const Showcase = () => {
                       {show.description && (
                         <div className="grid grid-cols-[auto_1fr] text-gray-200">
                           <NotebookPen size={16} className="mr-2 text-yellow-400 mt-1 shrink-0" />
-                          <p>{show.description}</p>
+                          <div dangerouslySetInnerHTML={{ __html: show.description }} />
                         </div>
                       )}
                     </div>
-
                     <button
                       onClick={(e) => {
                         e.preventDefault();
