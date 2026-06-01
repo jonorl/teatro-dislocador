@@ -37,9 +37,9 @@ jobs:
           context: ./server/ # UPDATE
           push: true
           tags: ghcr.io/jonorl/teatro-dislocador:latest # UPDATE
-          no-cache: true
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
+          # no-cache: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1
@@ -48,5 +48,5 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: | # UPDATE
-            docker compose -f ~/my-VPS/projects/docker-compose.yml pull teatro-dislocador
-            docker compose -f ~/my-VPS/projects/docker-compose.yml up -d teatro-dislocador
+            docker compose -f ~/server/backend/docker-compose.yml pull teatro-dislocador
+            docker compose -f ~/server/backend/docker-compose.yml up -d teatro-dislocador
