@@ -19,6 +19,7 @@ console.log("DEBUG ENV:", {
 
 // Single image upload (used by ClassesPanel / ShowcasePanel cover images)
 router.post("/", authenticateAdmin, uploadMultiple, (req, res) => {
+  console.log("Upload route hit", req.headers["content-type"]);
   if (!req.file) return res.status(400).json({ error: "No image provided." });
   const baseUrl = SERVER_URL?.replace(/\/$/, "") ?? "http://localhost:3000";
   return res.json({ url: `${baseUrl}/uploads/${req.file.filename}` });
@@ -26,6 +27,7 @@ router.post("/", authenticateAdmin, uploadMultiple, (req, res) => {
 
 // Multi-image upload (used by GalleryPanel)
 router.post("/multiple", authenticateAdmin, uploadMultiple, (req, res) => {
+  console.log("Upload route hit", req.headers["content-type"]);
   const files = req.files as Express.Multer.File[];
   if (!files || files.length === 0)
     return res.status(400).json({ error: "No images provided." });
