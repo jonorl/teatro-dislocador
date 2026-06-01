@@ -45,7 +45,7 @@ router.post("/", authenticateAdmin, async (req, res) => {
 
 // POST /api/gallery/upload — upload a file from your PC
 router.post("/upload", authenticateAdmin, uploadMultiple, async (req, res) => {
-
+  console.log("Upload route hit", req.headers["content-type"]);
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No image file provided." });
