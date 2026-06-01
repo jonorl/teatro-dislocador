@@ -37,8 +37,9 @@ jobs:
           context: ./server/ # UPDATE
           push: true
           tags: ghcr.io/jonorl/teatro-dislocador:latest # UPDATE
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          no-cache: true
+          # cache-from: type=gha
+          # cache-to: type=gha,mode=max
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1
