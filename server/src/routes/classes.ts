@@ -15,8 +15,8 @@ router.get("/", async (req, res) => {
 
 router.post("/", authenticateAdmin, async (req, res) => {
   try {
-    const { title, description, schedule } = req.body;
-    const newClass = await classQueries.create({ title, description, schedule });
+    const { title, description, schedule, image } = req.body;
+    const newClass = await classQueries.create({ title, description, schedule, image });
     return res.status(201).json(newClass);
   } catch (error) {
     console.error("❌ Prisma Database Error:", error);
@@ -26,8 +26,8 @@ router.post("/", authenticateAdmin, async (req, res) => {
 
 router.put("/:id", authenticateAdmin, async (req, res) => {
   try {
-    const { title, description, schedule } = req.body;
-    const updated = await classQueries.update(req.params.id as string, { title, description, schedule });
+    const { title, description, schedule, image } = req.body;
+    const updated = await classQueries.update(req.params.id as string, { title, description, schedule, image });
     return res.json(updated);
   } catch (error) {
     return res.status(500).json({ error: "Failed to update class" });

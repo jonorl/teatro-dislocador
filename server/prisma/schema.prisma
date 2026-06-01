@@ -11,6 +11,7 @@ model Class {
   title       String
   description String?
   schedule    String
+  image       String?  // ← add this
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -23,7 +24,7 @@ model Showcase {
   dates       String
   duration    String?
   description String?
-  image       String // URL to the hosted image
+  image       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

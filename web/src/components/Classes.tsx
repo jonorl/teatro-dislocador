@@ -91,7 +91,18 @@ const Classes = () => {
                   className="p-6 rounded-lg"
                 >
                   <div className="text-center mb-4">
-                    <BookOpen size={48} className="mx-auto text-yellow-400 mb-4" />
+                    <div className="text-center mb-4">
+                      {clase.image ? (
+                        <img
+                          src={clase.image}
+                          alt={clase.title}
+                          className="w-full h-40 object-cover rounded-lg mb-4"
+                        />
+                      ) : (
+                        <BookOpen size={48} className="mx-auto text-yellow-400 mb-4" />
+                      )}
+                      <h3 className="text-xl font-bold text-white mb-2">{clase.title}</h3>
+                    </div>
                     <h3 className="text-xl font-bold text-white mb-2">
                       {clase.title}
                     </h3>
@@ -107,12 +118,12 @@ const Classes = () => {
                   </div>
                   <button
                     onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        window.open(
-                          "https://docs.google.com/forms/d/e/1FAIpQLSdOJIeLsVPnRaX7eSP_muV6AnorZmKEP8fOGqr8oJ-Fe0LDnQ/viewform",
-                        );
-                      }}
+                      e.preventDefault();
+                      e.stopPropagation();
+                      window.open(
+                        "https://docs.google.com/forms/d/e/1FAIpQLSdOJIeLsVPnRaX7eSP_muV6AnorZmKEP8fOGqr8oJ-Fe0LDnQ/viewform",
+                      );
+                    }}
                     className="w-full bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
                   >
                     Registrate

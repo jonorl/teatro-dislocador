@@ -19,6 +19,7 @@ interface ClassItem {
   title: string;
   description: string;
   schedule: string;
+  image: string; 
   createdAt: string;
 }
 
@@ -26,7 +27,7 @@ interface AdminDashboardProps {
   API: string;
 }
 
-const EMPTY_CLASS = { title: "", description: "", schedule: "" };
+const EMPTY_CLASS = { title: "", description: "", schedule: "", image: "" };
 
 export default function ClassesPanel({ API }:AdminDashboardProps) {
   const { getToken } = useAuth();
@@ -60,8 +61,7 @@ export default function ClassesPanel({ API }:AdminDashboardProps) {
 
   const openEdit = (item: ClassItem) => {
     setEditTarget(item);
-    setForm({ title: item.title, description: item.description, schedule: item.schedule });
-    setDrawerOpen(true);
+    setForm({ title: item.title, description: item.description, schedule: item.schedule, image: item.image ?? "" });    setDrawerOpen(true);
   };
 
   const handleSave = async (e: React.FormEvent) => {

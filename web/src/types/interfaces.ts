@@ -12,8 +12,9 @@ export interface HeaderProps {
 export interface ClassData {
   title: string;
   description: string;
+  image?: string;
   schedule: string;
-  [key: string]: string;
+  [key: string]: string | undefined;
 }
 
 export interface Cartelera {

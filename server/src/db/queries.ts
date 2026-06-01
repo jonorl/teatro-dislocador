@@ -5,10 +5,10 @@ export const classQueries = {
   getAll: () => 
     prisma.class.findMany({ orderBy: { createdAt: "desc" } }),
 
-  create: (data: { title: string; description?: string; schedule: string }) => 
+  create: (data: { title: string; description?: string; schedule: string; image?: string }) =>
     prisma.class.create({ data }),
 
-  update: (id: string, data: { title?: string; description?: string; schedule?: string }) => 
+  update: (id: string, data: { title?: string; description?: string; schedule?: string; image?: string }) =>
     prisma.class.update({ where: { id }, data }),
 
   delete: (id: string) => 
