@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useAuth } from "@clerk/clerk-react";
+import { Editor } from "@tinymce/tinymce-react";
 import notify from "../utils/notify";
 import PanelHeader from "./UI/PanelHeader";
 import InlineDeleteConfirm from "./UI/InlineDeleteConfirm";
@@ -294,13 +295,36 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
             )}
           </Field>
           <Field label="Descripción">
-            <textarea
-              className={`${inputCls} h-36 resize-none`}
-              value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
-              placeholder="Detalles de la materia, profesores..."
-              required
-            />
+            <div className="rounded-xl overflow-hidden border border-slate-700 focus-within:border-slate-500 transition-colors">
+              <Editor
+                apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
+                value={form.description}
+                onEditorChange={(content) => setForm((prev) => ({ ...prev, description: content }))}
+                init={{
+                  height: 220,
+                  menubar: false,
+                  skin: "oxide-dark",
+                  content_css: "dark",
+                  plugins: ["lists", "link", "autolink"],
+                  toolbar: "bold italic underline | bullist numlist | link | removeformat",
+                  placeholder: "Detalles de la materia, profesores...",
+                  content_style: `
+                    body {
+                      font-family: 'DM Sans', sans-serif;
+                      font-size: 14px;
+                      color: #cbd5e1;
+                      background-color: #0f172a;
+                      margin: 10px 12px;
+                      line-height: 1.6;
+                    }
+                    a { color: #fb7185; }
+                  `,
+                  branding: false,
+                  resize: false,
+                  statusbar: false,
+                }}
+              />
+            </div>
           </Field>
           <SaveBtn
             loading={saving}
