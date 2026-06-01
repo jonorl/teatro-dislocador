@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SignedIn, SignedOut, UserButton} from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import LoginScreen from "./LoginScreen";
 import { TABS } from "../const/Tabs"
 import ClassesPanel from "./ClassesPanel";
@@ -9,7 +9,7 @@ import ToastRegion from "./ToastItem";
 
 type Tab = "classes" | "showcase" | "gallery";
 
-const isProd = import.meta.env.MODE; 
+const isProd = import.meta.env.MODE;
 
 const API = isProd
   ? import.meta.env.VITE_DISLOCADOR_PROD_BACKEND
@@ -82,14 +82,13 @@ export default function AdminDashboard() {
               {/* Logo */}
               <div className="px-5 py-6 border-b border-slate-800">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-rose-600 flex items-center justify-center shrink-0 shadow-md shadow-rose-700/30">
-                    <span
-                      className="text-xs font-black text-white tracking-wider"
-                      style={{ fontFamily: "'Playfair Display', serif" }}
-                    >
-                      TD
-                    </span>
-                  </div>
+                  {/* Replace this container with your image */}
+                  <img
+                    src="/logo.jpg"
+                    alt="Teatro Dislocador Logo"
+                    className="w-9 h-9 rounded-xl object-cover shrink-0 shadow-md shadow-rose-700/30"
+                  />
+
                   <div className="min-w-0">
                     <p
                       className="text-sm font-bold text-white leading-tight truncate"
@@ -119,11 +118,10 @@ export default function AdminDashboard() {
                   <button
                     key={t.id}
                     onClick={() => setTab(t.id)}
-                    className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                      tab === t.id
+                    className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${tab === t.id
                         ? "bg-rose-600 text-white shadow-md shadow-rose-600/20"
                         : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/70"
-                    }`}
+                      }`}
                   >
                     {t.icon}
                     {t.label}
@@ -175,9 +173,9 @@ export default function AdminDashboard() {
               {/* ─── Content ─── */}
               <main className="flex-1 overflow-y-auto bg-slate-950 pb-20 lg:pb-0">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
-                  {tab === "classes"  && <ClassesPanel API={API}/>}
-                  {tab === "showcase" && <ShowcasePanel API={API}/>}
-                  {tab === "gallery"  && <GalleryPanel API={API}/>}
+                  {tab === "classes" && <ClassesPanel API={API} />}
+                  {tab === "showcase" && <ShowcasePanel API={API} />}
+                  {tab === "gallery" && <GalleryPanel API={API} />}
                 </div>
               </main>
 
@@ -187,11 +185,10 @@ export default function AdminDashboard() {
                   <button
                     key={t.id}
                     onClick={() => setTab(t.id)}
-                    className={`flex-1 flex flex-col items-center gap-1 py-3 text-[10px] font-semibold transition-colors ${
-                      tab === t.id
+                    className={`flex-1 flex flex-col items-center gap-1 py-3 text-[10px] font-semibold transition-colors ${tab === t.id
                         ? "text-rose-400"
                         : "text-slate-500 hover:text-slate-300"
-                    }`}
+                      }`}
                   >
                     <span className={`transition-transform ${tab === t.id ? "scale-110" : ""}`}>
                       {t.icon}
