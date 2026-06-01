@@ -5,13 +5,13 @@ export default function LoginScreen() {
     <div className="min-h-screen min-h-[100dvh] flex items-center justify-center bg-slate-950 p-5">
       <div className="w-full max-w-sm">
         <div className="flex flex-col items-center mb-10">
-          <div className="w-16 h-16 rounded-2xl bg-rose-600 flex items-center justify-center mb-5 shadow-xl shadow-rose-600/30">
-            <span
-              className="text-xl font-black text-white tracking-wider"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              TD
-            </span>
+          {/* Logo container stretched to fill the full 16x16 slot */}
+          <div className="w-16 h-16 rounded-2xl overflow-hidden mb-5 shadow-xl shadow-black/30">
+            <img
+              src="/logo.jpg"
+              alt="Teatro Dislocador Logo"
+              className="w-full h-full object-cover shrink-0"
+            />
           </div>
           <h1
             className="text-3xl font-black text-white text-center leading-tight"
