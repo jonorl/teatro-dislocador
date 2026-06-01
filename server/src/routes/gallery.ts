@@ -1,9 +1,13 @@
 import express from "express";
 import path from "path";
 import fs from "fs";
+import { fileURLToPath } from "url";
 import { authenticateAdmin } from "../middleware/auth";
 import { upload } from "../middleware/upload";
 import { galleryQueries } from "../db/queries";
+
+const __filename = fileURLToPath(import.meta.url);  
+const __dirname = path.dirname(__filename);
 
 const isProd = process.env.MODE === "PROD";
 
