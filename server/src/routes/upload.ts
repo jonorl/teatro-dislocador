@@ -1,7 +1,7 @@
 // src/routes/upload.ts
 import express from "express";
 import { authenticateAdmin } from "../middleware/auth";
-import { upload } from "../middleware/upload";
+import { uploadMultiple } from "../middleware/upload";
 
 const router = express.Router();
 
@@ -18,14 +18,14 @@ console.log("DEBUG ENV:", {
 });
 
 // Single image upload (used by ClassesPanel / ShowcasePanel cover images)
-router.post("/", authenticateAdmin, upload.single("image"), (req, res) => {
+router.post("/", authenticateAdmin, uploadMultiple, (req, res) => {
   if (!req.file) return res.status(400).json({ error: "No image provided." });
   const baseUrl = SERVER_URL?.replace(/\/$/, "") ?? "http://localhost:3000";
   return res.json({ url: `${baseUrl}/uploads/${req.file.filename}` });
 });
 
 // Multi-image upload (used by GalleryPanel)
-router.post("/multiple", authenticateAdmin, upload.array("images", 20), (req, res) => {
+router.post("/multiple", authenticateAdmin, uploadMultiple, (req, res) => {
   const files = req.files as Express.Multer.File[];
   if (!files || files.length === 0)
     return res.status(400).json({ error: "No images provided." });
