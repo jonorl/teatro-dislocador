@@ -61,19 +61,24 @@ router.post("/upload", authenticateAdmin, upload.single("image"), async (req, re
 // DELETE — now also cleans up local files
 router.delete("/:id", authenticateAdmin, async (req, res) => {
   try {
-    const item = await galleryQueries.getById(req.params.id);
+    const id = req.params.id as unknown as string;
+    const item = await galleryQueries.getById(id);
+    await galleryQueries.delete(id);
 
-    await galleryQueries.delete(req.params.id as string);
-
-    // If it's a locally-hosted file, delete it from disk too
     if (item?.url?.includes("/uploads/")) {
       const filename = path.basename(item.url);
-      const filepath = path.join(__dirname, "../../uploads", filename);
-      if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
+      const uploadDir = process.env.UPLOAD_DIR ?? path.join(__dirname, "../../uploads");
+      const filepath = path.join(uploadDir, filename);
+      try {
+        if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
+      } catch (fileErr) {
+        console.error("❌ File deletion failed:", filepath, fileErr);
+      }
     }
 
     return res.status(204).send();
   } catch (error) {
+    console.error("❌ Gallery Delete Error:", error);
     return res.status(500).json({ error: "Failed to delete image" });
   }
 });

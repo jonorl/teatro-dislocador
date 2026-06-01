@@ -23,6 +23,9 @@ export const galleryQueries = {
   create: (url: string) => 
     prisma.gallery.create({ data: { url } }),
 
+  getById: (id: string) =>
+    prisma.gallery.findUnique({ where: { id } }),
+
   delete: (id: string) => 
     prisma.gallery.delete({ where: { id } }),
 };
