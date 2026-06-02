@@ -17,40 +17,34 @@ const Header = ({
     { "id": "galeria", "label": "Galería" },
     { "id": "eventos", "label": "Eventos" },
     { "id": "contacto", "label": "Contacto" }
-  ]
+  ];
 
   const toggleMenu = () => setIsMenuOpen((v) => !v);
 
   return (
-    <nav className="fixed top-0 w-full bg-neutral-900/95 backdrop-blur-sm z-50 shadow-lg">
+    <nav className="fixed top-0 w-full bg-[#1A1A1A] border-b-2 border-black z-50 tracking-wide">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-3">
-            {/* The button with toggleMenu will be visible on small and medium screens */}
             <button
               onClick={toggleMenu}
-              className="flex gap-5 justify-center align-middle md:hidden"
+              className="flex gap-4 justify-center items-center md:hidden"
             >
-              <img
-                height="40"
-                width="40"
-                src="./logo.svg"
-                alt="Abrir menú"
-              />
-              <h1 className="text-white text-lg md:text-xl font-bold">
-                Teatro Escuela Dislocador
+              <img height="40" width="40" src="./logo.svg" alt="Abrir menú" />
+              <h1 className="text-white text-base font-extrabold uppercase tracking-wider text-left">
+                TEATRO DISLOCADOR
               </h1>
             </button>
-            <a href="#inicio" className="hidden md:flex items-center space-x-2">
-              <img
-                height="48"
-                width="48"
-                src="./logo.svg"
-                alt="Teatro Dislocador"
-              />
-              <h1 className="text-white text-lg md:text-xl font-bold">
-                Teatro Escuela Dislocador
-              </h1>
+            <a href="#inicio" className="hidden md:flex items-center space-x-3">
+              <img height="44" width="44" src="./logo.svg" alt="Teatro Dislocador" />
+              <div className="flex flex-col text-left">
+                <h1 className="text-white text-lg font-extrabold uppercase leading-none tracking-wider">
+                  TEATRO DISLOCADOR
+                </h1>
+                <span className="text-[10px] text-gray-400 font-medium tracking-widest mt-0.5">
+                  EL PROTAGONISTA SOS VOS
+                </span>
+              </div>
             </a>
           </div>
 
@@ -60,10 +54,11 @@ const Header = ({
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`text-white hover:text-yellow-400 transition-colors duration-300 ${activeSection === item.id
-                    ? "text-yellow-400 border-b-2 border-yellow-400"
-                    : ""
-                  }`}
+                className={`text-sm font-bold uppercase tracking-wider transition-colors duration-200 pb-1 ${
+                  activeSection === item.id
+                    ? "text-[#E64A3B] border-b-2 border-[#E64A3B]"
+                    : "text-white hover:text-[#E64A3B]"
+                }`}
               >
                 {item.label}
               </button>
@@ -73,12 +68,17 @@ const Header = ({
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-neutral-800 rounded-lg mt-2 p-4 space-y-3">
+          <div className="md:hidden bg-[#262626] border-t border-black px-2 py-3 space-y-1">
             {menuItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className="block w-full text-left text-white hover:text-yellow-400 py-2"
+                onClick={() => {
+                  scrollToSection(item.id);
+                  setIsMenuOpen(false);
+                }}
+                className={`block w-full text-left px-3 py-2 font-bold uppercase tracking-wider text-sm ${
+                  activeSection === item.id ? "text-[#E64A3B]" : "text-white"
+                }`}
               >
                 {item.label}
               </button>

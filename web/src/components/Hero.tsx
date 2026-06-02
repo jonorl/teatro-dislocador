@@ -10,48 +10,52 @@ const Hero = ({
   return (
     <section
       id="inicio"
-      className="pt-24 min-h-screen flex items-center justify-center relative overflow-hidden"
+      className="pt-24 min-h-screen flex items-center justify-center relative overflow-hidden bg-black"
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-neutral-900/80 to-rose-900/80" />
+      {/* Background Video Loop */}
       <video
-        className="absolute inset-0 w-full h-full object-contain bg-black"
+        className="absolute inset-0 w-full h-full object-cover opacity-40"
         src={videoSource}
         autoPlay
         loop
         muted
         playsInline
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-neutral-900/80 to-rose-900/80" />
+      {/* Brand Mask Overlay mimicking the Blue/Magenta accent systems */}
+      <div className="absolute inset-0 bg-[#1A1A1A]/80 mix-blend-multiply" />
       
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="relative z-10 text-center text-white max-w-xl mx-auto px-4"
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="relative z-10 text-center text-white max-w-2xl mx-auto px-4 flex flex-col items-center"
       >
-        <h1 className="text-4xl md:text-6xl font-bold mb-6 drop-shadow-2xl">
-          Teatro Escuela Dislocador
+        <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tight mb-2 text-white">
+          TEATRO <br /> DISLOCADOR
         </h1>
-        <p className="text-xl md:text-2xl mb-8 text-yellow-100 font-medium">
-          Un espacio de creación, formación y encuentro <br />
-          en Comodoro Rivadavia, dirigido por el actor,
-          director y dramaturgo{" "}
-          <strong>Ramiro Aibar</strong>
+        
+        <div className="bg-[#E64A3B] text-black text-xs md:text-sm font-black uppercase tracking-[0.25em] px-4 py-1.5 mb-8 shadow-md">
+          EL PROTAGONISTA SOS VOS
+        </div>
+
+        <p className="text-lg md:text-xl mb-10 text-gray-200 max-w-xl font-normal leading-relaxed">
+          Un espacio de creación, formación y encuentro en Comodoro Rivadavia, 
+          dirigido por el actor, director y dramaturgo <strong>Ramiro Aibar</strong>.
         </p>
 
-        <div className="space-y-4 md:space-y-0 md:space-x-4 md:flex md:justify-center">
-          {/* <button
-            onClick={() => scrollToSection("cartelera")}
-            className="bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl"
-          >
-            Ver Cartelera
-          </button> */}
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
           <button
             onClick={() => scrollToSection("clases")}
-            className="border-2 border-white text-white hover:bg-white hover:text-neutral-900 px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+            className="bg-[#E64A3B] hover:bg-[#c53a2e] text-white font-extrabold uppercase tracking-wider px-10 py-4 transition-transform duration-200 transform hover:-translate-y-0.5 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           >
             Clases de Teatro
+          </button>
+          <button
+            onClick={() => scrollToSection("quienes-somos")}
+            className="bg-[#E5E5EA] hover:bg-[#D1D1D6] text-black font-extrabold uppercase tracking-wider px-10 py-4 transition-transform duration-200 transform hover:-translate-y-0.5 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+          >
+            Conocenos
           </button>
         </div>
       </motion.div>

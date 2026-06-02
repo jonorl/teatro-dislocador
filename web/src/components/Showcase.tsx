@@ -25,8 +25,8 @@ const Showcase = () => {
   };
 
   const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
   };
 
   useEffect(() => {
@@ -38,27 +38,33 @@ const Showcase = () => {
   }, []);
 
   return (
-    <section id="cartelera" className="py-20 bg-gradient-to-r from-neutral-900/70 to-rose-900/70">
+    <section id="cartelera" className="py-20 bg-[#E5E5EA]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-white mb-4">Obras y Producciones</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-rose-700 to-yellow-600 mx-auto" />
+          <h2 className="text-4xl font-black uppercase tracking-wider text-black mb-2">
+            Obras y Producciones
+          </h2>
+          <span className="text-xs font-black uppercase tracking-[0.25em] text-[#E64A3B]">
+            Cartelera Oficial Teatro Dislocador
+          </span>
         </motion.div>
 
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20">
-            <Loader2 className="w-12 h-12 text-yellow-400 animate-spin mb-4" />
-            <p className="text-gray-300 animate-pulse">Cargando cartelera...</p>
+            <Loader2 className="w-10 h-10 text-[#E64A3B] animate-spin mb-4" />
+            <p className="text-black font-bold uppercase tracking-wider text-sm animate-pulse">
+              Cargando cartelera...
+            </p>
           </div>
         ) : (
           <motion.div
-            className="grid md:grid-cols-2 gap-8 justify-items-center"
+            className="grid sm:grid-cols-2 gap-8 justify-items-center"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -68,15 +74,11 @@ const Showcase = () => {
               <motion.div
                 key={show.id}
                 variants={cardVariants}
-                className="bg-black/50 max-w-sm flex flex-col backdrop-blur-sm rounded-lg overflow-hidden shadow-2xl"
+                className="bg-white border-2 border-black max-w-sm flex flex-col w-full shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] overflow-hidden"
               >
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex flex-col h-full overflow-hidden"
-                >
+                <div className="flex flex-col h-full overflow-hidden">
                   {show.image && (
-                    <div className="relative w-full aspect-[4/5] overflow-hidden">
+                    <div className="relative w-full aspect-[4/5] overflow-hidden border-b-2 border-black bg-[#EAE6D8]">
                       <img
                         src={show.image}
                         alt={show.title}
@@ -84,40 +86,52 @@ const Showcase = () => {
                       />
                     </div>
                   )}
-                  <div className="p-6 flex flex-col flex-grow">
-                    <h3 className="text-2xl font-bold text-white mb-2">{show.title}</h3>
-                    {show.author && <p className="text-yellow-300 mb-2">de {show.author}</p>}
-                    {show.director && <p className="text-gray-300 mb-4">Dirección: {show.director}</p>}
-                    <div className="space-y-2 mb-6">
-                      <div className="flex items-center text-gray-200">
-                        <Calendar size={16} className="mr-2 text-yellow-400 shrink-0" />
+                  <div className="p-6 flex flex-col flex-grow text-left">
+                    <h3 className="text-2xl font-black uppercase tracking-tight text-black mb-1">
+                      {show.title}
+                    </h3>
+                    {show.author && (
+                      <p className="text-xs font-black uppercase tracking-widest text-[#E64A3B] mb-1">
+                        de {show.author}
+                      </p>
+                    )}
+                    {show.director && (
+                      <p className="text-sm font-medium text-gray-600 mb-4">
+                        Dirección: <span className="text-black font-bold">{show.director}</span>
+                      </p>
+                    )}
+                    
+                    <div className="space-y-2.5 mb-6 pt-4 border-t border-gray-200">
+                      <div className="flex items-center text-sm font-bold text-black uppercase tracking-wider">
+                        <Calendar size={16} className="mr-2 text-[#E64A3B] shrink-0" />
                         {show.dates}
                       </div>
                       {show.duration && (
-                        <div className="flex items-center text-gray-200">
-                          <Clock size={16} className="mr-2 text-yellow-400 shrink-0" />
+                        <div className="flex items-center text-sm font-bold text-black uppercase tracking-wider">
+                          <Clock size={16} className="mr-2 text-[#E64A3B] shrink-0" />
                           {show.duration}
                         </div>
                       )}
                       {show.description && (
-                        <div className="grid grid-cols-[auto_1fr] text-gray-200">
-                          <NotebookPen size={16} className="mr-2 text-yellow-400 mt-1 shrink-0" />
+                        <div className="grid grid-cols-[auto_1fr] text-sm text-gray-700 font-medium leading-relaxed mt-2">
+                          <NotebookPen size={16} className="mr-2 text-[#E64A3B] mt-0.5 shrink-0" />
                           <div dangerouslySetInnerHTML={{ __html: show.description }} />
                         </div>
                       )}
                     </div>
+
                     <button
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         window.open("https://wa.me/5492975076445");
                       }}
-                      className="mt-auto w-full bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
+                      className="mt-auto w-full bg-[#1A1A1A] hover:bg-[#E64A3B] text-white font-extrabold uppercase tracking-widest text-xs py-3.5 border-2 border-black transition-colors duration-200"
                     >
                       Reservar Entradas
                     </button>
                   </div>
-                </motion.div>
+                </div>
               </motion.div>
             ))}
           </motion.div>

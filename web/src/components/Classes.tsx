@@ -30,36 +30,42 @@ const Classes = () => {
   };
 
   const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
   };
 
   return (
-    <section id="clases" className="py-20 bg-gradient-to-r from-neutral-900/70 to-rose-900/70">
+    <section id="clases" className="py-20 bg-[#E5E5EA]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-white mb-4">Clases de Teatro</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-rose-700 to-yellow-600 mx-auto" />
-          <p className="text-gray-200 text-lg mt-4 max-w-3xl mx-auto">
-            Descubrí tu potencial artístico con nuestros talleres de formación
-            teatral para todas las edades y niveles de experiencia.
+          <h2 className="text-4xl font-black uppercase tracking-wider text-black mb-2">
+            Clases de Teatro
+          </h2>
+          <span className="text-xs font-black uppercase tracking-[0.3em] text-[#E64A3B]">
+            Formación Actoral Técnica
+          </span>
+          <p className="text-gray-700 text-base mt-4 max-w-2xl mx-auto font-medium">
+            Descubrí tu potencial artístico con nuestros talleres de formación 
+            teatral estructurados para todas las edades y niveles.
           </p>
         </motion.div>
 
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20">
-            <Loader2 className="w-12 h-12 text-yellow-400 animate-spin mb-4" />
-            <p className="text-gray-300 animate-pulse">Cargando talleres...</p>
+            <Loader2 className="w-10 h-10 text-[#E64A3B] animate-spin mb-4" />
+            <p className="text-black font-bold uppercase tracking-wider text-sm animate-pulse">
+              Cargando talleres...
+            </p>
           </div>
         ) : (
           <motion.div
-            className="grid md:grid-cols-3 gap-8"
+            className="grid sm:grid-cols-2 md:grid-cols-3 gap-8"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -69,16 +75,10 @@ const Classes = () => {
               <motion.div
                 key={clase.id}
                 variants={cardVariants}
-                className="bg-black/50 backdrop-blur-sm rounded-lg shadow-2xl flex flex-col h-full overflow-hidden"
+                className="bg-white border-2 border-black flex flex-col h-full overflow-hidden shadow-[6px_6px_0px_0px_rgba(26,26,26,1)]"
               >
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.2 }}
-                  className="p-6 flex flex-col flex-grow h-full"
-                >
-                  {/* Fixed aspect ratio wrapper for uniform images/placeholders */}
-                  {/* Changed to aspect-[4/5] to support full portrait posters */}
-                  <div className="w-full aspect-[4/5] flex items-center justify-center bg-neutral-900/40 rounded-lg mb-4 overflow-hidden shrink-0">
+                <div className="p-5 flex flex-col flex-grow h-full">
+                  <div className="w-full aspect-[4/5] flex items-center justify-center bg-[#EAE6D8] border border-black rounded-sm mb-4 overflow-hidden shrink-0">
                     {clase.image ? (
                       <img
                         src={clase.image}
@@ -86,25 +86,23 @@ const Classes = () => {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <BookOpen size={48} className="text-yellow-400" />
+                      <BookOpen size={40} className="text-[#E64A3B]" />
                     )}
                   </div>
 
-                  {/* Content Area */}
-                  <div className="text-center mb-4 flex-grow">
-                    <h3 className="text-xl font-bold text-white mb-2">{clase.title}</h3>
-
-                    {/* Render Rich Text securely & clean up inner margins */}
+                  <div className="text-left mb-6 flex-grow">
+                    <h3 className="text-xl font-black uppercase tracking-wide text-black mb-3">
+                      {clase.title}
+                    </h3>
                     <div
-                      className="text-gray-200 text-sm prose prose-invert max-w-none [&_p]:margin-0"
+                      className="text-gray-700 text-sm font-medium leading-relaxed prose prose-neutral max-w-none [&_p]:margin-0"
                       dangerouslySetInnerHTML={{ __html: clase.description }}
                     />
                   </div>
 
-                  {/* Footer Details & Button pushed to the bottom */}
-                  <div className="mt-auto space-y-4">
-                    <div className="flex items-center justify-center text-gray-200">
-                      <Clock size={16} className="mr-2 text-yellow-400 shrink-0" />
+                  <div className="mt-auto pt-4 border-t border-gray-250 space-y-4">
+                    <div className="flex items-center text-black font-bold text-xs uppercase tracking-wider">
+                      <Clock size={16} className="mr-2 text-[#E64A3B] shrink-0" />
                       {clase.schedule}
                     </div>
 
@@ -112,16 +110,14 @@ const Classes = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        window.open(
-                          "https://docs.google.com/forms/d/e/1FAIpQLSdOJIeLsVPnRaX7eSP_muV6AnorZmKEP8fOGqr8oJ-Fe0LDnQ/viewform"
-                        );
+                        window.open("https://docs.google.com/forms/d/e/1FAIpQLSdOJIeLsVPnRaX7eSP_muV6AnorZmKEP8fOGqr8oJ-Fe0LDnQ/viewform");
                       }}
-                      className="w-full bg-gradient-to-r from-rose-700 to-yellow-600 hover:from-rose-800 hover:to-yellow-700 text-white px-6 py-2 rounded-full transition-all duration-300"
+                      className="w-full bg-[#1A1A1A] hover:bg-[#E64A3B] text-white font-extrabold uppercase tracking-widest text-xs py-3 border-2 border-black transition-colors duration-200"
                     >
                       Registrate
                     </button>
                   </div>
-                </motion.div>
+                </div>
               </motion.div>
             ))}
           </motion.div>
