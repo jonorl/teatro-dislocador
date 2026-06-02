@@ -55,6 +55,7 @@ app.use(
 app.use("/api/classes", classesRouter);
 app.use("/api/gallery", galleryRouter);
 app.use("/api/showcase", showcaseRouter);
+app.use("/api/upload", uploadRouter);
 app.use("/api/gallery/upload", uploadRouter);
 
 const PORT: number = Number(process.env.PORT_DISLOCADOR) || 3000;
