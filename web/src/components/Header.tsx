@@ -7,8 +7,8 @@ const Header = ({
   isMenuOpen,
 }: HeaderProps) => {
   
+  // Elemento "inicio" eliminado para limpiar el menú de navegación de escritorio
   const menuItems = [
-    { "id": "inicio", "label": "Inicio" },
     { "id": "quienes-somos", "label": "La Escuela" },
     { "id": "direccion", "label": "Dirección" },
     { "id": "cartelera", "label": "Cartelera" },
@@ -26,18 +26,25 @@ const Header = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-3">
+            
+            {/* Mobile Brand Button: Restaurado para abrir/cerrar el menú desplegable */}
             <button
               onClick={toggleMenu}
-              className="flex gap-4 justify-center items-center md:hidden"
+              className="flex gap-4 justify-center items-center md:hidden text-left"
             >
               <img height="40" width="40" src="./logo.svg" alt="Abrir menú" />
-              <h1 className="text-white text-base font-extrabold uppercase tracking-wider text-left">
+              <h1 className="text-white text-base font-extrabold uppercase tracking-wider">
                 TEATRO DISLOCADOR
               </h1>
             </button>
-            <a href="#inicio" className="hidden md:flex items-center space-x-3">
+
+            {/* Desktop Brand Button: Se mantiene como botón para scroll fluido al inicio */}
+            <button 
+              onClick={() => scrollToSection("inicio")}
+              className="hidden md:flex items-center space-x-3 text-left focus:outline-none"
+            >
               <img height="44" width="44" src="./logo.svg" alt="Teatro Dislocador" />
-              <div className="flex flex-col text-left">
+              <div className="flex flex-col">
                 <h1 className="text-white text-lg font-extrabold uppercase leading-none tracking-wider">
                   TEATRO DISLOCADOR
                 </h1>
@@ -45,7 +52,8 @@ const Header = ({
                   EL PROTAGONISTA SOS VOS
                 </span>
               </div>
-            </a>
+            </button>
+
           </div>
 
           {/* Desktop Menu */}
