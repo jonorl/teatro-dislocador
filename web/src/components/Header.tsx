@@ -32,10 +32,9 @@ const Header = ({
               className="flex gap-5 justify-center align-middle md:hidden"
             >
               <img
-                className="rounded-xl"
                 height="40"
                 width="40"
-                src="./tiktokicon.jpeg"
+                src="./logo.svg"
                 alt="Abrir menú"
               />
               <h1 className="text-white text-lg md:text-xl font-bold">
@@ -44,10 +43,9 @@ const Header = ({
             </button>
             <a href="#inicio" className="hidden md:flex items-center space-x-2">
               <img
-                className="rounded-xl"
                 height="48"
                 width="48"
-                src="./tiktokicon.jpeg"
+                src="./logo.svg"
                 alt="Teatro Dislocador"
               />
               <h1 className="text-white text-lg md:text-xl font-bold">

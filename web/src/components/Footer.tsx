@@ -30,8 +30,7 @@ const Footer = ({
                 <img
                   height={48}
                   width={48}
-                  className="rounded-xl block"
-                  src="./tiktokicon.jpeg"
+                  src="./logo.svg"
                   alt="Teatro Dislocador"
                 />
               </a>
