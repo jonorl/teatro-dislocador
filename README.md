@@ -4,7 +4,7 @@ A full-stack web application for Teatro Dislocador, an independent theater based
 
 This project has evolved from a static site into a containerized monorepo ecosystem. It features a public client application, a secure administrative dashboard, and a robust Node.js/Prisma backend deployed via an Infrastructure-as-Code pipeline.
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```bash
 teatro-dislocador/
@@ -14,9 +14,9 @@ teatro-dislocador/
 └── web/               # Public-facing frontend website (React + vite)
 ```
 
-## ✨ Features by Sub-Project
+# ✨ Features by Sub-Project
 
-# Public Frontend (/web)
+## Public Frontend (/web)
 
 - Multi-section layout: Home, About Us, Artistic Direction, Current Shows, History, Classes, Gallery, and Contact.
 
@@ -26,7 +26,7 @@ teatro-dislocador/
 
 - Integrations: Embedded Google Maps location and social media linking (Facebook, Instagram, X, TikTok).
 
-# 🔐 Admin Dashboard (/admin)
+## 🔐 Admin Dashboard (/admin)
 
   - Role-Based Access Control: Secure login restricted entirely to administrators.
 
@@ -34,7 +34,7 @@ teatro-dislocador/
 
   - Content Management (CMS): Create, read, update, and delete interfaces for handling current shows, schedules, classes, and gallery media.
 
-# ⚙️ Backend API Service (/server)
+## ⚙️ Backend API Service (/server)
 
   - ORM & Database: Powered by Prisma ORM mapping to a robust PostgreSQL 17 database instance.
 
@@ -42,9 +42,9 @@ teatro-dislocador/
 
   - Media Engine: Dedicated uploads handling pipeline for performance assets and gallery images.
 
-## 🛠️ Tech Stack
+# 🛠️ Tech Stack
 
-# Frontend & Admin
+## Frontend & Admin
 
   - Framework: React 19 + TypeScript + Vite
 
@@ -52,7 +52,7 @@ teatro-dislocador/
 
   - Auth: Clerk (Google Identity Provider)
 
-# Backend & Data
+## Backend & Data
 
   - Runtime: Node.js
 
@@ -60,7 +60,7 @@ teatro-dislocador/
 
   - ORM: Prisma
 
-# DevOps & Infrastructure
+## DevOps & Infrastructure
 
   - Hosting: Virtual Private Server (VPS)
 
@@ -74,13 +74,13 @@ teatro-dislocador/
 
   - Monitoring: Grafana + Prometheus dashboards.
 
-## 📦 Installation & Setup
+# 📦 Installation & Setup
 
-# Prerequisites
+## Prerequisites
 
 Ensure you have node (v22+ recommended) and docker installed on your machine.
 
-# Setup
+## Setup
 
 - Clone the repo:
 
@@ -88,7 +88,7 @@ Ensure you have node (v22+ recommended) and docker installed on your machine.
 git clone https://github.com/jonorl/teatro-dislocador.git
 cd teatro-dislocador
 ```
-# Environment configurations:
+## Environment configurations:
 
 - Create a .env file inside /admin, /server, and /web directories matching the structure required for Clerk API keys, database connection URIs, and server ports (use .env.template as reference).
 
@@ -102,7 +102,7 @@ cd server && npm install
 cd ../web && npm install
 ```
 
-# Execution
+## Execution
 
 To run services locally for development:
 
