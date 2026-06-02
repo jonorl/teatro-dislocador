@@ -1,7 +1,7 @@
-// src/routes/upload.ts
 import express from "express";
 import { authenticateAdmin } from "../middleware/auth";
-import { uploadMultiple } from "../middleware/upload";
+// Import both upload middleware handlers here
+import { uploadMultiple, uploadSingle } from "../middleware/upload"; 
 import { galleryQueries } from "../db/queries";
 
 const router = express.Router();
@@ -12,14 +12,14 @@ const SERVER_URL = isProd
   ? process.env.DISLOCADOR_PROD_SERVER_URL
   : process.env.DISLOCADOR_DEV_SERVER_URL;
 
-// Single image upload (used by ClassesPanel / ShowcasePanel cover images)
-router.post("/", authenticateAdmin, uploadMultiple, (req, res) => {
+// Single image upload -> Change uploadMultiple to uploadSingle
+router.post("/", authenticateAdmin, uploadSingle, (req, res) => {
   if (!req.file) return res.status(400).json({ error: "No image provided." });
   const baseUrl = SERVER_URL?.replace(/\/$/, "") ?? "http://localhost:3000";
   return res.json({ url: `${baseUrl}/uploads/${req.file.filename}` });
 });
 
-// Multi-image upload (used by GalleryPanel)
+// Multi-image upload (used by GalleryPanel) -> Remains uploadMultiple
 router.post("/multiple", authenticateAdmin, uploadMultiple, async (req, res) => {
   const files = req.files as Express.Multer.File[];
   if (!files || files.length === 0)

@@ -37,12 +37,30 @@ const uploadConfig = multer({
   limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB cap
 });
 
-// 1. Export the specific array parser matching your frontend key name: files.forEach((f) => fd.append("images", f))
+// 1. Export the specific array parser matching your frontend key name
 const multerArray = uploadConfig.array("images", 12); 
 
-// 2. Wrap it to intercept Multer errors and return clean JSON instead of crashing into HTML
+// New single file parser matching "image"
+const multerSingle = uploadConfig.single("image");
+
+// 2. Wrap it to intercept Multer errors and return clean JSON
 export const uploadMultiple = (req: Request, res: Response, next: NextFunction) => {
   multerArray(req, res, (err: any) => {
+    if (err instanceof multer.MulterError) {
+      if (err.code === "LIMIT_FILE_SIZE") {
+        return res.status(400).json({ error: "El archivo es demasiado grande. Máximo 10MB." });
+      }
+      return res.status(400).json({ error: err.message });
+    } else if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    next();
+  });
+};
+
+// Add this wrapper for single image uploads
+export const uploadSingle = (req: Request, res: Response, next: NextFunction) => {
+  multerSingle(req, res, (err: any) => {
     if (err instanceof multer.MulterError) {
       if (err.code === "LIMIT_FILE_SIZE") {
         return res.status(400).json({ error: "El archivo es demasiado grande. Máximo 10MB." });
