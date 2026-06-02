@@ -1,66 +1,114 @@
 # 🎭 Teatro Dislocador
 
-A static website for **Teatro Dislocador**, an independent theater based in **Comodoro Rivadavia, Argentina**.  
-Built with **React + TypeScript + Vite**, styled using **TailwindCSS**, and featuring a fully responsive design.
+A full-stack web application for Teatro Dislocador, an independent theater based in Comodoro Rivadavia, Argentina.
 
-## ✨ Features
-
-- 🌐 **Multi-section layout**: Home, About Us, Artistic Direction, Current Shows, History, Classes, Gallery, and Contact.
-- 🎟️ **Current program** with updated shows, dates, and details.
-- 🎓 **Theater classes** for children, youth, and adults.
-- 🖼️ **Image gallery carousel** showcasing performances and events.
-- 📍 **Embedded Google Maps** with the theater’s exact location.
-- 📱 **Responsive navigation** with mobile menu and desktop layout.
-- 🔗 **Social media integration**: Facebook, Instagram, Twitter/X, and TikTok.
-- ⚡ Powered by **Vite** for fast builds and development.
-
-## 🛠️ Tech Stack
-
-- [React 19](https://react.dev/) + [React DOM](https://react.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Vite](https://vitejs.dev/)
-- [TailwindCSS](https://tailwindcss.com/)
-- [shadcn/ui](https://ui.shadcn.com/) components
-- [Lucide Icons](https://lucide.dev/) & [React Icons](https://react-icons.github.io/react-icons/)
-- [Embla Carousel](https://www.embla-carousel.com/) for the image gallery
-
-## 📦 Installation & Setup
-
-Clone the repository and install dependencies:
-
-```bash
-git clone https://github.com/jonorl/teatro-dislocador.git
-cd teatro-dislocador
-npm install
-```
-## Development
-
-```bash
-npm run dev
-```
-The site will be available at http://localhost:5173
-
-## Production Build
-
-```bash
-npm run build
-```
-Preview the production build:
-```bash
-npm run preview
-```
+This project has evolved from a static site into a containerized monorepo ecosystem. It features a public client application, a secure administrative dashboard, and a robust Node.js/Prisma backend deployed via an Infrastructure-as-Code pipeline.
 
 ## 📂 Project Structure
 
 ```bash
 teatro-dislocador/
-├── src/
-│   ├── App.tsx        # Main application with all sections
-│   ├── components/    # Reusable UI components
-│   └── assets/        # Static assets (icons, images, etc.)
-├── package.json
-└── README.md
+├── .github/           # CI/CD Workflows (GitHub Actions)
+├── admin/             # Administrative dashboard (react + vite + Clerk)
+├── server/            # Backend API service (Node.js + Expres + Prisma)
+└── web/               # Public-facing frontend website (React + vite)
 ```
+
+## ✨ Features by Sub-Project
+
+# Public Frontend (/web)
+
+- Multi-section layout: Home, About Us, Artistic Direction, Current Shows, History, Classes, Gallery, and Contact.
+
+- Dynamic Program: Live updates of shows, dates, and ticket/event details driven by the backend database.
+
+- Interactive UI: Fully responsive navigation, custom themes with TailwindCSS, and an image gallery carousel powered by Embla Carousel.
+
+- Integrations: Embedded Google Maps location and social media linking (Facebook, Instagram, X, TikTok).
+
+# 🔐 Admin Dashboard (/admin)
+
+  - Role-Based Access Control: Secure login restricted entirely to administrators.
+
+  - Clerk Authentication: Managed user authentication utilizing Google OAuth exclusively.
+
+  - Content Management (CMS): Create, read, update, and delete interfaces for handling current shows, schedules, classes, and gallery media.
+
+# ⚙️ Backend API Service (/server)
+
+  - ORM & Database: Powered by Prisma ORM mapping to a robust PostgreSQL 17 database instance.
+
+  - API Engine: Fast and secure RESTful endpoints handling client data requests and authenticated admin mutations.
+
+  - Media Engine: Dedicated uploads handling pipeline for performance assets and gallery images.
+
+## 🛠️ Tech Stack
+
+# Frontend & Admin
+
+  - Framework: React 19 + TypeScript + Vite
+
+  - Styling: TailwindCSS + shadcn/ui components
+
+  - Auth: Clerk (Google Identity Provider)
+
+# Backend & Data
+
+  - Runtime: Node.js
+
+  - Database: PostgreSQL 17
+
+  - ORM: Prisma
+
+# DevOps & Infrastructure
+
+  - Hosting: Virtual Private Server (VPS)
+
+  - Reverse Proxy: Caddy Server handling automated SSL/TLS certificates and routing traffic.
+
+  - Containerization: Docker and Docker Compose configurations for cross-service orchestration.
+
+  - CI/CD: Automated builds pushing private production server images directly to the GitHub Container Registry (ghcr.io).
+
+  - Observability & Ops: Complete system insights powered by Git-tracked Infrastructure as Code, continuous automated database backups, and full-stack monitoring metrics.
+
+  - Monitoring: Grafana + Prometheus dashboards.
+
+## 📦 Installation & Setup
+
+# Prerequisites
+
+Ensure you have node (v22+ recommended) and docker installed on your machine.
+
+# Setup
+
+- Clone the repo:
+
+```bash
+git clone https://github.com/jonorl/teatro-dislocador.git
+cd teatro-dislocador
+```
+# Environment configurations:
+
+- Create a .env file inside /admin, /server, and /web directories matching the structure required for Clerk API keys, database connection URIs, and server ports (use .env.template as reference).
+
+- Install dependencies per application layer
+
+```bash
+# Example for the backend server
+cd server && npm install
+
+# Example for the public web frontend
+cd ../web && npm install
+```
+
+# Execution
+
+To run services locally for development:
+
+- Backend: ```cd server && npx tsx src/app.ts```
+- Public web: ```cd web && npm run dev```
+- Admin CRM: ```cd admin && npm run dev```
 
 👨‍💻 Author
 Developed by Jonathan Orlowski – All rights reserved.
