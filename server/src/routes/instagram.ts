@@ -1,6 +1,6 @@
 import express from "express";
 import { authenticateAdmin } from "../middleware/auth";
-import { instagramQueries } from "../db/queries";
+import { instagramQueries, showcaseQueries } from "../db/queries";
 
 const router = express.Router();
 
@@ -25,6 +25,16 @@ router.post("/processed", authenticateAdmin, async (req, res) => {
   } catch (error) {
     console.error("❌ Instagram Record Error:", error);
     return res.status(500).json({ error: "Failed to record post" });
+  }
+});
+
+router.post("/expire-shows", authenticateAdmin, async (req, res) => {
+  try {
+    const removed = await showcaseQueries.deleteExpired(new Date());
+    return res.json({ removed });
+  } catch (error) {
+    console.error("❌ Instagram Expire Error:", error);
+    return res.status(500).json({ error: "Failed to remove expired shows" });
   }
 });
 

@@ -41,6 +41,7 @@ export interface ShowcaseData {
   duration?: string;
   description?: string;
   instagramId?: string;
+  endsAt?: Date;
 }
 
 export const showcaseQueries = {
@@ -55,6 +56,14 @@ export const showcaseQueries = {
 
   delete: (id: string) => 
     prisma.showcase.delete({ where: { id } }),
+
+  // Only shows the workflow created, so anything added by hand in the CMS is never touched.
+  deleteExpired: async (now: Date) => {
+    const where = { instagramId: { not: null }, endsAt: { lt: now } };
+    const expired = await prisma.showcase.findMany({ where, select: { id: true, title: true } });
+    await prisma.showcase.deleteMany({ where: { id: { in: expired.map((s) => s.id) } } });
+    return expired;
+  },
 };
 
 // --- Instagram Queries ---

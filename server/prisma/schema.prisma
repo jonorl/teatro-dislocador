@@ -27,6 +27,8 @@ model Showcase {
   description String?
   image       String?
   instagramId String?  @unique
+  // Set by the Instagram workflow so shows it created can be removed once they've happened.
+  endsAt      DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
