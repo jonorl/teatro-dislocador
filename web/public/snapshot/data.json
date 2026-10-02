@@ -1,0 +1,153 @@
+{
+  "generatedAt": "2026-10-02T09:43:42.868Z",
+  "cartelera": [
+    {
+      "id": "ebb39f88-a106-4692-8a56-fe901d43ccd2",
+      "title": "Las Manos del Tiempo",
+      "author": "",
+      "director": "Ana Perez",
+      "dates": "16 de Mayo | 21:00hs",
+      "duration": "",
+      "description": "<p><span class=\"x193iq5w xeuugli x13faqbe x1vvkbs x10flsy6 x1lliihq x1s928wv xhkezso x1gmr53x x1cpjm7i x1fgarty x1943h6x x4zkp8e x41vudc x6prxxf xvq8zen xo1l8bm xzsf02u\" dir=\"auto\">En un espacio ambiguo de la memoria y luego de 30 a&ntilde;os sin verse, ella le propone dibujar juntos las manos de Dios. A partir de all&iacute;, ambos personajes juegan y reflexionan sobre la vida, la muerte, el amor, la soledad y el paso del tiempo.<br class=\"html-br\"><br class=\"html-br\">Act&uacute;an:<br class=\"html-br\">Constanza Gual y Gustavo Pardini<br class=\"html-br\"><br class=\"html-br\">Producci&oacute;n:<br class=\"html-br\">Desconexi&oacute;n Teatral</span></p>",
+      "image": "/snapshot/images/7dc9e514653ba2dc.jpg",
+      "createdAt": "2026-06-02T11:16:37.790Z",
+      "updatedAt": "2026-06-02T11:31:16.541Z"
+    },
+    {
+      "id": "284d1b1b-31d2-4301-a486-2e8d6dcb0be5",
+      "title": "3 Experiencias unicas. Una Noche para recordar",
+      "author": "Genesis Torres / Ramiro Aibar / Facundo Perez",
+      "director": "Ramiro Aibar",
+      "dates": "Sabado 23 de Mayo 21:00",
+      "duration": "",
+      "description": "<div class=\"xdj266r x14z9mp xat24cr x1lziwak x1vvkbs x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">&iquest;Qu&eacute; pasa cuando se apagan las luces del escenario? Este s&aacute;bado 23 de mayo te invitamos a descubrirlo.<br><br></div>\n</div>\n<div class=\"x14z9mp xat24cr x1lziwak x1vvkbs xtlvy1s x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">Viv&iacute; una experiencia cultural completa en los 10 a&ntilde;os de El Dislocador.<br><br>\n<div class=\"x14z9mp xat24cr x1lziwak x1vvkbs xtlvy1s x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">21:00 hs | Funci&oacute;n de la obra &iquest;Qui&eacute;n cantar&aacute; Hotel California? de G&eacute;nesis Torres.</div>\n<div dir=\"auto\" style=\"text-align: start;\">&nbsp;</div>\n</div>\n<div class=\"x14z9mp xat24cr x1lziwak x1vvkbs xtlvy1s x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">Post-funci&oacute;n | Charla y desmontaje teatral en vivo con el director Ramiro Aibar.</div>\n<div dir=\"auto\" style=\"text-align: start;\">&nbsp;</div>\n</div>\n<div class=\"x14z9mp xat24cr x1lziwak x1vvkbs xtlvy1s x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">En la sala | Exposici&oacute;n e interacci&oacute;n con la muestra art&iacute;stica \"El Dislocador tambi&eacute;n se mira\" de Facundo P&eacute;rez.</div>\n</div>\n</div>\n</div>",
+      "image": "/snapshot/images/ab127367c88b35bd.jpg",
+      "createdAt": "2026-06-01T08:59:02.979Z",
+      "updatedAt": "2026-06-02T11:49:20.904Z"
+    }
+  ],
+  "classes": [
+    {
+      "id": "ef49284c-28c7-49cf-8d84-10fc0babe498",
+      "title": "Teatro para adultos",
+      "description": "<div class=\"xdj266r x14z9mp xat24cr x1lziwak x1vvkbs x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">Un espacio para empezar teatro con herramientas concretas, acompa&ntilde;amiento real y m&aacute;s de 10 a&ntilde;os de experiencia formando actores en Comodoro.<br><br></div>\n</div>\n<div class=\"x14z9mp xat24cr x1lziwak x1vvkbs xtlvy1s x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">T&eacute;cnica accesible, aplicada desde la pr&aacute;ctica y el disfrute.</div>\n</div>",
+      "schedule": "Jueves 20:30 a 22:00",
+      "image": "/snapshot/images/7df97c1d5d296486.jpg",
+      "createdAt": "2026-06-02T10:53:25.619Z",
+      "updatedAt": "2026-06-02T10:53:33.531Z"
+    },
+    {
+      "id": "dbc5a487-7d21-43f9-8335-fd824ea4c3de",
+      "title": "Taller de Teatro para las infancias",
+      "description": "<p>Por <strong>Ramiro Aibar</strong></p>",
+      "schedule": "Sabados | 15:00 a 16:30",
+      "image": "/snapshot/images/5c7c8a1476428bf3.jpg",
+      "createdAt": "2026-06-01T08:56:30.681Z",
+      "updatedAt": "2026-06-01T11:03:09.925Z"
+    },
+    {
+      "id": "2d26a249-40d3-4ffd-b718-b941686a0d6b",
+      "title": "Taller de teatro para adolescentes",
+      "description": "Por Ramiro Aibar",
+      "schedule": "Miercoles | 18:30 a 20:00",
+      "image": "/snapshot/images/446af5b8a158b2bd.jpg",
+      "createdAt": "2026-06-01T08:55:24.802Z",
+      "updatedAt": "2026-06-01T08:55:24.802Z"
+    },
+    {
+      "id": "71ece070-1082-4493-985b-c107693a6a93",
+      "title": "Actuacion Avanzado",
+      "description": "Por Ramiro Aibar",
+      "schedule": "Martes | 20:30 a 22:00",
+      "image": "/snapshot/images/43a821cbd7b6b1c1.jpg",
+      "createdAt": "2026-06-01T08:52:58.055Z",
+      "updatedAt": "2026-06-01T09:18:22.231Z"
+    }
+  ],
+  "galeria": [
+    {
+      "id": "e20a6f14-2d8a-4a23-948a-cec455e9a056",
+      "url": "/snapshot/images/efb903352fe4267c.jpeg"
+    },
+    {
+      "id": "df91122d-f5fa-42b7-9862-46c8f407fb9a",
+      "url": "/snapshot/images/92921e39c67e3bbc.jpeg"
+    },
+    {
+      "id": "af9c9ef5-cedb-4e8b-8589-06a26d7c00aa",
+      "url": "/snapshot/images/0291fc36a0132c7d.jpeg"
+    },
+    {
+      "id": "f81fb0a7-cc9e-4514-8919-5a4d02d461a0",
+      "url": "/snapshot/images/02948d9c67706b66.jpeg"
+    },
+    {
+      "id": "865d3c97-1e84-4cce-9d22-98c9b7ea4dd8",
+      "url": "/snapshot/images/2d2ef36e280efcda.jpeg"
+    },
+    {
+      "id": "331db5d2-5eba-4309-8714-ee27071c3e99",
+      "url": "/snapshot/images/a09da1d4c53765b8.jpeg"
+    },
+    {
+      "id": "046dc8ae-aed5-459f-b730-14d2426bfedd",
+      "url": "/snapshot/images/b751f6b5848c87f8.jpeg"
+    },
+    {
+      "id": "18ebae75-7bde-471b-b3a5-4f8ba218038b",
+      "url": "/snapshot/images/a9c0af96b83b53aa.jpeg"
+    },
+    {
+      "id": "54101038-2393-41a3-8912-f006671d6c2c",
+      "url": "/snapshot/images/1205357be5f51752.jpeg"
+    },
+    {
+      "id": "6184e19b-bf0d-49bb-adef-a029fcfb5ec0",
+      "url": "/snapshot/images/1c496f1754ccef3a.jpeg"
+    },
+    {
+      "id": "bb547206-7a79-4a10-b560-ca8dff019043",
+      "url": "/snapshot/images/2484f40a0c23326a.jpeg"
+    },
+    {
+      "id": "4e36ed4d-9eac-45f6-88c1-8be495bf5704",
+      "url": "/snapshot/images/39ea5fd03edfe130.jpeg"
+    },
+    {
+      "id": "51bf9376-8606-409b-9f1e-10a03d60f1f0",
+      "url": "/snapshot/images/bf430d6ffc5b5ee0.jpeg"
+    },
+    {
+      "id": "1da89f3c-8dcd-4c0e-a04a-a9962fc9281c",
+      "url": "/snapshot/images/42f7f12a7795bdf5.png"
+    },
+    {
+      "id": "536845e7-aa6c-41fe-af9b-638afb1324b9",
+      "url": "/snapshot/images/2cb3c1d272f585a8.png"
+    },
+    {
+      "id": "187b2720-1587-499e-af69-7886c9feb953",
+      "url": "/snapshot/images/a747304b9efe301d.png"
+    },
+    {
+      "id": "020649b8-a55d-4013-9573-1c74b643374a",
+      "url": "/snapshot/images/a60ee99f92b67f5b.png"
+    },
+    {
+      "id": "3cf96645-37e5-4158-a382-a266ffe571c9",
+      "url": "/snapshot/images/a9184c8c6ee4cdbd.png"
+    },
+    {
+      "id": "0848b00a-8107-489d-9bea-1702db89fb70",
+      "url": "/snapshot/images/6bd16b0bb06f189d.jpg"
+    },
+    {
+      "id": "f1602710-4cbc-4f3e-bc9b-5bc7aace8114",
+      "url": "/snapshot/images/e518e4a827f6b8f0.jpg"
+    },
+    {
+      "id": "d745e78f-a35a-4fc7-a308-b42b6cc5e667",
+      "url": "/snapshot/images/605e41af40f487be.jpg"
+    }
+  ]
+}

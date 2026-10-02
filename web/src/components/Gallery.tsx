@@ -8,8 +8,7 @@ import {
 import { motion, type Variants } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
-
-const API = "https://api.teatrodislocador.ar";
+import { loadSiteData } from "@/lib/siteData";
 
 interface GalleryItem {
   id: string;
@@ -21,9 +20,8 @@ const Gallery = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API}/api/gallery`)
-      .then((r) => r.json())
-      .then(({ galeria }) => setImages(galeria))
+    loadSiteData<GalleryItem>("galeria")
+      .then(setImages)
       .catch((e) => console.error("Error loading gallery:", e))
       .finally(() => setIsLoading(false));
   }, []);

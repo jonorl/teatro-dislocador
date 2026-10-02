@@ -1,8 +1,7 @@
 import { BookOpen, Clock, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, type Variants } from "framer-motion";
-
-const API = "https://api.teatrodislocador.ar";
+import { loadSiteData } from "@/lib/siteData";
 
 interface ClassData {
   id: string;
@@ -17,9 +16,8 @@ const Classes = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API}/api/classes`)
-      .then((r) => r.json())
-      .then(({ classes }) => setClasses(classes))
+    loadSiteData<ClassData>("classes")
+      .then(setClasses)
       .catch((e) => console.error("Error loading classes:", e))
       .finally(() => setIsLoading(false));
   }, []);

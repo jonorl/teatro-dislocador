@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "snapshot": "node scripts/snapshot.mjs",
+    "prebuild": "npm run snapshot",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

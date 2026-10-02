@@ -1,8 +1,7 @@
 import { Calendar, Clock, NotebookPen, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, type Variants } from "framer-motion";
-
-const API = "https://api.teatrodislocador.ar";
+import { loadSiteData } from "@/lib/siteData";
 
 interface ShowData {
   id: string;
@@ -30,9 +29,8 @@ const Showcase = () => {
   };
 
   useEffect(() => {
-    fetch(`${API}/api/showcase`)
-      .then((r) => r.json())
-      .then(({ cartelera }) => setShowcaseData(cartelera))
+    loadSiteData<ShowData>("cartelera")
+      .then(setShowcaseData)
       .catch((e) => console.error("Error loading showcase:", e))
       .finally(() => setIsLoading(false));
   }, []);
