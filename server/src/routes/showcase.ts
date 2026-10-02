@@ -15,11 +15,11 @@ router.get("/", async (req, res) => {
 
 router.post("/", authenticateAdmin, async (req, res) => {
   try {
-    const { title, author, director, dates, duration, description, image } = req.body;
+    const { title, author, director, dates, duration, description, image, instagramId } = req.body;
     if (!title) {
       return res.status(400).json({ error: "Argument 'title' is missing." });
     }
-    const show = await showcaseQueries.create({ title, author, director, dates, duration, description, image });
+    const show = await showcaseQueries.create({ title, author, director, dates, duration, description, image, instagramId });
     return res.status(201).json(show);
   } catch (error) {
     console.error("❌ Showcase Create Error:", error);
@@ -30,8 +30,8 @@ router.post("/", authenticateAdmin, async (req, res) => {
 router.put("/:id", authenticateAdmin, async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, author, director, dates, duration, description, image } = req.body;
-    const updated = await showcaseQueries.update(id as string, { title, author, director, dates, duration, description, image });
+    const { title, author, director, dates, duration, description, image, instagramId } = req.body;
+    const updated = await showcaseQueries.update(id as string, { title, author, director, dates, duration, description, image, instagramId });
     return res.json(updated);
   } catch (error) {
     console.error("❌ Showcase Update Error:", error);

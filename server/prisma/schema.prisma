@@ -12,6 +12,7 @@ model Class {
   description String?
   schedule    String
   image       String?  // ← add this
+  instagramId String?  @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -25,6 +26,7 @@ model Showcase {
   duration    String?
   description String?
   image       String?
+  instagramId String?  @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -32,5 +34,12 @@ model Showcase {
 model Gallery {
   id        String      @id @default(uuid())
   url       String
+  createdAt DateTime @default(now())
+}
+
+// Every Instagram post the n8n workflow has seen, applied or not, so it never reprocesses one.
+model InstagramPost {
+  id        String   @id
+  decision  Json
   createdAt DateTime @default(now())
 }

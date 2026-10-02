@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { prisma } from "../app";
 
 // --- Classes Queries ---
@@ -5,10 +6,10 @@ export const classQueries = {
   getAll: () => 
     prisma.class.findMany({ orderBy: { createdAt: "desc" } }),
 
-  create: (data: { title: string; description?: string; schedule: string; image?: string }) =>
+  create: (data: { title: string; description?: string; schedule: string; image?: string; instagramId?: string }) =>
     prisma.class.create({ data }),
 
-  update: (id: string, data: { title?: string; description?: string; schedule?: string; image?: string }) =>
+  update: (id: string, data: { title?: string; description?: string; schedule?: string; image?: string; instagramId?: string }) =>
     prisma.class.update({ where: { id }, data }),
 
   delete: (id: string) => 
@@ -39,6 +40,7 @@ export interface ShowcaseData {
   director?: string;
   duration?: string;
   description?: string;
+  instagramId?: string;
 }
 
 export const showcaseQueries = {
@@ -53,4 +55,13 @@ export const showcaseQueries = {
 
   delete: (id: string) => 
     prisma.showcase.delete({ where: { id } }),
+};
+
+// --- Instagram Queries ---
+export const instagramQueries = {
+  getRecentIds: (limit: number) =>
+    prisma.instagramPost.findMany({ select: { id: true }, orderBy: { createdAt: "desc" }, take: limit }),
+
+  record: (id: string, decision: Prisma.InputJsonValue) =>
+    prisma.instagramPost.upsert({ where: { id }, create: { id, decision }, update: { decision } }),
 };
