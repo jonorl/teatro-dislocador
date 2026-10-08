@@ -15,15 +15,27 @@ const Hero = ({
       {/* Optimized Single Overlay: Lighter on mobile (40%), darker on desktop (80%) */}
       <div className="absolute inset-0 bg-gradient-to-r from-neutral-900/40 to-rose-900/40 md:from-neutral-900/80 md:to-rose-900/80 z-10" />
       
+      {/* The clip is portrait (9:16). Covering a landscape screen with it crops most of the frame, so on desktop
+          this copy becomes a blurred backdrop and the one below shows the whole clip uncropped. */}
       <video
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover md:blur-2xl md:scale-110"
         src={videoSource}
         autoPlay
         loop
         muted
         playsInline
+        aria-hidden="true"
       />
-      
+      <video
+        className="hidden md:block absolute inset-0 w-full h-full object-contain"
+        src={videoSource}
+        autoPlay
+        loop
+        muted
+        playsInline
+        aria-hidden="true"
+      />
+
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
