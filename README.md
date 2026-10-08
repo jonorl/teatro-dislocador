@@ -26,6 +26,8 @@ teatro-dislocador/
 
 - Integrations: Embedded Google Maps location and social media linking (Facebook, Instagram, X, TikTok).
 
+- Static Fallback: Every build snapshots shows, classes and gallery (including images) into `web/public/snapshot/`. If the API is unreachable the site serves the snapshot instead of empty sections; setting `VITE_DATA_SOURCE=static` in Cloudflare Pages runs the site without the server at all. Refresh the committed copy with `npm run snapshot`.
+
 ## 🔐 Admin Dashboard (/admin)
 
   - Role-Based Access Control: Secure login restricted entirely to administrators.
@@ -41,6 +43,44 @@ teatro-dislocador/
   - API Engine: Fast and secure RESTful endpoints handling client data requests and authenticated admin mutations.
 
   - Media Engine: Dedicated uploads handling pipeline for performance assets and gallery images.
+
+  - Machine Access: Admin routes also accept `Authorization: Bearer $AUTOMATION_TOKEN`, used by the n8n workflow below.
+
+## 🤖 Instagram Automation (n8n)
+
+The theatre announces everything on Instagram, so an n8n workflow (running on the personal VPS, not the Hetzner one) keeps the Cartelera and Clases in sync with its posts.
+
+**Hourly sync**
+
+1. Reads the Instagram token from `n8n_secrets` (Postgres, `agentic_ai` database) and fetches the latest 10 posts.
+2. Skips posts already recorded in `InstagramPost` and posts without a caption.
+3. Gemini classifies each caption as a new show, an update to an existing one, a class, or nothing, and extracts title, dates, description (HTML) and the event date.
+4. Past events and decisions below 0.7 confidence are skipped.
+5. The image is re-hosted through `/api/upload` (photo, first carousel slide, or the reel's cover thumbnail; saved without an image if Instagram withholds it), then the show or class is created or updated with its `instagramId` and `endsAt`.
+6. Every decision, applied or skipped, is recorded via `/api/instagram/processed`, and a summary is sent to WhatsApp.
+
+**Daily (04:00, Argentina time)**
+
+- `POST /api/instagram/expire-shows` removes Instagram shows the day after `endsAt`, and any show without an end date that hasn't been edited for 30 days. Re-saving a show in the CMS keeps it up for another 30 days.
+- A Cloudflare Pages deploy hook rebuilds the site so the static snapshot stays current.
+
+**Weekly (Mondays)**
+
+- Refreshes the long-lived Instagram token (valid 60 days) and stores the new one. The account owner only needs to re-authorise if the token is revoked, e.g. after an Instagram password change or if the refresh fails for 60 days.
+
+**Automation endpoints** (all require the bearer token)
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /api/instagram/processed` | Last 200 processed post IDs, for de-duplication |
+| `POST /api/instagram/processed` | Records `{ id, decision }` for a post |
+| `POST /api/instagram/expire-shows` | Removes expired shows and returns their titles |
+
+**Re-authorising Instagram** (only if the token stops working)
+
+1. The account owner opens `https://www.instagram.com/oauth/authorize?client_id=1075439172000283&redirect_uri=https://teatrodislocador.ar/&response_type=code&scope=instagram_business_basic`, taps "Permitir" and sends back the URL they land on.
+2. Within an hour, exchange the `code` for a short-lived token (`POST https://api.instagram.com/oauth/access_token`), then for a 60-day token (`GET https://graph.instagram.com/access_token?grant_type=ig_exchange_token`). Both need the Instagram app secret from the Meta dashboard.
+3. Store it: `UPDATE n8n_secrets SET value = '<token>' WHERE key = 'dislocador_ig_token';`
 
 # 🛠️ Tech Stack
 
@@ -91,6 +131,10 @@ cd teatro-dislocador
 ## Environment configurations:
 
 - Create a .env file inside /admin, /server, and /web directories matching the structure required for Clerk API keys, database connection URIs, and server ports (use .env.template as reference).
+
+- In production, the server's `.env` also needs `AUTOMATION_TOKEN` (generate with `openssl rand -hex 32`); the same value goes into n8n's "Dislocador automation token" credential.
+
+- Schema changes go through Prisma migrations only. On prod, apply them through an SSH tunnel to the Hetzner Postgres with `npx prisma migrate deploy`, **before** pushing code that depends on them.
 
 - Install dependencies per application layer
 

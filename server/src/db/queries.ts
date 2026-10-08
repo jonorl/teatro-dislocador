@@ -57,9 +57,16 @@ export const showcaseQueries = {
   delete: (id: string) => 
     prisma.showcase.delete({ where: { id } }),
 
-  // Only shows the workflow created, so anything added by hand in the CMS is never touched.
+  // Instagram shows carry a real end date. Shows without one (CMS entries, undated posts) have free-text
+  // dates the server can't parse, so they go once nobody has touched them for a month; editing one keeps it.
   deleteExpired: async (now: Date) => {
-    const where = { instagramId: { not: null }, endsAt: { lt: now } };
+    const staleBefore = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    const where = {
+      OR: [
+        { instagramId: { not: null }, endsAt: { lt: now } },
+        { endsAt: null, updatedAt: { lt: staleBefore } },
+      ],
+    };
     const expired = await prisma.showcase.findMany({ where, select: { id: true, title: true } });
     await prisma.showcase.deleteMany({ where: { id: { in: expired.map((s) => s.id) } } });
     return expired;
