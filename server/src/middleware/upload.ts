@@ -7,7 +7,7 @@ import { Request, Response, NextFunction } from "express"; // Added for error ha
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const UPLOAD_DIR = path.join(__dirname, "../../uploads");
+export const UPLOAD_DIR = path.join(__dirname, "../../uploads");
 
 if (!fs.existsSync(UPLOAD_DIR)) {
   fs.mkdirSync(UPLOAD_DIR, { recursive: true });

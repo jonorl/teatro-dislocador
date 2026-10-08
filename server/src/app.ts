@@ -10,6 +10,7 @@ import galleryRouter from "./routes/gallery";
 import showcaseRouter from "./routes/showcase";
 import uploadRouter from "./routes/upload";
 import instagramRouter from "./routes/instagram";
+import maintenanceRouter from "./routes/maintenance";
 import { fileURLToPath } from "url"; 
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
@@ -59,6 +60,7 @@ app.use("/api/showcase", showcaseRouter);
 app.use("/api/upload", uploadRouter);
 app.use("/api/gallery/upload", uploadRouter);
 app.use("/api/instagram", instagramRouter);
+app.use("/api/maintenance", maintenanceRouter);
 
 const PORT: number = Number(process.env.PORT_DISLOCADOR) || 3000;
 app.listen(PORT, "0.0.0.0", () => {

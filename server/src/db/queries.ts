@@ -81,3 +81,17 @@ export const instagramQueries = {
   record: (id: string, decision: Prisma.InputJsonValue) =>
     prisma.instagramPost.upsert({ where: { id }, create: { id, decision }, update: { decision } }),
 };
+
+// --- Maintenance Queries ---
+export const maintenanceQueries = {
+  // Every image URL the site still points at, across all tables that store one.
+  getReferencedImageUrls: async () => {
+    const [shows, classes, gallery] = await Promise.all([
+      prisma.showcase.findMany({ select: { image: true } }),
+      prisma.class.findMany({ select: { image: true } }),
+      prisma.gallery.findMany({ select: { url: true } }),
+    ]);
+    return [...shows.map((s) => s.image), ...classes.map((c) => c.image), ...gallery.map((g) => g.url)]
+      .filter((url): url is string => Boolean(url));
+  },
+};
