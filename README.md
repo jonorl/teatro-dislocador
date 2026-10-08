@@ -61,7 +61,7 @@ The theatre announces everything on Instagram, so an n8n workflow (running on th
 
 **Daily (04:00, Argentina time)**
 
-- `POST /api/instagram/expire-shows` removes Instagram shows the day after `endsAt`, and any show without an end date that hasn't been edited for 30 days. Re-saving a show in the CMS keeps it up for another 30 days.
+- `POST /api/instagram/expire-shows` removes Instagram shows 30 days after the show (`endsAt`), and any show without an end date that hasn't been edited for 30 days. Re-saving an undated show in the CMS keeps it up for another 30 days.
 - A Cloudflare Pages deploy hook rebuilds the site so the static snapshot stays current.
 
 **Weekly (Mondays)**

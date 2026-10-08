@@ -57,14 +57,14 @@ export const showcaseQueries = {
   delete: (id: string) => 
     prisma.showcase.delete({ where: { id } }),
 
-  // Instagram shows carry a real end date. Shows without one (CMS entries, undated posts) have free-text
-  // dates the server can't parse, so they go once nobody has touched them for a month; editing one keeps it.
+  // Shows stay listed for a month after they happen. Instagram shows carry a real end date; shows without one
+  // (CMS entries, undated posts) have free-text dates the server can't parse, so the month counts from their last edit.
   deleteExpired: async (now: Date) => {
-    const staleBefore = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
     const where = {
       OR: [
-        { instagramId: { not: null }, endsAt: { lt: now } },
-        { endsAt: null, updatedAt: { lt: staleBefore } },
+        { instagramId: { not: null }, endsAt: { lt: monthAgo } },
+        { endsAt: null, updatedAt: { lt: monthAgo } },
       ],
     };
     const expired = await prisma.showcase.findMany({ where, select: { id: true, title: true } });
