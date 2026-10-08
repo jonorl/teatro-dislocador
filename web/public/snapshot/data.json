@@ -1,6 +1,34 @@
 {
-  "generatedAt": "2026-10-02T09:43:42.868Z",
+  "generatedAt": "2026-10-08T07:05:44.859Z",
   "cartelera": [
+    {
+      "id": "aa42f07a-058e-474f-a9a6-a9cb9862eb61",
+      "title": "Semblanzas de Comodoro",
+      "author": "F. Nanni, en conjunto con el grupo.",
+      "director": "",
+      "dates": "Sábado 10 de octubre · 21 hs",
+      "duration": "",
+      "description": "<p>Un duelo de amores y una traición maldicen a la ciudad de Comodoro Rivadavia, ciudad petrolera.</p><p>Una obra de creación colectiva que entrelaza humor, poesía y memoria escénica para dar vida a personajes y mitos urbanos inspirados en la identidad de la ciudad y en aquellos personajes que habitan su memoria colectiva.</p><p>Actúan: Martín Ivancich, Fabián Digorado ,Natalia Pedraza y la participación especial de Carla Piedrabuena<br>Dramaturgia: F. Nanni, en conjunto con el grupo.<br>Grupo: Los Indirigibles de Siempre.</p><p>Venta de entradas: WhatsApp 297 507-6445</p><p>Capacidad limitada.</p>",
+      "image": "/snapshot/images/64593e984e794031.jpg",
+      "instagramId": "18028105145693014",
+      "endsAt": "2026-10-11T02:59:59.000Z",
+      "createdAt": "2026-10-07T08:42:14.657Z",
+      "updatedAt": "2026-10-07T08:42:14.657Z"
+    },
+    {
+      "id": "125e5592-27bc-4ebb-a578-e47b7975bb43",
+      "title": "Diego Rullansky",
+      "author": "",
+      "director": "",
+      "dates": "Sábado 3 de Octubre | 21:00hs",
+      "duration": "",
+      "description": "<p>Diego Rullansky vuelve a ponerse frente al público de Teatro Dislocador.</p><p>El comediante y guionista que actualmente es parte de Otro día perdido junto a Mario Pergolini llega con una nueva noche de stand up: historias, ideas, obsesiones y esa mirada que convierte cualquier situación en material para hacer reír.</p><p>Una vez más, Rullansky y Dislocador se encuentran para una noche de comedia.</p><p>Entradas disponibles.</p>",
+      "image": "/snapshot/images/a2f292f7bc6cbc84.jpeg",
+      "instagramId": "pin-rullansky",
+      "endsAt": "2026-10-04T02:59:59.000Z",
+      "createdAt": "2026-10-02T14:55:50.114Z",
+      "updatedAt": "2026-10-02T14:55:50.114Z"
+    },
     {
       "id": "ebb39f88-a106-4692-8a56-fe901d43ccd2",
       "title": "Las Manos del Tiempo",
@@ -10,6 +38,8 @@
       "duration": "",
       "description": "<p><span class=\"x193iq5w xeuugli x13faqbe x1vvkbs x10flsy6 x1lliihq x1s928wv xhkezso x1gmr53x x1cpjm7i x1fgarty x1943h6x x4zkp8e x41vudc x6prxxf xvq8zen xo1l8bm xzsf02u\" dir=\"auto\">En un espacio ambiguo de la memoria y luego de 30 a&ntilde;os sin verse, ella le propone dibujar juntos las manos de Dios. A partir de all&iacute;, ambos personajes juegan y reflexionan sobre la vida, la muerte, el amor, la soledad y el paso del tiempo.<br class=\"html-br\"><br class=\"html-br\">Act&uacute;an:<br class=\"html-br\">Constanza Gual y Gustavo Pardini<br class=\"html-br\"><br class=\"html-br\">Producci&oacute;n:<br class=\"html-br\">Desconexi&oacute;n Teatral</span></p>",
       "image": "/snapshot/images/7dc9e514653ba2dc.jpg",
+      "instagramId": null,
+      "endsAt": null,
       "createdAt": "2026-06-02T11:16:37.790Z",
       "updatedAt": "2026-06-02T11:31:16.541Z"
     },
@@ -22,6 +52,8 @@
       "duration": "",
       "description": "<div class=\"xdj266r x14z9mp xat24cr x1lziwak x1vvkbs x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">&iquest;Qu&eacute; pasa cuando se apagan las luces del escenario? Este s&aacute;bado 23 de mayo te invitamos a descubrirlo.<br><br></div>\n</div>\n<div class=\"x14z9mp xat24cr x1lziwak x1vvkbs xtlvy1s x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">Viv&iacute; una experiencia cultural completa en los 10 a&ntilde;os de El Dislocador.<br><br>\n<div class=\"x14z9mp xat24cr x1lziwak x1vvkbs xtlvy1s x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">21:00 hs | Funci&oacute;n de la obra &iquest;Qui&eacute;n cantar&aacute; Hotel California? de G&eacute;nesis Torres.</div>\n<div dir=\"auto\" style=\"text-align: start;\">&nbsp;</div>\n</div>\n<div class=\"x14z9mp xat24cr x1lziwak x1vvkbs xtlvy1s x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">Post-funci&oacute;n | Charla y desmontaje teatral en vivo con el director Ramiro Aibar.</div>\n<div dir=\"auto\" style=\"text-align: start;\">&nbsp;</div>\n</div>\n<div class=\"x14z9mp xat24cr x1lziwak x1vvkbs xtlvy1s x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">En la sala | Exposici&oacute;n e interacci&oacute;n con la muestra art&iacute;stica \"El Dislocador tambi&eacute;n se mira\" de Facundo P&eacute;rez.</div>\n</div>\n</div>\n</div>",
       "image": "/snapshot/images/ab127367c88b35bd.jpg",
+      "instagramId": null,
+      "endsAt": null,
       "createdAt": "2026-06-01T08:59:02.979Z",
       "updatedAt": "2026-06-02T11:49:20.904Z"
     }
@@ -33,6 +65,7 @@
       "description": "<div class=\"xdj266r x14z9mp xat24cr x1lziwak x1vvkbs x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">Un espacio para empezar teatro con herramientas concretas, acompa&ntilde;amiento real y m&aacute;s de 10 a&ntilde;os de experiencia formando actores en Comodoro.<br><br></div>\n</div>\n<div class=\"x14z9mp xat24cr x1lziwak x1vvkbs xtlvy1s x126k92a\">\n<div dir=\"auto\" style=\"text-align: start;\">T&eacute;cnica accesible, aplicada desde la pr&aacute;ctica y el disfrute.</div>\n</div>",
       "schedule": "Jueves 20:30 a 22:00",
       "image": "/snapshot/images/7df97c1d5d296486.jpg",
+      "instagramId": null,
       "createdAt": "2026-06-02T10:53:25.619Z",
       "updatedAt": "2026-06-02T10:53:33.531Z"
     },
@@ -42,6 +75,7 @@
       "description": "<p>Por <strong>Ramiro Aibar</strong></p>",
       "schedule": "Sabados | 15:00 a 16:30",
       "image": "/snapshot/images/5c7c8a1476428bf3.jpg",
+      "instagramId": null,
       "createdAt": "2026-06-01T08:56:30.681Z",
       "updatedAt": "2026-06-01T11:03:09.925Z"
     },
@@ -51,6 +85,7 @@
       "description": "Por Ramiro Aibar",
       "schedule": "Miercoles | 18:30 a 20:00",
       "image": "/snapshot/images/446af5b8a158b2bd.jpg",
+      "instagramId": null,
       "createdAt": "2026-06-01T08:55:24.802Z",
       "updatedAt": "2026-06-01T08:55:24.802Z"
     },
@@ -60,6 +95,7 @@
       "description": "Por Ramiro Aibar",
       "schedule": "Martes | 20:30 a 22:00",
       "image": "/snapshot/images/43a821cbd7b6b1c1.jpg",
+      "instagramId": null,
       "createdAt": "2026-06-01T08:52:58.055Z",
       "updatedAt": "2026-06-01T09:18:22.231Z"
     }
