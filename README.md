@@ -2,7 +2,13 @@
 
 A full-stack web application for Teatro Dislocador, an independent theater based in Comodoro Rivadavia, Argentina.
 
-This project has evolved from a static site into a containerized monorepo ecosystem. It features a public client application, a secure administrative dashboard, and a robust Node.js/Prisma backend deployed via an Infrastructure-as-Code pipeline.
+This project has evolved from a static site into a containerized monorepo ecosystem. It features a public client application, a secure administrative dashboard, and a robust Node.js/Prisma backend deployed via an Infrastructure-as-Code pipeline. Shows and classes stay up to date on their own: an n8n workflow reads the theatre's Instagram posts and updates the site.
+
+<p align="center">
+  <a href="https://teatrodislocador.ar">
+    <img src="docs/preview.gif" alt="A scroll down the theatre's home page: the school, its shows, its history and the venue for hire." width="600" />
+  </a>
+</p>
 
 # 📂 Project Structure
 
@@ -10,6 +16,7 @@ This project has evolved from a static site into a containerized monorepo ecosys
 teatro-dislocador/
 ├── .github/           # CI/CD Workflows (GitHub Actions)
 ├── admin/             # Administrative dashboard (react + vite + Clerk)
+├── docs/              # README media
 ├── server/            # Backend API service (Node.js + Expres + Prisma)
 └── web/               # Public-facing frontend website (React + vite)
 ```
@@ -101,6 +108,14 @@ The theatre announces everything on Instagram, so an n8n workflow (running on th
   - Database: PostgreSQL 17
 
   - ORM: Prisma
+
+## Automation
+
+  - Workflow engine: n8n (self-hosted on the personal VPS, workflow export kept outside this repo)
+
+  - AI: Google Gemini classifies Instagram captions into shows and classes
+
+  - Data source: Instagram API with Instagram Login (`instagram_business_basic`, long-lived token refreshed weekly)
 
 ## DevOps & Infrastructure
 
