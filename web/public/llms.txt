@@ -1,0 +1,33 @@
+# Teatro Dislocador
+
+> Escuela y sala de teatro independiente en Comodoro Rivadavia (Chubut, Argentina), dirigida por el actor, director y dramaturgo Ramiro Aibar. Ofrece obras, stand up y muestras, clases de teatro para infancias, adolescentes y adultos, y alquiler de sala para eventos.
+
+- Dirección: Pellegrini 928, Comodoro Rivadavia, Chubut, Argentina
+- Reservas y consultas por WhatsApp: +54 9 297 507-6445
+- Teléfono: +54 297 446-5840
+- Email: teatrodislocador@gmail.com
+- Horario de atención: lunes a sábado de 11:00 a 20:00 (Argentina, UTC-3). Domingo cerrado.
+
+La cartelera y las clases se actualizan a partir de las publicaciones de Instagram del teatro, así que los datos en vivo de abajo son la fuente más actual.
+
+## Sitio
+
+- [Inicio](https://teatrodislocador.ar/): la escuela, su dirección artística y su historia
+- [Cartelera](https://teatrodislocador.ar/#cartelera): obras y espectáculos próximos, con fechas y reservas
+- [Clases](https://teatrodislocador.ar/#clases): talleres por edad y nivel, con horarios e inscripción
+- [Galería](https://teatrodislocador.ar/#galeria): fotos de funciones y clases
+- [Eventos](https://teatrodislocador.ar/#eventos): alquiler de sala e infraestructura
+- [Contacto](https://teatrodislocador.ar/#contacto): dirección, mapa y vías de contacto
+
+## Datos en vivo (JSON público, solo lectura)
+
+- [Cartelera](https://api.teatrodislocador.ar/api/showcase): obras con título, fechas, descripción (HTML) e imagen
+- [Clases](https://api.teatrodislocador.ar/api/classes): talleres con título, horario, descripción (HTML) e imagen
+- [Galería](https://api.teatrodislocador.ar/api/gallery): URLs de las fotos
+
+## Redes
+
+- [Instagram](https://www.instagram.com/teatro.dislocador/): canal principal de novedades
+- [Facebook](https://www.facebook.com/teatrodislocador/)
+- [TikTok](https://www.tiktok.com/@dislocador)
+- [Reseñas en Google](https://g.page/r/CbfyVQSddV4bEBM/review)

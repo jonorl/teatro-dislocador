@@ -83,9 +83,9 @@ const Contact = () => {
             </div>
 
             <div className="pt-6 border-t border-gray-800">
-              <h4 className="text-sm font-black uppercase tracking-widest text-gray-400 mb-3">
+              <h3 className="text-sm font-black uppercase tracking-widest text-gray-400 mb-3">
                 Horarios de Atención
-              </h4>
+              </h3>
               <div className="text-gray-200 space-y-1 font-medium text-sm">
                 <p>Lunes a Sábado: <span className="text-white font-bold">11:00 - 20:00hs</span></p>
                 <p>Domingo: <span className="text-gray-500 uppercase text-xs font-bold">Cerrado</span></p>
@@ -99,6 +99,7 @@ const Contact = () => {
             className="w-full h-[340px] p-2 bg-white border-2 border-black shadow-[6px_6px_0px_0px_rgba(58,125,188,1)] overflow-hidden"
           >
             <iframe
+              title="Mapa: Teatro Dislocador, Pellegrini 928, Comodoro Rivadavia"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2778.5292300427823!2d-67.48493870917041!3d-45.86072039652363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xbde45451b09626ad%3A0x1b5e759d0455f2b7!2sTeatro%20Dislocador!5e0!3m2!1sen!2sug!4v1756716030555!5m2!1sen!2sug"
               width="100%"
               height="100%"

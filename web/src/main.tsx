@@ -4,18 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import TeatroDislocadorApp from './App'
 
-// Grab your development or production Publishable Key from .env
-// Check if the Vite environment mode is explicitly 'production'
-const isProd = import.meta.env.MODE === "production";
-
-const CLERK_PUBLISHABLE_KEY = isProd
-  ? import.meta.env.VITE_DISLOCADOR_PUBLIC_CLERK_PUBLISHABLE_KEY
-  : import.meta.env.VITE_DISLOCADOR_DEV_PUBLIC_CLERK_PUBLISHABLE_KEY;
-
-if (!CLERK_PUBLISHABLE_KEY) {
-  throw new Error("Missing Clerk Publishable Key")
-}
-
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
       <BrowserRouter>

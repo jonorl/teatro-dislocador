@@ -49,6 +49,7 @@ const Footer = ({
             <div className="flex gap-4">
               <a
                 href="https://www.facebook.com/teatrodislocador/"
+                aria-label="Facebook de Teatro Dislocador"
                 className="text-white hover:text-[#E64A3B] transition-colors"
                 target="_blank" rel="noreferrer"
               >
@@ -56,6 +57,7 @@ const Footer = ({
               </a>
               <a
                 href="https://www.instagram.com/teatro.dislocador/"
+                aria-label="Instagram de Teatro Dislocador"
                 className="text-white hover:text-[#E64A3B] transition-colors"
                 target="_blank" rel="noreferrer"
               >
@@ -63,6 +65,7 @@ const Footer = ({
               </a>
               <a
                 href="https://x.com/dislocador"
+                aria-label="X (Twitter) de Teatro Dislocador"
                 className="text-white hover:text-[#E64A3B] transition-colors"
                 target="_blank" rel="noreferrer"
               >
@@ -70,6 +73,7 @@ const Footer = ({
               </a>
               <a
                 href="https://www.tiktok.com/@dislocador"
+                aria-label="TikTok de Teatro Dislocador"
                 className="text-white hover:text-[#E64A3B] transition-colors"
                 target="_blank" rel="noreferrer"
               >
@@ -83,17 +87,15 @@ const Footer = ({
               <h4 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-3">Desarrollado por</h4>
               <p className="text-gray-300 text-sm flex items-center gap-2">
                 <span className="font-bold">Jonorl</span>
-                <FaGithub
-                  className="h-4 w-4 opacity-70 hover:opacity-100 cursor-pointer text-white transition-opacity"
-                  onClick={() => window.open("https://github.com/jonorl/teatro-dislocador", "_blank", "noreferrer")}
-                />
-                <FaGlobe
-                  className="h-4 w-4 opacity-70 hover:opacity-100 cursor-pointer text-white transition-opacity"
-                  onClick={() => window.open("https://jonathan-orlowski.dev/", "_blank", "noreferrer")}
-                />
+                <a href="https://github.com/jonorl/teatro-dislocador" target="_blank" rel="noreferrer" aria-label="Código fuente en GitHub">
+                  <FaGithub className="h-4 w-4 opacity-70 hover:opacity-100 text-white transition-opacity" />
+                </a>
+                <a href="https://jonathan-orlowski.dev/" target="_blank" rel="noreferrer" aria-label="Sitio web de Jonorl">
+                  <FaGlobe className="h-4 w-4 opacity-70 hover:opacity-100 text-white transition-opacity" />
+                </a>
               </p>
             </div>
-            <p className="text-gray-500 text-xs mt-6 md:mt-0 font-normal">
+            <p className="text-gray-400 text-xs mt-6 md:mt-0 font-normal">
               © {new Date().getFullYear()} Teatro Dislocador. Todos los derechos reservados.
             </p>
           </div>
