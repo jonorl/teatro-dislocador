@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import authHeaders from "../utils/authHeaders";
 import notify from "../utils/notify";
+import errorMessage from "../utils/errorMessage";
 import TrashIcon from "./UI/TrashIcon";
 import EmptyState from "./UI/EmptyState";
 import PanelHeader from "./UI/PanelHeader";
@@ -25,10 +26,9 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const load = useCallback(async () => {
-    setLoading(true);
     try {
       const data = await fetch(`${API}/gallery`).then((r) => r.json());
-      const normalized: GalleryItem[] = (data.galeria ?? []).map((item: any) => ({
+      const normalized: GalleryItem[] = (data.galeria ?? []).map((item: { id?: string; url?: string; URL?: string }) => ({
         id: item.id ?? "",
         url: item.url ?? item.URL ?? "",
       }));
@@ -40,6 +40,8 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
     }
   }, [API]);
 
+  // Fetch on mount: load only sets state after its request resolves, which this rule cannot see through.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { load(); }, [load]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,8 +91,8 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
       );
       resetForm();
       load();
-    } catch (err: any) {
-      notify(err.message, "err");
+    } catch (err) {
+      notify(errorMessage(err), "err");
     } finally {
       setSaving(false);
     }
@@ -106,8 +108,8 @@ export default function GalleryPanel({ API }: AdminDashboardProps) {
       if (!r.ok && r.status !== 204) throw new Error("Error al eliminar");
       notify("Imagen eliminada");
       load();
-    } catch (err: any) {
-      notify(err.message, "err");
+    } catch (err) {
+      notify(errorMessage(err), "err");
     } finally {
       setConfirmDelete(null);
     }

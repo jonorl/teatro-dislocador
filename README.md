@@ -1,8 +1,8 @@
-# 🎭 Teatro Dislocador
+# Teatro Dislocador
 
-A full-stack web application for Teatro Dislocador, an independent theater based in Comodoro Rivadavia, Argentina.
+The website of Teatro Dislocador, an independent theatre in Comodoro Rivadavia, Argentina.
 
-This project has evolved from a static site into a containerized monorepo ecosystem. It features a public client application, a secure administrative dashboard, and a robust Node.js/Prisma backend deployed via an Infrastructure-as-Code pipeline. Shows and classes stay up to date on their own: an n8n workflow reads the theatre's Instagram posts and updates the site.
+The monorepo holds three apps: the public site, an admin dashboard for the theatre's staff, and the Node.js API that both of them use. Shows and classes also keep themselves up to date: an n8n workflow reads the theatre's Instagram posts and updates the site through the API.
 
 <p align="center">
   <a href="https://teatrodislocador.ar">
@@ -10,71 +10,67 @@ This project has evolved from a static site into a containerized monorepo ecosys
   </a>
 </p>
 
-# 📂 Project Structure
+## Project structure
 
 ```bash
 teatro-dislocador/
-├── .github/           # CI/CD Workflows (GitHub Actions)
-├── admin/             # Administrative dashboard (react + vite + Clerk)
+├── .github/           # CI and deploy workflows, Dependabot config
+├── admin/             # Admin dashboard (React + Vite + Clerk), admin.teatrodislocador.ar
 ├── docs/              # README media
-├── server/            # Backend API service (Node.js + Expres + Prisma)
-└── web/               # Public-facing frontend website (React + vite)
+├── server/            # API (Node.js + Express + Prisma), api.teatrodislocador.ar
+│   └── test/          # API tests
+└── web/               # Public site (React + Vite), teatrodislocador.ar
 ```
 
-# ✨ Features by Sub-Project
+Each app has its own `package.json`; there is no root workspace.
 
-## Public Frontend (/web)
+## Features
 
-- Multi-section layout: Home, About Us, Artistic Direction, Current Shows, History, Classes, Gallery, and Contact.
+### Public site (`/web`)
 
-- Dynamic Program: Live updates of shows, dates, and ticket/event details driven by the backend database.
+- Sections for the school, artistic direction, current shows, history, classes, gallery, events, reviews and contact.
+- Shows, classes and gallery images come from the API.
+- Responsive layout built with Tailwind CSS and shadcn/ui components, with an Embla carousel for the gallery.
+- Embedded Google Maps location and links to Facebook, Instagram, X and TikTok.
+- **Static fallback.** Every build snapshots shows, classes and gallery images into `web/public/snapshot/`. If the API is unreachable, the site serves the snapshot instead of empty sections. Setting `VITE_DATA_SOURCE=static` in Cloudflare Pages runs the site without the server at all. Refresh the committed copy with `npm run snapshot`.
 
-- Interactive UI: Fully responsive navigation, custom themes with TailwindCSS, and an image gallery carousel powered by Embla Carousel.
+### Admin dashboard (`/admin`)
 
-- Integrations: Embedded Google Maps location and social media linking (Facebook, Instagram, X, TikTok).
+- Sign-in through Clerk with Google only. The API then checks the signed-in email against an allowlist in [`server/src/middleware/auth.ts`](server/src/middleware/auth.ts); add a new administrator there.
+- Create, edit and delete shows and classes, with a rich-text editor (TinyMCE) for descriptions.
+- Gallery management, including uploading up to 12 images at once.
 
-- Static Fallback: Every build snapshots shows, classes and gallery (including images) into `web/public/snapshot/`. If the API is unreachable the site serves the snapshot instead of empty sections; setting `VITE_DATA_SOURCE=static` in Cloudflare Pages runs the site without the server at all. Refresh the committed copy with `npm run snapshot`.
+### API (`/server`)
 
-## 🔐 Admin Dashboard (/admin)
+- Express 5 with Prisma ORM on PostgreSQL 17.
+- Public `GET` endpoints for shows (`/api/showcase`), classes (`/api/classes`) and gallery (`/api/gallery`); all writes need an administrator.
+- Image uploads: JPEG, PNG, WEBP or GIF up to 10 MB each, stored on disk and served from `/uploads`.
+- **Authentication.** Admin routes accept a Clerk session from an allowlisted email, or `Authorization: Bearer $AUTOMATION_TOKEN` for the n8n workflow.
+- **Rate limiting.** 300 requests per 15 minutes per visitor on `/api`. Requests arrive through Cloudflare and Caddy, so the visitor is identified by Cloudflare's `CF-Connecting-IP` header.
+- **CORS.** Only the public site, the admin dashboard and their Cloudflare Pages previews may call the API from a browser. Server-side callers such as n8n are unaffected. The list is in [`server/src/middleware/cors.ts`](server/src/middleware/cors.ts); add any new front-end domain there before using it.
 
-  - Role-Based Access Control: Secure login restricted entirely to administrators.
+## Instagram automation (n8n)
 
-  - Clerk Authentication: Managed user authentication utilizing Google OAuth exclusively.
-
-  - Content Management (CMS): Create, read, update, and delete interfaces for handling current shows, schedules, classes, and gallery media.
-
-## ⚙️ Backend API Service (/server)
-
-  - ORM & Database: Powered by Prisma ORM mapping to a robust PostgreSQL 17 database instance.
-
-  - API Engine: Fast and secure RESTful endpoints handling client data requests and authenticated admin mutations.
-
-  - Media Engine: Dedicated uploads handling pipeline for performance assets and gallery images.
-
-  - Machine Access: Admin routes also accept `Authorization: Bearer $AUTOMATION_TOKEN`, used by the n8n workflow below.
-
-## 🤖 Instagram Automation (n8n)
-
-The theatre announces everything on Instagram, so an n8n workflow (running on the personal VPS, not the Hetzner one) keeps the Cartelera and Clases in sync with its posts.
+The theatre announces everything on Instagram, so an n8n workflow keeps the shows and classes in sync with its posts. The workflow runs on the personal VPS, not the Hetzner one, and its export is kept outside this repo.
 
 **Hourly sync**
 
 1. Reads the Instagram token from `n8n_secrets` (Postgres, `agentic_ai` database) and fetches the latest 10 posts.
 2. Skips posts already recorded in `InstagramPost` and posts without a caption.
 3. Gemini classifies each caption as a new show, an update to an existing one, a class, or nothing, and extracts title, dates, description (HTML) and the event date.
-4. Past events and decisions below 0.7 confidence are skipped.
-5. The image is re-hosted through `/api/upload` (photo, first carousel slide, or the reel's cover thumbnail; saved without an image if Instagram withholds it), then the show or class is created or updated with its `instagramId` and `endsAt`.
-6. Every decision, applied or skipped, is recorded via `/api/instagram/processed`, and a summary is sent to WhatsApp.
+4. Skips past events and decisions below 0.7 confidence.
+5. Re-hosts the image through `/api/upload` (photo, first carousel slide, or the reel's cover thumbnail; saved without an image if Instagram withholds it), then creates or updates the show or class with its `instagramId` and `endsAt`.
+6. Records every decision, applied or skipped, via `/api/instagram/processed`, and sends a summary to WhatsApp.
 
 **Daily (04:00, Argentina time)**
 
-- `POST /api/instagram/expire-shows` removes Instagram shows 30 days after the show (`endsAt`), and any show without an end date that hasn't been edited for 30 days. Re-saving an undated show in the CMS keeps it up for another 30 days.
-- `POST /api/maintenance/cleanup-uploads` deletes files in the uploads folder that no show, class or gallery entry references, once they are older than 7 days (the CMS uploads an image before the entry is saved).
+- `POST /api/instagram/expire-shows` removes Instagram shows 30 days after the show (`endsAt`), and any show without an end date that hasn't been edited for 30 days. Re-saving an undated show in the admin keeps it up for another 30 days.
+- `POST /api/maintenance/cleanup-uploads` deletes files in the uploads folder that no show, class or gallery entry references, once they are older than 7 days (the admin uploads an image before the entry is saved).
 - A Cloudflare Pages deploy hook rebuilds the site so the static snapshot stays current.
 
 **Weekly (Mondays)**
 
-- Refreshes the long-lived Instagram token (valid 60 days) and stores the new one. The account owner only needs to re-authorise if the token is revoked, e.g. after an Instagram password change or if the refresh fails for 60 days.
+- Refreshes the long-lived Instagram token (valid 60 days) and stores the new one. The account owner only needs to re-authorise if the token is revoked, for example after an Instagram password change, or if the refresh fails for 60 days.
 
 **Automation endpoints** (all require the bearer token)
 
@@ -91,89 +87,105 @@ The theatre announces everything on Instagram, so an n8n workflow (running on th
 2. Within an hour, exchange the `code` for a short-lived token (`POST https://api.instagram.com/oauth/access_token`), then for a 60-day token (`GET https://graph.instagram.com/access_token?grant_type=ig_exchange_token`). Both need the Instagram app secret from the Meta dashboard.
 3. Store it: `UPDATE n8n_secrets SET value = '<token>' WHERE key = 'dislocador_ig_token';`
 
-# 🛠️ Tech Stack
+## Tech stack
 
-## Frontend & Admin
+| Area | Tools |
+|---|---|
+| Front ends | React 19, TypeScript 6, Vite 8, Tailwind CSS 4; shadcn/ui, Embla and Motion on the public site; Clerk and TinyMCE in the admin |
+| API | Node.js 22, Express 5, Prisma 7, PostgreSQL 17, Multer, Clerk |
+| Automation | n8n (self-hosted), Google Gemini, Instagram API with Instagram Login (`instagram_business_basic`) |
+| Testing | Jest 30, Testing Library, Supertest |
+| Hosting | Cloudflare Pages (public site and admin); Hetzner VPS with Docker Compose and Caddy (API and database) |
+| Operations | GitHub Actions, GitHub Container Registry, automated database backups, Grafana and Prometheus monitoring |
 
-  - Framework: React 19 + TypeScript + Vite
+## Getting started
 
-  - Styling: TailwindCSS + shadcn/ui components
+### Prerequisites
 
-  - Auth: Clerk (Google Identity Provider)
+Node.js 22 or later, and Docker if you want to build the server image.
 
-## Backend & Data
-
-  - Runtime: Node.js
-
-  - Database: PostgreSQL 17
-
-  - ORM: Prisma
-
-## Automation
-
-  - Workflow engine: n8n (self-hosted on the personal VPS, workflow export kept outside this repo)
-
-  - AI: Google Gemini classifies Instagram captions into shows and classes
-
-  - Data source: Instagram API with Instagram Login (`instagram_business_basic`, long-lived token refreshed weekly)
-
-## DevOps & Infrastructure
-
-  - Hosting: Virtual Private Server (VPS)
-
-  - Reverse Proxy: Caddy Server handling automated SSL/TLS certificates and routing traffic.
-
-  - Containerization: Docker and Docker Compose configurations for cross-service orchestration.
-
-  - CI/CD: Automated builds pushing private production server images directly to the GitHub Container Registry (ghcr.io).
-
-  - Observability & Ops: Complete system insights powered by Git-tracked Infrastructure as Code, continuous automated database backups, and full-stack monitoring metrics.
-
-  - Monitoring: Grafana + Prometheus dashboards.
-
-# 📦 Installation & Setup
-
-## Prerequisites
-
-Ensure you have node (v22+ recommended) and docker installed on your machine.
-
-## Setup
-
-- Clone the repo:
+### Install
 
 ```bash
 git clone https://github.com/jonorl/teatro-dislocador.git
 cd teatro-dislocador
+cd server && npm install && npx prisma generate
+cd ../web && npm install
+cd ../admin && npm install
 ```
-## Environment configurations:
 
-- Create a .env file inside /admin, /server, and /web directories matching the structure required for Clerk API keys, database connection URIs, and server ports (use .env.template as reference).
+### Environment variables
 
-- In production, the server's `.env` also needs `AUTOMATION_TOKEN` (generate with `openssl rand -hex 32`); the same value goes into n8n's "Dislocador automation token" credential.
+Each app reads a `.env` file in its own folder. None of them is committed.
 
-- Schema changes go through Prisma migrations only. On prod, apply them through an SSH tunnel to the Hetzner Postgres with `npx prisma migrate deploy`, **before** pushing code that depends on them.
+**`server/.env`**
 
-- Install dependencies per application layer
+| Variable | Purpose |
+|---|---|
+| `DATABASE_URL_DISLOCADOR` | PostgreSQL connection string |
+| `PORT_DISLOCADOR` | Port to listen on (default 3000) |
+| `MODE` | `PROD` in production; anything else uses the development keys and URLs below |
+| `NODE_ENV` | `production` in production. `development` turns off admin authentication, so only use it locally (`npm run dev` sets it for you). |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY` | Clerk keys used when `MODE=PROD` |
+| `DISLOCADOR_PUBLISHABLEKEY`, `DISLOCADOR_SECRETKEY` | Clerk keys used otherwise |
+| `DISLOCADOR_PROD_SERVER_URL`, `DISLOCADOR_DEV_SERVER_URL` | Public base URL used to build links to uploaded images |
+| `AUTOMATION_TOKEN` | Bearer token for n8n. Generate with `openssl rand -hex 32` and put the same value in n8n's "Dislocador automation token" credential. Production only. |
+| `UPLOAD_DIR` | Optional override of the uploads folder when deleting gallery images |
+
+**`admin/.env`**
+
+| Variable | Purpose |
+|---|---|
+| `VITE_DISLOCADOR_PROD_PUBLIC_CLERK_PUBLISHABLE_KEY`, `VITE_DISLOCADOR_DEV_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk publishable keys for production builds and `npm run dev` |
+| `VITE_DISLOCADOR_PROD_BACKEND`, `VITE_DISLOCADOR_DEV_BACKEND` | API base URL, including `/api`, for production builds and `npm run dev` |
+| `VITE_TINYMCE_API_KEY` | TinyMCE editor key |
+
+**`web/.env`** (both optional)
+
+| Variable | Purpose |
+|---|---|
+| `VITE_DATA_SOURCE` | `static` to serve only the snapshot and never call the API |
+| `SNAPSHOT_API` | API the snapshot script copies from (default `https://api.teatrodislocador.ar`) |
+
+### Run locally
 
 ```bash
-# Example for the backend server
-cd server && npm install
-
-# Example for the public web frontend
-cd ../web && npm install
+cd server && npm run dev   # API on http://localhost:3000, admin auth turned off
+cd web && npm run dev      # public site
+cd admin && npm run dev    # admin dashboard
 ```
 
-## Execution
+### Database changes
 
-To run services locally for development:
-
-- Backend: ```cd server && npm run dev``` (sets `NODE_ENV=development`, which skips admin auth; never set it in production)
-- Public web: ```cd web && npm run dev```
-- Admin CRM: ```cd admin && npm run dev```
+Schema changes go through Prisma migrations only. On production, apply them through an SSH tunnel to the Hetzner Postgres with `npx prisma migrate deploy`, **before** pushing code that depends on them.
 
 ## Testing
 
-Each app has its own Jest suite; run `npm test` inside `server/`, `web/` or `admin/` (`npm run test:watch` and `npm run test:coverage` also work). The server tests mock Prisma and Clerk, so they need no database or keys. The `Test` GitHub workflow runs all three on every push and pull request.
+Each app has its own Jest suite. Run it from the app's folder:
 
-👨‍💻 Author
-Developed by Jonathan Orlowski – All rights reserved.
+```bash
+npm test                # once
+npm run test:watch      # re-run on changes
+npm run test:coverage   # with a coverage report
+```
+
+- **server:** every route, authentication, rate limiting, CORS and the expiry and cleanup queries. Prisma and Clerk are mocked, so no database or keys are needed.
+- **web:** the API-or-snapshot data loading, and the shows and classes sections.
+- **admin:** the classes panel (list, create, edit, delete), toasts, auth headers and backend selection.
+
+## Deployment
+
+- **API:** pushing to `main` with changes under `server/` runs the `Build and Deploy` workflow. It runs the tests first, then builds the Docker image, pushes it to `ghcr.io/jonorl/teatro-dislocador`, then pulls it on the VPS and recreates the container with Docker Compose. Caddy in front handles TLS.
+- **Public site and admin:** Cloudflare Pages builds both on every push, with preview deployments for other branches.
+
+## Security and maintenance
+
+- **CI:** the `Test` workflow runs all three test suites on every push and pull request, and type-checks the two front ends.
+- **Branch ruleset:** changes to `main` go through a pull request with passing tests and no new high or critical CodeQL alerts. Force-pushes and deletion are blocked; repository admins can bypass.
+- **CodeQL:** scans the JavaScript/TypeScript code and the workflows weekly and on every pull request.
+- **Dependabot:** security updates as soon as an advisory appears, and version updates every Monday. Minor and patch bumps arrive as one pull request per app, and the Prisma packages move together. Major versions of `@types/node` and Babel, and TypeScript 6.1 or later, are skipped for now; [`.github/dependabot.yml`](.github/dependabot.yml) explains why.
+- **Secret scanning** with push protection is on.
+
+## Author
+
+Developed by Jonathan Orlowski. Licensed under the Mozilla Public License 2.0, see [`web/LICENSE`](web/LICENSE).

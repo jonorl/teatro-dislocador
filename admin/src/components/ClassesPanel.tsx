@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { Editor } from "@tinymce/tinymce-react";
 import notify from "../utils/notify";
+import errorMessage from "../utils/errorMessage";
 import PanelHeader from "./UI/PanelHeader";
 import InlineDeleteConfirm from "./UI/InlineDeleteConfirm";
 import IconBtn from "./UI/IconBtn";
@@ -44,7 +45,6 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
   const imageFileRef = useRef<HTMLInputElement>(null);
 
   const load = useCallback(async () => {
-    setLoading(true);
     try {
       const data = await fetch(`${API}/classes`).then((r) => r.json());
       setItems(data.classes ?? []);
@@ -53,8 +53,10 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [API]);
 
+  // Fetch on mount: load only sets state after its request resolves, which this rule cannot see through.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { load(); }, [load]);
 
   const openCreate = () => {
@@ -87,8 +89,8 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
       if (!r.ok) throw new Error((await r.json()).error ?? "Error al subir");
       const { url } = await r.json();
       setForm((prev) => ({ ...prev, image: url }));
-    } catch (err: any) {
-      notify(err.message, "err");
+    } catch (err) {
+      notify(errorMessage(err), "err");
     } finally {
       setImageUploading(false);
     }
@@ -110,14 +112,14 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
       notify(editTarget ? "Clase actualizada" : "Clase creada");
       setDrawerOpen(false);
       load();
-    } catch (err: any) {
-      notify(err.message, "err");
+    } catch (err) {
+      notify(errorMessage(err), "err");
     } finally {
       setSaving(false);
     }
   };
 
-  const handleDelete = async (id: String) => {
+  const handleDelete = async (id: string) => {
     try {
       const token = await getToken();
       const r = await fetch(`${API}/classes/${id}`, {
@@ -128,8 +130,8 @@ export default function ClassesPanel({ API }: AdminDashboardProps) {
         throw new Error("Error al eliminar");
       notify("Clase eliminada");
       load();
-    } catch (err: any) {
-      notify(err.message, "err");
+    } catch (err) {
+      notify(errorMessage(err), "err");
     } finally {
       setConfirmDelete(null);
     }

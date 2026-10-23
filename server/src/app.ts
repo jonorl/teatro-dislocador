@@ -17,7 +17,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-// Caddy is the one proxy in front, so req.ip is the visitor's address rather than Caddy's and rate limits are per visitor.
+app.disable("x-powered-by");
+// Caddy is the proxy Express talks to; behind Cloudflare the visitor's address comes from CF-Connecting-IP (see rateLimit.ts).
 app.set("trust proxy", 1);
 
 app.use(corsMiddleware());

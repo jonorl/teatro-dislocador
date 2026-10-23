@@ -16,10 +16,10 @@ export default function AdminDashboard() {
   const [tab, setTab] = useState<Tab>("classes");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Close sidebar on route change
-  useEffect(() => {
+  const selectTab = (id: Tab) => {
+    setTab(id);
     setSidebarOpen(false);
-  }, [tab]);
+  };
 
   // Close sidebar on outside click (desktop overlay isn't rendered, but safety net)
   useEffect(() => {
@@ -114,7 +114,7 @@ export default function AdminDashboard() {
                 {TABS.map((t) => (
                   <button
                     key={t.id}
-                    onClick={() => setTab(t.id)}
+                    onClick={() => selectTab(t.id)}
                     className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${tab === t.id
                         ? "bg-rose-600 text-white shadow-md shadow-rose-600/20"
                         : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/70"
@@ -181,7 +181,7 @@ export default function AdminDashboard() {
                 {TABS.map((t) => (
                   <button
                     key={t.id}
-                    onClick={() => setTab(t.id)}
+                    onClick={() => selectTab(t.id)}
                     className={`flex-1 flex flex-col items-center gap-1 py-3 text-[10px] font-semibold transition-colors ${tab === t.id
                         ? "text-rose-400"
                         : "text-slate-500 hover:text-slate-300"

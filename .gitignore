@@ -28,3 +28,6 @@ dist-ssr
 /server/uploads
 # Scratch dir used while the snapshot script runs
 web/public/snapshot.tmp
+
+# TypeScript incremental build state
+*.tsbuildinfo

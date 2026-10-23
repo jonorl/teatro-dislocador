@@ -3,6 +3,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { Editor } from "@tinymce/tinymce-react";
 import authHeaders from "../utils/authHeaders";
 import notify from "../utils/notify";
+import errorMessage from "../utils/errorMessage";
 import PanelHeader from "./UI/PanelHeader";
 import LoadingRows from "./UI/LoadingRows";
 import EmptyState from "./UI/EmptyState";
@@ -71,15 +72,14 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
       if (!r.ok) throw new Error((await r.json()).error ?? "Error al subir");
       const { url } = await r.json();
       f("image", url);
-    } catch (err: any) {
-      notify(err.message, "err");
+    } catch (err) {
+      notify(errorMessage(err), "err");
     } finally {
       setImageUploading(false);
     }
   };
 
   const load = useCallback(async () => {
-    setLoading(true);
     try {
       const data = await fetch(`${API}/showcase`).then((r) => r.json());
       setItems(data.cartelera ?? []);
@@ -88,8 +88,10 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [API]);
 
+  // Fetch on mount: load only sets state after its request resolves, which this rule cannot see through.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { load(); }, [load]);
 
   const openCreate = () => {
@@ -101,8 +103,16 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
 
   const openEdit = (item: ShowcaseItem) => {
     setEditTarget(item);
-    const { id, ...rest } = item;
-    setForm(rest);
+    // Only the form's fields: the API row also carries ids, timestamps and Instagram data, and optional fields come back null.
+    setForm({
+      title: item.title ?? "",
+      author: item.author ?? "",
+      director: item.director ?? "",
+      dates: item.dates ?? "",
+      duration: item.duration ?? "",
+      description: item.description ?? "",
+      image: item.image ?? "",
+    });
     setImageMode("url");
     setDrawerOpen(true);
   };
@@ -123,14 +133,14 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
       notify(editTarget ? "Obra actualizada" : "Obra publicada en cartelera");
       setDrawerOpen(false);
       load();
-    } catch (err: any) {
-      notify(err.message, "err");
+    } catch (err) {
+      notify(errorMessage(err), "err");
     } finally {
       setSaving(false);
     }
   };
 
-  const handleDelete = async (id: String) => {
+  const handleDelete = async (id: string) => {
     try {
       const token = await getToken();
       const r = await fetch(`${API}/showcase/${id}`, {
@@ -141,8 +151,8 @@ export default function ShowcasePanel({ API }: AdminDashboardProps) {
         throw new Error("Error al eliminar");
       notify("Obra eliminada");
       load();
-    } catch (err: any) {
-      notify(err.message, "err");
+    } catch (err) {
+      notify(errorMessage(err), "err");
     } finally {
       setConfirmDelete(null);
     }

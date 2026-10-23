@@ -1,0 +1,10 @@
+# Keeps local secrets, installed modules and uploaded images out of the image; npm ci installs fresh inside it.
+.env
+.env.*
+node_modules
+uploads
+test
+coverage
+jest.config.js
+babel.config.cjs
+*.log
