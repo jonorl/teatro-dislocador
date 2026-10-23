@@ -44,8 +44,7 @@ jobs:
           DATABASE_URL_DISLOCADOR: postgresql://dummy:dummy@localhost:5432/dummy
 
       - name: Type check
-        if: matrix.package != 'server'
-        run: npx tsc -b
+        run: npm run typecheck
 
       - name: Lint
         if: matrix.package != 'server'

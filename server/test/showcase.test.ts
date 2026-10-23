@@ -64,7 +64,7 @@ describe("POST /api/showcase", () => {
   it("ignores fields the model does not have", async () => {
     queries.create.mockResolvedValue({ id: "1" } as any);
     await request(app).post("/api/showcase").send({ title: "Hamlet", id: "forged", createdAt: "2000-01-01" });
-    const data = queries.create.mock.calls[0][0] as Record<string, unknown>;
+    const data = queries.create.mock.calls[0][0] as unknown as Record<string, unknown>;
     expect(data).not.toHaveProperty("id");
     expect(data).not.toHaveProperty("createdAt");
   });

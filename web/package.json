@@ -8,6 +8,7 @@
     "snapshot": "node scripts/snapshot.mjs",
     "prebuild": "npm run snapshot",
     "build": "tsc -b && vite build",
+    "typecheck": "tsc -b",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "jest",

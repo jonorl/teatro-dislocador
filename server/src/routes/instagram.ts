@@ -5,7 +5,7 @@ import { instagramQueries, showcaseQueries } from "../db/queries";
 const router = express.Router();
 
 // The workflow only fetches Instagram's latest posts, so the most recent IDs are enough to deduplicate against.
-router.get("/processed", authenticateAdmin, async (req, res) => {
+router.get("/processed", authenticateAdmin, async (_req, res) => {
   try {
     const posts = await instagramQueries.getRecentIds(200);
     return res.json({ ids: posts.map((post) => post.id) });
@@ -28,7 +28,7 @@ router.post("/processed", authenticateAdmin, async (req, res) => {
   }
 });
 
-router.post("/expire-shows", authenticateAdmin, async (req, res) => {
+router.post("/expire-shows", authenticateAdmin, async (_req, res) => {
   try {
     const removed = await showcaseQueries.deleteExpired(new Date());
     return res.json({ removed });

@@ -57,7 +57,7 @@ describe("POST /api/upload", () => {
 
 describe("POST /api/upload/multiple", () => {
   it("saves every image and records each one in the gallery", async () => {
-    queries.create.mockImplementation(async (url: string) => ({ id: "x", url, createdAt: new Date() }));
+    queries.create.mockImplementation(((url: string) => Promise.resolve({ id: "x", url, createdAt: new Date() })) as any);
     const res = await request(app)
       .post("/api/upload/multiple")
       .attach("images", PNG, { filename: "a.png", contentType: "image/png" })

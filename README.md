@@ -1,5 +1,11 @@
 # Teatro Dislocador
 
+[![Test](https://github.com/jonorl/teatro-dislocador/actions/workflows/test.yml/badge.svg)](https://github.com/jonorl/teatro-dislocador/actions/workflows/test.yml)
+[![Build and Deploy](https://github.com/jonorl/teatro-dislocador/actions/workflows/deploy.yml/badge.svg)](https://github.com/jonorl/teatro-dislocador/actions/workflows/deploy.yml)
+[![CodeQL](https://github.com/jonorl/teatro-dislocador/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/jonorl/teatro-dislocador/security/code-scanning)
+[![API status](https://img.shields.io/website?url=https%3A%2F%2Fapi.teatrodislocador.ar%2Fhealth&label=api&up_message=healthy&down_message=down)](https://api.teatrodislocador.ar/health)
+[![Licence](https://img.shields.io/github/license/jonorl/teatro-dislocador)](LICENSE)
+
 The website of Teatro Dislocador, an independent theatre in Comodoro Rivadavia, Argentina.
 
 The monorepo holds three apps: the public site, an admin dashboard for the theatre's staff, and the Node.js API that both of them use. Shows and classes also keep themselves up to date: an n8n workflow reads the theatre's Instagram posts and updates the site through the API.
@@ -9,6 +15,58 @@ The monorepo holds three apps: the public site, an admin dashboard for the theat
     <img src="docs/preview.gif" alt="A scroll down the theatre's home page: the school, its shows, its history and the venue for hire." width="600" />
   </a>
 </p>
+
+## Architecture
+
+```mermaid
+flowchart LR
+    visitors(["Visitors"])
+    staff(["Theatre staff"])
+    ig(["Instagram"])
+
+    subgraph pages["Cloudflare Pages"]
+        web["Public site<br/>teatrodislocador.ar<br/>bundled snapshot as fallback"]
+        admin["Admin dashboard<br/>admin.teatrodislocador.ar"]
+    end
+
+    edge["Cloudflare proxy<br/>api.teatrodislocador.ar<br/>HSTS, real visitor IP"]
+
+    subgraph hetzner["Hetzner VPS, Docker Compose"]
+        caddy["Caddy<br/>accepts Cloudflare only"]
+        api["API<br/>Express, Prisma<br/>rate limit, CORS, /health"]
+        db[("PostgreSQL 17")]
+        uploads[("Uploads volume")]
+        monitoring["Prometheus, Grafana"]
+    end
+
+    subgraph automation["Personal VPS"]
+        n8n["n8n workflows"]
+    end
+
+    clerk["Clerk<br/>Google sign-in"]
+    gemini["Gemini"]
+    gha["GitHub Actions<br/>test, build, deploy, smoke test"]
+
+    visitors --> web
+    staff --> admin
+    admin -. "sign-in" .-> clerk
+    web -- "read shows, classes, gallery" --> edge
+    admin -- "edit with Clerk session" --> edge
+    edge -- "authenticated origin pull" --> caddy
+    caddy --> api
+    api --> db
+    api --> uploads
+    api -. "verify session" .-> clerk
+    ig --> n8n
+    n8n <--> gemini
+    n8n -- "bearer token" --> edge
+    gha -- "image via GHCR, SSH" --> hetzner
+```
+
+- **The site never depends on the API being up.** Every Pages build bundles a snapshot of the content, which the site shows if the API doesn't answer.
+- **Only Cloudflare can reach the API.** Caddy requires Cloudflare's origin-pull client certificate, so requests to the server's IP are refused, and the API identifies visitors from Cloudflare's `CF-Connecting-IP` header.
+- **Content mostly updates itself.** n8n turns the theatre's Instagram posts into shows and classes through the same API the admin uses, authenticated with its own token.
+- **A deploy only counts once it's live.** GitHub Actions runs the tests, ships the image, then waits until `/health` reports the new commit through Cloudflare.
 
 ## Project structure
 
@@ -168,6 +226,7 @@ Each app has its own Jest suite. Run it from the app's folder:
 npm test                # once
 npm run test:watch      # re-run on changes
 npm run test:coverage   # with a coverage report
+npm run typecheck       # TypeScript, without building
 ```
 
 - **server:** every route, authentication, rate limiting, CORS and the expiry and cleanup queries. Prisma and Clerk are mocked, so no database or keys are needed.
@@ -181,7 +240,7 @@ npm run test:coverage   # with a coverage report
 
 ## Security and maintenance
 
-- **CI:** the `Test` workflow runs all three test suites on every push and pull request, and type-checks and lints the two front ends.
+- **CI:** the `Test` workflow runs on every push and pull request. It type-checks and tests all three apps, and lints the two front ends.
 - **Branch ruleset:** changes to `main` go through a pull request with passing tests and no new high or critical CodeQL alerts. Force-pushes and deletion are blocked; repository admins can bypass.
 - **CodeQL:** scans the JavaScript/TypeScript code and the workflows weekly and on every pull request.
 - **Dependabot:** security updates as soon as an advisory appears, and version updates every Monday. Minor and patch bumps arrive as one pull request per app, and the Prisma packages move together. Major versions of `@types/node` and Babel, and TypeScript 6.1 or later, are skipped for now; [`.github/dependabot.yml`](.github/dependabot.yml) explains why.

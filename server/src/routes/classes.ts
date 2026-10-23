@@ -4,7 +4,7 @@ import { classQueries } from "../db/queries";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", async (_req, res) => {
   try {
     const classes = await classQueries.getAll();
     return res.json({ classes });

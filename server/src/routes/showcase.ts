@@ -13,7 +13,7 @@ const parseEndsAt = (value: unknown) => {
   return date;
 };
 
-router.get("/", async (req, res) => {
+router.get("/", async (_req, res) => {
   try {
     const cartelera = await showcaseQueries.getAll();
     return res.json({ cartelera });

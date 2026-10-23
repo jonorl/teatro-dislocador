@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 const router = express.Router();
 
 // GET — unchanged
-router.get("/", async (req, res) => {
+router.get("/", async (_req, res) => {
   try {
     const galleryItems = await galleryQueries.getAll();
     const galeria = galleryItems.map(item => ({ id: item.id, url: item.url }));
