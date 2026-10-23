@@ -15,7 +15,6 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@radix-ui/react-navigation-menu": "^1.4.1",
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/vite": "^4.3.3",
     "class-variance-authority": "^0.7.1",

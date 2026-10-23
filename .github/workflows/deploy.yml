@@ -64,3 +64,31 @@ jobs:
             
             # 3. Optional: Clean up old dangling images to save disk space
             docker image prune -f
+      # A green deploy only means the container was recreated; this checks the API actually serves through
+      # Cloudflare, reads the database and still enforces auth. Retries while the container starts.
+      - name: Smoke test
+        env:
+          API: https://api.teatrodislocador.ar/api
+        run: |
+          for attempt in $(seq 1 12); do
+            if curl -fsS --max-time 10 "$API/classes" | jq -e '.classes | type == "array"' > /dev/null; then
+              echo "API answering after $attempt attempt(s)"
+              break
+            fi
+            if [ "$attempt" -eq 12 ]; then
+              echo "::error::GET /api/classes did not return a classes list within a minute"
+              exit 1
+            fi
+            sleep 5
+          done
+
+          for endpoint in showcase gallery; do
+            status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$API/$endpoint")
+            [ "$status" = 200 ] || { echo "::error::GET /api/$endpoint returned $status"; exit 1; }
+          done
+
+          # 401 proves NODE_ENV isn't 'development', which would switch admin auth off.
+          status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 -X POST "$API/showcase")
+          [ "$status" = 401 ] || { echo "::error::Unauthenticated POST /api/showcase returned $status, expected 401"; exit 1; }
+
+          echo "Smoke test passed"

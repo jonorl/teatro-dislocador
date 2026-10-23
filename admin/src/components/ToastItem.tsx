@@ -6,13 +6,16 @@ interface ToastItem {
   type: "ok" | "err";
 }
 
+// Date.now() repeats when two toasts fire in the same millisecond, which made them share a key and vanish together.
+let nextId = 0;
+
 export default function ToastRegion() {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
   useEffect(() => {
     const handler = (e: Event) => {
       const { msg, type } = (e as CustomEvent).detail;
-      const id = Date.now();
+      const id = ++nextId;
       setToasts((prev) => [...prev, { id, msg, type }]);
       setTimeout(
         () => setToasts((prev) => prev.filter((t) => t.id !== id)),

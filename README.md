@@ -171,16 +171,16 @@ npm run test:coverage   # with a coverage report
 
 - **server:** every route, authentication, rate limiting, CORS and the expiry and cleanup queries. Prisma and Clerk are mocked, so no database or keys are needed.
 - **web:** the API-or-snapshot data loading, and the shows and classes sections.
-- **admin:** the classes panel (list, create, edit, delete), toasts, auth headers and backend selection.
+- **admin:** the classes, shows and gallery panels (list, create, edit, upload, delete), toasts, auth headers and backend selection.
 
 ## Deployment
 
-- **API:** pushing to `main` with changes under `server/` runs the `Build and Deploy` workflow. It runs the tests first, then builds the Docker image, pushes it to `ghcr.io/jonorl/teatro-dislocador`, then pulls it on the VPS and recreates the container with Docker Compose. Caddy in front handles TLS.
+- **API:** pushing to `main` with changes under `server/` runs the `Build and Deploy` workflow. It runs the tests first, then builds the Docker image, pushes it to `ghcr.io/jonorl/teatro-dislocador`, then pulls it on the VPS and recreates the container with Docker Compose. Caddy in front handles TLS. A final smoke test calls the live API through Cloudflare and fails the run if it doesn't serve data or no longer requires a login for admin routes.
 - **Public site and admin:** Cloudflare Pages builds both on every push, with preview deployments for other branches.
 
 ## Security and maintenance
 
-- **CI:** the `Test` workflow runs all three test suites on every push and pull request, and type-checks the two front ends.
+- **CI:** the `Test` workflow runs all three test suites on every push and pull request, and type-checks and lints the two front ends.
 - **Branch ruleset:** changes to `main` go through a pull request with passing tests and no new high or critical CodeQL alerts. Force-pushes and deletion are blocked; repository admins can bypass.
 - **CodeQL:** scans the JavaScript/TypeScript code and the workflows weekly and on every pull request.
 - **Dependabot:** security updates as soon as an advisory appears, and version updates every Monday. Minor and patch bumps arrive as one pull request per app, and the Prisma packages move together. Major versions of `@types/node` and Babel, and TypeScript 6.1 or later, are skipped for now; [`.github/dependabot.yml`](.github/dependabot.yml) explains why.
@@ -188,4 +188,4 @@ npm run test:coverage   # with a coverage report
 
 ## Author
 
-Developed by Jonathan Orlowski. Licensed under the Mozilla Public License 2.0, see [`web/LICENSE`](web/LICENSE).
+Developed by Jonathan Orlowski. Licensed under the Mozilla Public License 2.0, see [`LICENSE`](LICENSE).

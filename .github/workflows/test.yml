@@ -47,5 +47,9 @@ jobs:
         if: matrix.package != 'server'
         run: npx tsc -b
 
+      - name: Lint
+        if: matrix.package != 'server'
+        run: npm run lint
+
       - name: Test
         run: npm test
