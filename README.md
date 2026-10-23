@@ -47,6 +47,7 @@ Each app has its own `package.json`; there is no root workspace.
 - Image uploads: JPEG, PNG, WEBP or GIF up to 10 MB each, stored on disk and served from `/uploads`.
 - **Authentication.** Admin routes accept a Clerk session from an allowlisted email, or `Authorization: Bearer $AUTOMATION_TOKEN` for the n8n workflow.
 - **Rate limiting.** 300 requests per 15 minutes per visitor on `/api`. Requests arrive through Cloudflare and Caddy, so the visitor is identified by Cloudflare's `CF-Connecting-IP` header.
+- **Health check.** `GET /health` answers `200` with the deployed commit when the database is reachable and `503` when it isn't. It isn't rate-limited, and checks the database at most every 5 seconds. Docker uses it as the container's `HEALTHCHECK`.
 - **CORS.** Only the public site, the admin dashboard and their Cloudflare Pages previews may call the API from a browser. Server-side callers such as n8n are unaffected. The list is in [`server/src/middleware/cors.ts`](server/src/middleware/cors.ts); add any new front-end domain there before using it.
 
 ## Instagram automation (n8n)
@@ -175,7 +176,7 @@ npm run test:coverage   # with a coverage report
 
 ## Deployment
 
-- **API:** pushing to `main` with changes under `server/` runs the `Build and Deploy` workflow. It runs the tests first, then builds the Docker image, pushes it to `ghcr.io/jonorl/teatro-dislocador`, then pulls it on the VPS and recreates the container with Docker Compose. Caddy in front handles TLS. A final smoke test calls the live API through Cloudflare and fails the run if it doesn't serve data or no longer requires a login for admin routes.
+- **API:** pushing to `main` with changes under `server/` runs the `Build and Deploy` workflow. It runs the tests first, then builds the Docker image, pushes it to `ghcr.io/jonorl/teatro-dislocador`, then pulls it on the VPS and recreates the container with Docker Compose. Caddy in front handles TLS. A final smoke test waits until `/health` reports the new commit through Cloudflare, then checks the public endpoints and that admin routes still require a login, and fails the run otherwise.
 - **Public site and admin:** Cloudflare Pages builds both on every push, with preview deployments for other branches.
 
 ## Security and maintenance

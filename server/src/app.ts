@@ -8,6 +8,7 @@ import showcaseRouter from "./routes/showcase";
 import uploadRouter from "./routes/upload";
 import instagramRouter from "./routes/instagram";
 import maintenanceRouter from "./routes/maintenance";
+import healthRouter from "./routes/health";
 import { apiLimiter } from "./middleware/rateLimit";
 import { corsMiddleware } from "./middleware/cors";
 import { fileURLToPath } from "url"; 
@@ -53,6 +54,8 @@ app.use(
   })
 );
 
+// Outside /api so monitoring and the deploy smoke test are never rate-limited.
+app.use("/health", healthRouter);
 app.use("/api", apiLimiter);
 app.use("/api/classes", classesRouter);
 app.use("/api/gallery", galleryRouter);

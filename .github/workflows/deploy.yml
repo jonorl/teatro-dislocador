@@ -45,6 +45,7 @@ jobs:
           push: true
           tags: ghcr.io/jonorl/teatro-dislocador:latest # UPDATE
           no-cache: true
+          build-args: GIT_SHA=${{ github.sha }}
           # cache-from: type=gha
           # cache-to: type=gha,mode=max
 
@@ -64,31 +65,36 @@ jobs:
             
             # 3. Optional: Clean up old dangling images to save disk space
             docker image prune -f
-      # A green deploy only means the container was recreated; this checks the API actually serves through
-      # Cloudflare, reads the database and still enforces auth. Retries while the container starts.
+      # A green deploy only means the container was recreated. This waits until /health reports this commit, so the
+      # new container (not the old one) is answering through Cloudflare with a working database, then checks the
+      # public endpoints and that admin routes still require a login.
       - name: Smoke test
         env:
-          API: https://api.teatrodislocador.ar/api
+          BASE: https://api.teatrodislocador.ar
+          EXPECTED_VERSION: ${{ github.sha }}
         run: |
-          for attempt in $(seq 1 12); do
-            if curl -fsS --max-time 10 "$API/classes" | jq -e '.classes | type == "array"' > /dev/null; then
-              echo "API answering after $attempt attempt(s)"
+          for attempt in $(seq 1 18); do
+            health=$(curl -s --max-time 10 "$BASE/health" || true)
+            if echo "$health" | jq -e --arg v "$EXPECTED_VERSION" '.status == "ok" and .version == $v' > /dev/null 2>&1; then
+              echo "New version healthy after $attempt attempt(s)"
               break
             fi
-            if [ "$attempt" -eq 12 ]; then
-              echo "::error::GET /api/classes did not return a classes list within a minute"
+            if [ "$attempt" -eq 18 ]; then
+              echo "::error::/health did not report status ok for $EXPECTED_VERSION within 90 seconds. Last response: $health"
               exit 1
             fi
             sleep 5
           done
 
+          curl -fsS --max-time 10 "$BASE/api/classes" | jq -e '.classes | type == "array"' > /dev/null \
+            || { echo "::error::GET /api/classes did not return a classes list"; exit 1; }
           for endpoint in showcase gallery; do
-            status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$API/$endpoint")
+            status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$BASE/api/$endpoint")
             [ "$status" = 200 ] || { echo "::error::GET /api/$endpoint returned $status"; exit 1; }
           done
 
           # 401 proves NODE_ENV isn't 'development', which would switch admin auth off.
-          status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 -X POST "$API/showcase")
+          status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 -X POST "$BASE/api/showcase")
           [ "$status" = 401 ] || { echo "::error::Unauthenticated POST /api/showcase returned $status, expected 401"; exit 1; }
 
           echo "Smoke test passed"

@@ -95,3 +95,8 @@ export const maintenanceQueries = {
       .filter((url): url is string => Boolean(url));
   },
 };
+
+// --- Health Queries ---
+export const healthQueries = {
+  ping: () => prisma.$queryRaw`SELECT 1`,
+};
