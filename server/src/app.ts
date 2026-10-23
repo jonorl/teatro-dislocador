@@ -1,6 +1,5 @@
 import "dotenv/config";
 import express from "express";
-import cors from "cors";
 import path from "path";                    
 import { clerkMiddleware } from "@clerk/express";
 import classesRouter from "./routes/classes";
@@ -10,6 +9,7 @@ import uploadRouter from "./routes/upload";
 import instagramRouter from "./routes/instagram";
 import maintenanceRouter from "./routes/maintenance";
 import { apiLimiter } from "./middleware/rateLimit";
+import { corsMiddleware } from "./middleware/cors";
 import { fileURLToPath } from "url"; 
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
@@ -20,7 +20,7 @@ const app = express();
 // Caddy is the one proxy in front, so req.ip is the visitor's address rather than Caddy's and rate limits are per visitor.
 app.set("trust proxy", 1);
 
-app.use(cors({ origin: "*" }));
+app.use(corsMiddleware());
 app.use(
   express.json({
     type: (req) => {
