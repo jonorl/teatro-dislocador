@@ -97,6 +97,10 @@ const Footer = ({
             </div>
             <p className="text-gray-400 text-xs mt-6 md:mt-0 font-normal">
               © {new Date().getFullYear()} Teatro Dislocador. Todos los derechos reservados.
+              {" · "}
+              <a href="/privacidad" className="underline hover:text-white transition-colors">
+                Política de privacidad
+              </a>
             </p>
           </div>
 
