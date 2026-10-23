@@ -14,7 +14,8 @@ const isAutomationRequest = (req: Request) => {
 };
 
 export const authenticateAdmin = async (req: Request, res: Response, next: NextFunction) => {
-  if (process.env.NODE_ENV === "development" || req.hostname === "localhost" || req.hostname === "127.0.0.1") {
+  // Only an explicit opt-in skips auth: the Host header is client-controlled, so a hostname check could be spoofed.
+  if (process.env.NODE_ENV === "development") {
     return next();
   }
 

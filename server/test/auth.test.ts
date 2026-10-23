@@ -15,7 +15,6 @@ const getUser = jest.mocked(clerkClient.users.getUser);
 const app = express();
 app.get("/admin", authenticateAdmin, (_req, res) => res.json({ ok: true }));
 
-// supertest connects to 127.0.0.1, which the middleware lets through, so tests set a public Host.
 const call = (headers: Record<string, string> = {}) =>
   request(app).get("/admin").set({ Host: "api.teatrodislocador.ar", ...headers });
 
@@ -32,10 +31,20 @@ afterEach(() => {
 });
 
 describe("authenticateAdmin", () => {
-  it("lets localhost through without credentials", async () => {
-    const res = await request(app).get("/admin").set("Host", "localhost:3000");
-    expect(res.status).toBe(200);
-    expect(mockedGetAuth).not.toHaveBeenCalled();
+  it("lets everything through when NODE_ENV is development", async () => {
+    process.env.NODE_ENV = "development";
+    try {
+      const res = await call();
+      expect(res.status).toBe(200);
+      expect(mockedGetAuth).not.toHaveBeenCalled();
+    } finally {
+      process.env.NODE_ENV = "test";
+    }
+  });
+
+  it.each(["localhost", "127.0.0.1", "localhost:3000"])("does not trust a Host header of %s", async (host) => {
+    const res = await request(app).get("/admin").set("Host", host);
+    expect(res.status).toBe(401);
   });
 
   it("accepts the automation token", async () => {

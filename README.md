@@ -167,7 +167,7 @@ cd ../web && npm install
 
 To run services locally for development:
 
-- Backend: ```cd server && npx tsx src/app.ts```
+- Backend: ```cd server && npm run dev``` (sets `NODE_ENV=development`, which skips admin auth; never set it in production)
 - Public web: ```cd web && npm run dev```
 - Admin CRM: ```cd admin && npm run dev```
 
