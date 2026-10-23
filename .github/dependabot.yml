@@ -1,0 +1,48 @@
+version: 2
+
+# Minor and patch bumps arrive as one PR per app so the weekly run stays reviewable; majors come separately
+# because they are the ones that break things (the http-proxy-middleware audit fix was one).
+updates:
+  - package-ecosystem: npm
+    directory: /server
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: America/Argentina/Buenos_Aires
+    groups:
+      server-minor-patch:
+        update-types: [minor, patch]
+      # prisma, @prisma/client and @prisma/adapter-pg must stay on the same version.
+      prisma:
+        patterns: ["prisma", "@prisma/*"]
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: npm
+    directory: /web
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: America/Argentina/Buenos_Aires
+    groups:
+      web-minor-patch:
+        update-types: [minor, patch]
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: npm
+    directory: /admin
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: America/Argentina/Buenos_Aires
+    groups:
+      admin-minor-patch:
+        update-types: [minor, patch]
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
