@@ -1,6 +1,6 @@
 import { MapPin, Phone, Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
-import { motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "motion/react";
 
 const Contact = () => {
   const containerVariants: Variants = {

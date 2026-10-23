@@ -1,6 +1,6 @@
 import { BookOpen, Clock, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "motion/react";
 import { loadSiteData } from "@/lib/siteData";
 
 interface ClassData {

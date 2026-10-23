@@ -5,7 +5,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "motion/react";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { loadSiteData } from "@/lib/siteData";

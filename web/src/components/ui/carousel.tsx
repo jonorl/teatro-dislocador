@@ -109,6 +109,8 @@ const Carousel = React.forwardRef<
         return
       }
 
+      // Embla is an external store: its initial scroll state can only be read once the API exists.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       onSelect(api)
       api.on("reInit", onSelect)
       api.on("select", onSelect)

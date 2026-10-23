@@ -15,6 +15,13 @@ updates:
       # prisma, @prisma/client and @prisma/adapter-pg must stay on the same version.
       prisma:
         patterns: ["prisma", "@prisma/*"]
+    ignore:
+      # Types should match the Node that runs the code (22 in Docker and CI), not the newest release.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # Jest 30's own Babel preset still requires Babel 7.
+      - dependency-name: "@babel/*"
+        update-types: ["version-update:semver-major"]
     open-pull-requests-limit: 5
 
   - package-ecosystem: npm
@@ -26,6 +33,16 @@ updates:
     groups:
       web-minor-patch:
         update-types: [minor, patch]
+    ignore:
+      # Types should match the Node that runs the code (22 in Docker and CI), not the newest release.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # Jest 30's own Babel preset still requires Babel 7.
+      - dependency-name: "@babel/*"
+        update-types: ["version-update:semver-major"]
+      # typescript-eslint supports TypeScript below 6.1 only; lift this once it supports newer versions.
+      - dependency-name: typescript
+        versions: [">=6.1.0"]
     open-pull-requests-limit: 5
 
   - package-ecosystem: npm
@@ -37,6 +54,16 @@ updates:
     groups:
       admin-minor-patch:
         update-types: [minor, patch]
+    ignore:
+      # Types should match the Node that runs the code (22 in Docker and CI), not the newest release.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # Jest 30's own Babel preset still requires Babel 7.
+      - dependency-name: "@babel/*"
+        update-types: ["version-update:semver-major"]
+      # typescript-eslint supports TypeScript below 6.1 only; lift this once it supports newer versions.
+      - dependency-name: typescript
+        versions: [">=6.1.0"]
     open-pull-requests-limit: 5
 
   - package-ecosystem: github-actions

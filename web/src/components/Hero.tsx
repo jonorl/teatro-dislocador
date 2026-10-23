@@ -1,5 +1,5 @@
 import videoSource from "../assets/hero-loop.mp4";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import type { ScrollToSectionFunction } from "../types/interfaces.ts";
 
 const Hero = ({
