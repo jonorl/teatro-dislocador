@@ -4,6 +4,7 @@ import fs from "fs";
 import { fileURLToPath } from "url";
 import { authenticateAdmin } from "../middleware/auth";
 import { galleryQueries } from "../db/queries";
+import { removeOptimisedCopies } from "../middleware/optimisedUploads";
 
 const __filename = fileURLToPath(import.meta.url);  
 const __dirname = path.dirname(__filename);
@@ -49,6 +50,7 @@ router.delete("/:id", authenticateAdmin, async (req, res) => {
       const filepath = path.join(uploadDir, filename);
       try {
         if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
+        await removeOptimisedCopies(uploadDir, filename);
       } catch (fileErr) {
         console.error("❌ File deletion failed:", filepath, fileErr);
       }

@@ -4,6 +4,7 @@ import path from "path";
 import { authenticateAdmin } from "../middleware/auth";
 import { UPLOAD_DIR } from "../middleware/upload";
 import { maintenanceQueries } from "../db/queries";
+import { removeOptimisedCopies } from "../middleware/optimisedUploads";
 
 const router = express.Router();
 
@@ -38,7 +39,12 @@ router.post("/cleanup-uploads", authenticateAdmin, async (req, res) => {
     }
 
     if (!dryRun) {
-      await Promise.all(unused.map(({ file }) => fs.unlink(path.join(UPLOAD_DIR, file))));
+      await Promise.all(
+        unused.map(async ({ file }) => {
+          await fs.unlink(path.join(UPLOAD_DIR, file));
+          await removeOptimisedCopies(UPLOAD_DIR, file);
+        }),
+      );
     }
     return res.json({ dryRun, referenced: referenced.size, removed: unused });
   } catch (error) {

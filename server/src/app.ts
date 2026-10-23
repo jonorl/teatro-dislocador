@@ -1,6 +1,5 @@
 import "dotenv/config";
 import express from "express";
-import path from "path";                    
 import { clerkMiddleware } from "@clerk/express";
 import classesRouter from "./routes/classes";
 import galleryRouter from "./routes/gallery";
@@ -11,11 +10,9 @@ import maintenanceRouter from "./routes/maintenance";
 import healthRouter from "./routes/health";
 import { apiLimiter } from "./middleware/rateLimit";
 import { corsMiddleware } from "./middleware/cors";
-import { fileURLToPath } from "url"; 
+import { optimisedUploads, UPLOAD_CACHE } from "./middleware/optimisedUploads";
+import { UPLOAD_DIR } from "./middleware/upload";
 import { createProxyMiddleware } from 'http-proxy-middleware';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
 app.disable("x-powered-by");
@@ -39,7 +36,7 @@ app.use(
     pathRewrite: { '^/clerk': '' },
   })
 );
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));  
+app.use("/uploads", optimisedUploads(UPLOAD_DIR), express.static(UPLOAD_DIR, UPLOAD_CACHE));
 
 const isProd = process.env.MODE === "PROD";
 

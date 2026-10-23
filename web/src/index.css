@@ -5,7 +5,8 @@
 
 @font-face {
   font-family: 'MyCustomFont';
-  src: url('./assets/LINESeedJP-Regular.ttf') format('truetype');
+  /* Latin-only subset (Spanish accents and punctuation included): the full font is 3.6 MB of mostly Japanese glyphs. */
+  src: url('./assets/LINESeedJP-Regular-latin.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

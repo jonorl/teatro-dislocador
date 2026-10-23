@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import schoolPhoto from "../assets/school-ramiro.webp";
 
 const WhoAreWe = () => {
   const containerVariants = {
@@ -101,7 +102,9 @@ const WhoAreWe = () => {
             className="p-2 bg-white border-2 border-black shadow-[8px_8px_0px_0px_rgba(26,26,26,1)]"
           >
             <img
-              src="https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756708400/Rami2_iwahc0.png"
+              src={schoolPhoto}
+              width={1000}
+              height={1000}
               alt="Teatro Dislocador"
               className="w-full h-auto object-cover border border-black grayscale"
             />

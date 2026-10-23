@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Users, Calendar } from "lucide-react";
+import venuePhoto from "../assets/venue.webp";
 
 const Events = () => {
   const containerVariants = {
@@ -43,7 +44,9 @@ const Events = () => {
             className="p-2 bg-white border-2 border-black shadow-[8px_8px_0px_0px_rgba(58,125,188,1)]"
           >
             <img
-              src="https://res.cloudinary.com/dqqdfeuo1/image/upload/v1778148511/teatro_zlnjif.jpg"
+              src={venuePhoto}
+              width={1000}
+              height={1333}
               alt="Espacio para eventos Teatro Dislocador"
               className="w-full object-cover aspect-video md:aspect-square border border-black"
             />

@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import directorPhoto from "../assets/director-ramiro.webp";
 
 const Director = () => {
   return (
@@ -28,7 +29,9 @@ const Director = () => {
             className="relative p-2 bg-white border-2 border-black shadow-[8px_8px_0px_0px_rgba(230,74,59,1)]"
           >
             <img
-              src="https://res.cloudinary.com/dqqdfeuo1/image/upload/v1756708400/Rami_nlnfy1.png"
+              src={directorPhoto}
+              width={1000}
+              height={1000}
               alt="Director Artístico"
               className="w-full h-auto object-cover border border-black grayscale"
             />

@@ -105,7 +105,7 @@ Each app has its own `package.json`; there is no root workspace.
 
 - Express 5 with Prisma ORM on PostgreSQL 17.
 - Public `GET` endpoints for shows (`/api/showcase`), classes (`/api/classes`) and gallery (`/api/gallery`); all writes need an administrator.
-- Image uploads: JPEG, PNG, WEBP or GIF up to 10 MB each, stored on disk and served from `/uploads`.
+- Image uploads: JPEG, PNG, WEBP or GIF up to 10 MB each, stored on disk and served from `/uploads`. JPEG and PNG uploads are served as resized copies (at most 1600 px, WebP for browsers that accept it), made with `sharp` on first request and kept in `uploads/.optimised/`, so the same URLs load about ten times less data. The originals stay untouched, and uploads are cached by browsers for a year since their names never change.
 - **Authentication.** Admin routes accept a Clerk session from an allowlisted email, or `Authorization: Bearer $AUTOMATION_TOKEN` for the n8n workflow.
 - **Rate limiting.** 300 requests per 15 minutes per visitor on `/api`. Requests arrive through Cloudflare and Caddy, so the visitor is identified by Cloudflare's `CF-Connecting-IP` header.
 - **Health check.** `GET /health` answers `200` with the deployed commit when the database is reachable and `503` when it isn't. It isn't rate-limited, and checks the database at most every 5 seconds. Docker uses it as the container's `HEALTHCHECK`.
@@ -154,7 +154,7 @@ The theatre announces everything on Instagram, so an n8n workflow keeps the show
 | Area | Tools |
 |---|---|
 | Front ends | React 19, TypeScript 6, Vite 8, Tailwind CSS 4; shadcn/ui, Embla and Motion on the public site; Clerk and TinyMCE in the admin |
-| API | Node.js 22, Express 5, Prisma 7, PostgreSQL 17, Multer, Clerk |
+| API | Node.js 22, Express 5, Prisma 7, PostgreSQL 17, Multer, sharp, Clerk |
 | Automation | n8n (self-hosted), Google Gemini, Instagram API with Instagram Login (`instagram_business_basic`) |
 | Testing | Jest 30, Testing Library, Supertest |
 | Hosting | Cloudflare Pages (public site and admin); Hetzner VPS with Docker Compose and Caddy (API and database) |
@@ -171,10 +171,12 @@ Node.js 22 or later, and Docker if you want to build the server image.
 ```bash
 git clone https://github.com/jonorl/teatro-dislocador.git
 cd teatro-dislocador
-cd server && npm install && npx prisma generate
+cd server && npm install && npx prisma generate   # see the note below if this fails building sharp
 cd ../web && npm install
 cd ../admin && npm install
 ```
+
+If your machine has libvips installed system-wide, `sharp` tries to compile against it and the server's `npm install` fails asking for `node-gyp`. Use the copy bundled with `sharp` instead: `SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install`.
 
 ### Environment variables
 
