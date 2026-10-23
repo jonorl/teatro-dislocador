@@ -2,6 +2,7 @@ import { BookOpen, Clock, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, type Variants } from "motion/react";
 import { loadSiteData } from "@/lib/siteData";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 interface ClassData {
   id: string;
@@ -94,7 +95,7 @@ const Classes = () => {
                     </h3>
                     <div
                       className="text-gray-700 text-sm font-medium leading-relaxed prose prose-neutral max-w-none [&_p]:margin-0"
-                      dangerouslySetInnerHTML={{ __html: clase.description }}
+                      dangerouslySetInnerHTML={{ __html: sanitizeHtml(clase.description) }}
                     />
                   </div>
 

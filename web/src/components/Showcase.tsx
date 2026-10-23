@@ -2,6 +2,7 @@ import { Calendar, Clock, NotebookPen, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, type Variants } from "motion/react";
 import { loadSiteData } from "@/lib/siteData";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 interface ShowData {
   id: string;
@@ -113,7 +114,7 @@ const Showcase = () => {
                       {show.description && (
                         <div className="grid grid-cols-[auto_1fr] text-sm text-gray-700 font-medium leading-relaxed mt-2">
                           <NotebookPen size={16} className="mr-2 text-[#E64A3B] mt-0.5 shrink-0" />
-                          <div dangerouslySetInnerHTML={{ __html: show.description }} />
+                          <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(show.description) }} />
                         </div>
                       )}
                     </div>

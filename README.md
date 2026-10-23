@@ -92,11 +92,14 @@ Each app has its own `package.json`; there is no root workspace.
 - Embedded Google Maps location and links to Facebook, Instagram, X and TikTok.
 - **Static fallback.** Every build snapshots shows, classes and gallery images into `web/public/snapshot/`. If the API is unreachable, the site serves the snapshot instead of empty sections. Setting `VITE_DATA_SOURCE=static` in Cloudflare Pages runs the site without the server at all. Refresh the committed copy with `npm run snapshot`.
 
+- **Security headers.** [`web/public/_headers`](web/public/_headers) sets a Content-Security-Policy (scripts only from the site, Google Analytics and Cloudflare's analytics; no inline scripts), `X-Frame-Options` and `Permissions-Policy`. Show and class descriptions are HTML, so they're sanitised with DOMPurify before rendering. The CSP is in report-only mode while it's being verified.
+
 ### Admin dashboard (`/admin`)
 
 - Sign-in through Clerk with Google only. The API then checks the signed-in email against an allowlist in [`server/src/middleware/auth.ts`](server/src/middleware/auth.ts); add a new administrator there.
 - Create, edit and delete shows and classes, with a rich-text editor (TinyMCE) for descriptions.
 - Gallery management, including uploading up to 12 images at once.
+- The same security headers as the public site, in [`admin/public/_headers`](admin/public/_headers), with Clerk and TinyMCE added to the allowed sources.
 
 ### API (`/server`)
 

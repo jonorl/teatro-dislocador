@@ -40,6 +40,16 @@ describe("Showcase", () => {
     expect(screen.getByRole("img", { name: "Hamlet" })).toHaveAttribute("src", "https://x/hamlet.jpg");
   });
 
+  it("strips scripts and event handlers from descriptions", async () => {
+    mockedLoad.mockResolvedValue([
+      { id: "3", title: "Bodas", dates: "Domingo", description: '<p>Drama<img src="x" onerror="window.__pwned = true"></p>' },
+    ]);
+    const { container } = render(<Showcase />);
+    await screen.findByRole("heading", { name: "Bodas" });
+    expect(screen.getByText("Drama")).toBeInTheDocument();
+    expect(container.querySelector("[onerror]")).toBeNull();
+  });
+
   it("leaves out the optional parts a show does not have", async () => {
     mockedLoad.mockResolvedValue([{ id: "2", title: "Yerma", dates: "Sábado 20hs" }]);
     render(<Showcase />);
