@@ -20,7 +20,7 @@
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "express-rate-limit": "^8.7.1",
-    "fastify-plugin": "^5.1.0",
+    "fastify-plugin": "^6.0.1",
     "http-proxy-middleware": "^4.0.0",
     "multer": "^2.1.1",
     "pg": "^8.21.0",
