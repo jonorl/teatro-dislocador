@@ -6,14 +6,11 @@ import ClassesPanel from "./ClassesPanel";
 import GalleryPanel from "./GalleryPanel";
 import ShowcasePanel from "./ShowcasePanel";
 import ToastRegion from "./ToastItem";
+import backendUrl from "../utils/backendUrl";
 
 type Tab = "classes" | "showcase" | "gallery";
 
-const isProd = import.meta.env.MODE;
-
-const API = isProd
-  ? import.meta.env.VITE_DISLOCADOR_PROD_BACKEND
-  : import.meta.env.VITE_DISLOCADOR_DEV_BACKEND;
+const API = backendUrl(import.meta.env);
 
 export default function AdminDashboard() {
   const [tab, setTab] = useState<Tab>("classes");

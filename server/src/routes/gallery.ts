@@ -3,17 +3,10 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import { authenticateAdmin } from "../middleware/auth";
-import { uploadMultiple } from "../middleware/upload";
 import { galleryQueries } from "../db/queries";
 
 const __filename = fileURLToPath(import.meta.url);  
 const __dirname = path.dirname(__filename);
-
-const isProd = process.env.MODE === "PROD";
-
-const SERVER_URL = isProd
-  ? process.env.DISLOCADOR_PROD_SERVER_URL
-  : process.env.DISLOCADOR_DEV_SERVER_URL
 
 const router = express.Router();
 
@@ -40,25 +33,6 @@ router.post("/", authenticateAdmin, async (req, res) => {
   } catch (error) {
     console.error("❌ Gallery Create Error:", error);
     return res.status(500).json({ error: "Failed to add image" });
-  }
-});
-
-// POST /api/gallery/upload — upload a file from your PC
-router.post("/upload", authenticateAdmin, uploadMultiple, async (req, res) => {
-  console.log("Upload route hit", req.headers["content-type"]);
-  try {
-    if (!req.file) {
-      return res.status(400).json({ error: "No image file provided." });
-    }
-
-    const baseUrl = SERVER_URL?.replace(/\/$/, "") ?? "http://localhost:3000";
-    const publicUrl = `${baseUrl}/uploads/${req.file.filename}`;
-
-    const newImage = await galleryQueries.create(publicUrl);
-    return res.status(201).json(newImage);
-  } catch (error) {
-    console.error("❌ Gallery Upload Error:", error);
-    return res.status(500).json({ error: "Failed to upload image" });
   }
 });
 

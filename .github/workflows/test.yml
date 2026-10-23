@@ -1,0 +1,46 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [server, web, admin]
+    defaults:
+      run:
+        working-directory: ${{ matrix.package }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ${{ matrix.package }}/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      # The tests mock the database, but queries.ts still imports the generated client.
+      - name: Generate Prisma client
+        if: matrix.package == 'server'
+        run: npx prisma generate
+        env:
+          DATABASE_URL_DISLOCADOR: postgresql://dummy:dummy@localhost:5432/dummy
+
+      - name: Type check
+        if: matrix.package != 'server'
+        run: npx tsc -b
+
+      - name: Test
+        run: npm test

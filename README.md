@@ -171,5 +171,9 @@ To run services locally for development:
 - Public web: ```cd web && npm run dev```
 - Admin CRM: ```cd admin && npm run dev```
 
+## Testing
+
+Each app has its own Jest suite; run `npm test` inside `server/`, `web/` or `admin/` (`npm run test:watch` and `npm run test:coverage` also work). The server tests mock Prisma and Clerk, so they need no database or keys. The `Test` GitHub workflow runs all three on every push and pull request.
+
 👨‍💻 Author
 Developed by Jonathan Orlowski – All rights reserved.

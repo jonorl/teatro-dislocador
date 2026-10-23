@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { prisma } from "../app";
+import { prisma } from "./client";
 
 // --- Classes Queries ---
 export const classQueries = {

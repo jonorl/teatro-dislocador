@@ -2,8 +2,6 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import path from "path";                    
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "@prisma/client";
 import { clerkMiddleware } from "@clerk/express";
 import classesRouter from "./routes/classes";
 import galleryRouter from "./routes/gallery";
@@ -18,9 +16,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL_DISLOCADOR });
-export const prisma = new PrismaClient({ adapter });
 
 app.use(cors({ origin: "*" }));
 app.use(
