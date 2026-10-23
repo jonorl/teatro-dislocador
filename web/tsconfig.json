@@ -10,7 +10,6 @@
     "skipLibCheck": true,
     /* Update this array to include vite/client */
     "types": ["node", "vite/client"],
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
