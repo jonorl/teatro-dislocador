@@ -8,7 +8,7 @@ import uploadRouter from "./routes/upload";
 import instagramRouter from "./routes/instagram";
 import maintenanceRouter from "./routes/maintenance";
 import healthRouter from "./routes/health";
-import { apiLimiter } from "./middleware/rateLimit";
+import { apiLimiter, uploadsLimiter } from "./middleware/rateLimit";
 import { corsMiddleware } from "./middleware/cors";
 import { optimisedUploads, UPLOAD_CACHE } from "./middleware/optimisedUploads";
 import { UPLOAD_DIR } from "./middleware/upload";
@@ -36,7 +36,7 @@ app.use(
     pathRewrite: { '^/clerk': '' },
   })
 );
-app.use("/uploads", optimisedUploads(UPLOAD_DIR), express.static(UPLOAD_DIR, UPLOAD_CACHE));
+app.use("/uploads", uploadsLimiter, optimisedUploads(UPLOAD_DIR), express.static(UPLOAD_DIR, UPLOAD_CACHE));
 
 const isProd = process.env.MODE === "PROD";
 

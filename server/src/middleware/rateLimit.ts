@@ -18,3 +18,13 @@ export const apiLimiter = rateLimit({
   keyGenerator: (req) => ipKeyGenerator(visitorIp(req)),
   message: { error: "Too many requests, try again later." },
 });
+
+// Images are cached by browsers and Cloudflare for a year, so few requests reach us; the limit is there because
+// a cache miss makes sharp resize a full-size photo, which a script could repeat to tie up the CPU and disk.
+export const uploadsLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 1000,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  keyGenerator: (req) => ipKeyGenerator(visitorIp(req)),
+});

@@ -19,6 +19,14 @@ const wantsWebp = (req: Request) => (req.headers.accept ?? "").includes("image/w
 
 const variantName = (name: string, webp: boolean) => (webp ? `${name}.webp` : `${name}.resized${path.extname(name)}`);
 
+// RESIZABLE already rules out slashes, but a resolved-path check is the guard CodeQL recognises, and it also
+// covers callers that pass names from elsewhere.
+const inside = (root: string, ...parts: string[]) => {
+  const base = path.resolve(root);
+  const full = path.resolve(base, ...parts);
+  return full.startsWith(base + path.sep) ? full : null;
+};
+
 const createVariant = async (original: string, target: string, webp: boolean) => {
   await fs.mkdir(path.dirname(target), { recursive: true });
   // Written under a temporary name, so a request arriving mid-conversion never gets half a file.
@@ -36,7 +44,8 @@ export const optimisedUploads = (uploadDir: string) => async (req: Request, res:
   const name = decodeURIComponent(req.path.slice(1));
   if (!RESIZABLE.test(name)) return next();
 
-  const original = path.join(uploadDir, name);
+  const original = inside(uploadDir, name);
+  if (!original) return next();
   try {
     await fs.access(original);
   } catch {
@@ -44,7 +53,8 @@ export const optimisedUploads = (uploadDir: string) => async (req: Request, res:
   }
 
   const webp = wantsWebp(req);
-  const variant = path.join(uploadDir, CACHE_DIR_NAME, variantName(name, webp));
+  const variant = inside(uploadDir, CACHE_DIR_NAME, variantName(name, webp));
+  if (!variant) return next();
   try {
     await fs.access(variant);
   } catch {
@@ -65,9 +75,10 @@ export const optimisedUploads = (uploadDir: string) => async (req: Request, res:
 // Called wherever an upload is deleted, so its resized copies don't linger.
 export const removeOptimisedCopies = async (uploadDir: string, name: string) => {
   await Promise.all(
-    [variantName(name, true), variantName(name, false)].map((file) =>
-      fs.rm(path.join(uploadDir, CACHE_DIR_NAME, file), { force: true }),
-    ),
+    [variantName(name, true), variantName(name, false)].map((file) => {
+      const target = inside(uploadDir, CACHE_DIR_NAME, file);
+      return target ? fs.rm(target, { force: true }) : undefined;
+    }),
   );
 };
 

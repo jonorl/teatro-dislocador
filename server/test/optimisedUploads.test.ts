@@ -7,6 +7,7 @@ import path from "path";
 import request from "supertest";
 import sharp from "sharp";
 import { optimisedUploads, removeOptimisedCopies, UPLOAD_CACHE, CACHE_DIR_NAME } from "../src/middleware/optimisedUploads";
+import { uploadsLimiter } from "../src/middleware/rateLimit";
 
 let dir: string;
 let app: express.Express;
@@ -34,7 +35,7 @@ beforeAll(async () => {
   fs.writeFileSync(path.join(dir, "broken.png"), "not an image");
   fs.writeFileSync(path.join(dir, "anim.gif"), "GIF89a");
   app = express();
-  app.use("/uploads", optimisedUploads(dir), express.static(dir, UPLOAD_CACHE));
+  app.use("/uploads", uploadsLimiter, optimisedUploads(dir), express.static(dir, UPLOAD_CACHE));
 });
 
 afterAll(() => {
